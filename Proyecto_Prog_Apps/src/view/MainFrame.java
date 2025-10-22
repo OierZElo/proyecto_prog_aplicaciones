@@ -7,6 +7,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
+
 import javax.swing.Timer;
 
 import java.util.ArrayList;
@@ -33,7 +35,7 @@ public class MainFrame extends JFrame {
 	private CardLayout cardLayout = new CardLayout();
 	private FlowLayout flowLayout = new FlowLayout(FlowLayout.CENTER,0,0);
 	
-	private Color BackgroundColor = Color.BLACK;
+	private Color BackgroundColor = Color.black;
 	private Color BorderColor = Color.GRAY;
 	private Color TextColor = Color.white;
 	
@@ -41,7 +43,7 @@ public class MainFrame extends JFrame {
 	
 	char[] bloques = {'▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'};
 	
-    String[] buttons = {"<", "Home", "Playlists", "Queue", "Settings", "Account"};        
+    String[] buttons = {"Back", "Home", "Playlists", "Queue", "Settings", "account"};        
     ArrayList<JButton> buttonList = new ArrayList<>();
 
 	
@@ -107,9 +109,14 @@ public class MainFrame extends JFrame {
 	        indexPanel.setPreferredSize(new Dimension(50, 50));
 	        for (int i = 0; i < buttonList.size(); i++) {
 	        	buttonList.get(i).setText("");
-	        	buttonList.get(i).setIcon(new ImageIcon("/resources/icons/" + buttons[i] + ".png"));
+	        	String path = "/resources/icons/" +buttons[i]+".png";
+	        	ImageIcon icon = new ImageIcon(getClass().getResource(path));
+		        Image img = icon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+		        buttonList.get(i).setIcon(new ImageIcon(img));
 	        	buttonList.get(i).setPreferredSize(new Dimension(50, 50));
 	        }
+	        
+	       
 	    } else {
 	        indexPanel.setPreferredSize(new Dimension(200, 50));
 	        for (int i = 0; i < buttonList.size(); i++) {
