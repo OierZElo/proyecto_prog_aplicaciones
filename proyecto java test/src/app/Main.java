@@ -8,6 +8,7 @@ public class Main {
 		SwingUtilities.invokeLater(() -> {
 			MainFrame mainFrame = new MainFrame();
 			mainFrame.setVisible(true);
+			System.out.println("test");
 			
 		});
 		
