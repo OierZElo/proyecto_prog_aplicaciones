@@ -43,7 +43,7 @@ public class MainFrame extends JFrame {
 	
 	char[] bloques = {'▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'};
 	
-    String[] buttons = {"Back", "Home", "Playlists", "Queue", "Settings", "account"};        
+    String[] buttons = {"Back", "Home", "Playlists", "Queue", "Settings", "Account"};        
     ArrayList<JButton> buttonList = new ArrayList<>();
 
 	
@@ -110,9 +110,7 @@ public class MainFrame extends JFrame {
 	        for (int i = 0; i < buttonList.size(); i++) {
 	        	buttonList.get(i).setText("");
 	        	String path = "/resources/icons/" +buttons[i]+".png";
-	        	ImageIcon icon = new ImageIcon(getClass().getResource(path));
-		        Image img = icon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
-		        buttonList.get(i).setIcon(new ImageIcon(img));
+		        buttonList.get(i).setIcon(new ImageIcon(getClass().getResource(path)));
 	        	buttonList.get(i).setPreferredSize(new Dimension(50, 50));
 	        }
 	        
