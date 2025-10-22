@@ -8,15 +8,18 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import javax.swing.Timer;
+
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
-
 public class MainFrame extends JFrame {
 
 	/**
@@ -34,7 +37,12 @@ public class MainFrame extends JFrame {
 	private Color BorderColor = Color.GRAY;
 	private Color TextColor = Color.white;
 	
+	private boolean desplegado = true;
+	
 	char[] bloques = {'▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'};
+	
+    String[] buttons = {"<", "Home", "Playlists", "Queue", "Settings", "Account"};        
+    ArrayList<JButton> buttonList = new ArrayList<>();
 
 	
 	public MainFrame() {
@@ -65,11 +73,9 @@ public class MainFrame extends JFrame {
         indexPanel = new JPanel(flowLayout);
         indexPanel.setBackground(BackgroundColor);
         indexPanel.setBorder(new MatteBorder(0,0,0,1, BorderColor));
-        indexPanel.setPreferredSize(new Dimension(180, 0));
+        indexPanel.setPreferredSize(new Dimension(200, 0));
         mainPanel.add(indexPanel, BorderLayout.WEST);
-        
-        String[] buttons = {"Home", "Playlists", "Queue", "Settings", "Account"};
-        
+                        
         for(String s: buttons) {
         	JButton button = new JButton(s);
 
@@ -77,10 +83,14 @@ public class MainFrame extends JFrame {
         	button.setForeground(TextColor);
         	button.setHorizontalAlignment(JLabel.CENTER);
         	button.setBackground(BackgroundColor);
-        	button.setPreferredSize(new Dimension(179, 50));
+        	button.setPreferredSize(new Dimension(199, 50));
         	button.setFocusPainted(false);
         	indexPanel.add(button);
+        	buttonList.add(button);
         } 
+        
+        buttonList.get(0).addActionListener(e -> toggleSidebar());
+        
 	}
 	
 	private void actualizarTitulo() {
@@ -91,5 +101,30 @@ public class MainFrame extends JFrame {
         }
         setTitle(titulo.toString());
     }
+	
+	private void toggleSidebar() {
+	    if (desplegado) {
+	        indexPanel.setPreferredSize(new Dimension(50, 50));
+	        for (int i = 0; i < buttonList.size(); i++) {
+	        	buttonList.get(i).setText("");
+	        	buttonList.get(i).setIcon(new ImageIcon("/resources/icons/" + buttons[i] + ".png"));
+	        	buttonList.get(i).setPreferredSize(new Dimension(50, 50));
+	        }
+	    } else {
+	        indexPanel.setPreferredSize(new Dimension(200, 50));
+	        for (int i = 0; i < buttonList.size(); i++) {
+	        	buttonList.get(i).setIcon(null);
+	        	buttonList.get(i).setText(buttons[i]);
+	        	buttonList.get(i).setPreferredSize(new Dimension(200, 50));
+				
+			} 
+	        	
+	    }
+	    desplegado = !desplegado;
+	    mainPanel.revalidate();
+	    mainPanel.repaint();
+	}
+	
+	
 
 }
