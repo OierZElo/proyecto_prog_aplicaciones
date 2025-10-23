@@ -43,7 +43,8 @@ public class MainFrame extends JFrame {
 	
 	char[] bloques = {'▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'};
 	
-    String[] buttons = {"Back", "Home", "Playlists", "Queue", "Settings", "Account"};        
+    String[] buttons = {"Back", "Home", "Playlists", "Queue", "Settings", "Account"};  
+    String[] nombres = {"<", "Home", "Playlists", "Queue", "Settings", "Account"}; 
     ArrayList<JButton> buttonList = new ArrayList<>();
 
 	
@@ -59,6 +60,7 @@ public class MainFrame extends JFrame {
 
 		setSize(900, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
         setLocationRelativeTo(null);
         
         mainPanel = new JPanel(borderLayout);
@@ -78,7 +80,7 @@ public class MainFrame extends JFrame {
         indexPanel.setPreferredSize(new Dimension(200, 0));
         mainPanel.add(indexPanel, BorderLayout.WEST);
                         
-        for(String s: buttons) {
+        for(String s: nombres) {
         	JButton button = new JButton(s);
 
         	button.setFont(new Font("Arial", Font.BOLD, 16));
@@ -119,7 +121,7 @@ public class MainFrame extends JFrame {
 	        indexPanel.setPreferredSize(new Dimension(200, 50));
 	        for (int i = 0; i < buttonList.size(); i++) {
 	        	buttonList.get(i).setIcon(null);
-	        	buttonList.get(i).setText(buttons[i]);
+	        	buttonList.get(i).setText(nombres[i]);
 	        	buttonList.get(i).setPreferredSize(new Dimension(200, 50));
 				
 			} 
