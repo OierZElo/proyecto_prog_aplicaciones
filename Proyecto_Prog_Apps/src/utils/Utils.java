@@ -7,7 +7,7 @@ import model.User;
 public class Utils {
 	private ArrayList<User> users = new ArrayList<User>();
 	
-	private void generateUsers() {
+	public void generateUsers() {
 		users.add(new User("user1", "password1"));
 		users.add(new User("user2", "password2"));
 		users.add(new User("user3", "password3"));
