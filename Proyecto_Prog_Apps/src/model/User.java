@@ -6,6 +6,7 @@ public class User {
 	private String username;
 	private String password;
 	
+	//constructor
 	public User(String username, String password) {
 		this.cod = counter;
 		counter += 1;
@@ -13,6 +14,7 @@ public class User {
 		this.password = password;
 	}
 
+	//getters and setters
 	public String getUsername() {
 		return username;
 	}
