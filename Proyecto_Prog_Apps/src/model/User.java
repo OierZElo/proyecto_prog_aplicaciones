@@ -1,22 +1,18 @@
 package model;
 
 public class User {
-<<<<<<< HEAD
-	private int id;
-=======
 	private static int counter = 0;
-	private int cod;
+	private int id;
 	private String username;
 	private String password;
 	
 	//constructor
 	public User(String username, String password) {
-		this.cod = counter;
+		this.id = counter;
 		counter += 1;
 		this.username = username;
 		this.password = password;
 	}
->>>>>>> branch 'main' of git@github.com:OierZElo/proyecto_prog_aplicaciones.git
 
 	//getters and setters
 	public String getUsername() {
@@ -35,8 +31,8 @@ public class User {
 		this.password = password;
 	}
 
-	public int getCod() {
-		return cod;
+	public int getId() {
+		return id;
 	}
 	
 	
