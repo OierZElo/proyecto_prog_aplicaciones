@@ -15,7 +15,7 @@ public class Utils {
 		users.add(new User("user5", "password5"));
 	}
 	
-	private User getUserFromUsername(String username) {
+	public User getUserFromUsername(String username) {
 		for(User user: users) {
 			if (user.getUsername().equals(username)) {
 				return user;
