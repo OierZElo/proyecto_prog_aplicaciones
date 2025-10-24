@@ -1,9 +1,7 @@
 package model;
 
 public class User {
-<<<<<<< HEAD
 	private int id;
-=======
 	private static int counter = 0;
 	private int cod;
 	private String username;
@@ -16,7 +14,6 @@ public class User {
 		this.username = username;
 		this.password = password;
 	}
->>>>>>> branch 'main' of git@github.com:OierZElo/proyecto_prog_aplicaciones.git
 
 	//getters and setters
 	public String getUsername() {
