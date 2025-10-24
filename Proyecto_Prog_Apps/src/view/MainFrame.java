@@ -22,6 +22,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
+
+import view.PlayingSong;
+
+import model.Song;
 public class MainFrame extends JFrame {
 
 	/**
@@ -67,12 +71,18 @@ public class MainFrame extends JFrame {
         setContentPane(mainPanel);
         
         cardPanel = new JPanel(cardLayout);
+        cardPanel.setVisible(true);
+        cardPanel.setOpaque(true);
         cardPanel.setBackground(BackgroundColor);
         mainPanel.add(cardPanel, BorderLayout.CENTER);
 //        JPanel dummyPanel = new JPanel();
 //        dummyPanel.setBackground(Color.YELLOW);
 //        cardPanel.add(dummyPanel, "dummy");
 //        cardLayout.show(cardPanel, "dummy");
+        
+        //PlayingSong   (no esta terminado)
+        cardPanel.add(PlayingSong.PlayingSongPanel(new Song("TITLE", 2, "BAND")), "PlayingSong");
+        cardLayout.show(cardPanel, "PlayingSong");
         
         indexPanel = new JPanel(flowLayout);
         indexPanel.setBackground(BackgroundColor);

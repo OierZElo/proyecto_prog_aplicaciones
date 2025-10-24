@@ -1,0 +1,52 @@
+package view;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.GridLayout;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import model.Song;
+
+public class PlayingSong extends JFrame{
+	private static final long serialVersionUID = 1L;
+	
+	public static JPanel PlayingSongPanel(Song song) {			//se le pasa por parametro la cancion que se está reproduciendo
+		JPanel panelPrincipal = new JPanel();
+		panelPrincipal.setVisible(true);
+		panelPrincipal.setBackground(Color.BLACK);
+		BorderLayout borderLayout = new BorderLayout();
+		panelPrincipal.setLayout(borderLayout);
+		
+		JPanel southPanel = new JPanel();
+		southPanel.setVisible(true);
+		southPanel.setOpaque(true);
+		GridLayout gridSouth = new GridLayout(2,1);
+		southPanel.setLayout(gridSouth);
+		JLabel title = new JLabel(song.getTitle());
+		title.setVisible(true);
+		title.setOpaque(true);
+		title.setForeground(Color.white);
+		title.setBackground(Color.black);
+		title.setHorizontalAlignment(JLabel.CENTER);
+		JLabel band = new JLabel(song.getBand());
+		band.setVisible(true);
+		band.setOpaque(true);
+		band.setForeground(Color.black);
+		band.setBackground(Color.white);
+		band.setHorizontalAlignment(JLabel.CENTER);
+		
+		southPanel.add(title);
+		southPanel.add(band);
+		
+		panelPrincipal.add(southPanel, BorderLayout.SOUTH);
+		
+		
+		return panelPrincipal;
+	}
+
+	
+}
