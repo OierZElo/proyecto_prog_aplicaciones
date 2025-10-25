@@ -80,9 +80,9 @@ public class MainFrame extends JFrame {
 //        cardPanel.add(dummyPanel, "dummy");
 //        cardLayout.show(cardPanel, "dummy");
         
-        //PlayingSong   (no esta terminado)
-        cardPanel.add(PlayingSong.PlayingSongPanel(new Song("TITLE", 2, "BAND")), "PlayingSong");
-        cardLayout.show(cardPanel, "PlayingSong");
+        //PLAYING SONG
+        //cardPanel.add(PlayingSong.PlayingSongPanel(new Song("TITLE", 2, "BAND")), "PlayingSong");
+        //cardLayout.show(cardPanel, "PlayingSong");
         
         indexPanel = new JPanel(flowLayout);
         indexPanel.setBackground(BackgroundColor);

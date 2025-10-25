@@ -3,8 +3,10 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,6 +23,7 @@ public class PlayingSong extends JFrame{
 		BorderLayout borderLayout = new BorderLayout();
 		panelPrincipal.setLayout(borderLayout);
 		
+		//title and band
 		JPanel southPanel = new JPanel();
 		southPanel.setVisible(true);
 		southPanel.setOpaque(true);
@@ -43,6 +46,20 @@ public class PlayingSong extends JFrame{
 		southPanel.add(band);
 		
 		panelPrincipal.add(southPanel, BorderLayout.SOUTH);
+		
+		//SongIcon
+		JPanel panelIcon = new JPanel();
+		JLabel Icon = new JLabel();
+		Icon.setIcon(new ImageIcon("C:\\Users\\ekaitz.lazkano\\git\\proyecto_prog_aplicaciones\\Proyecto_Prog_Apps\\src\\resources\\icons\\SongIcon.png"));
+		panelIcon.add(Icon);
+		panelPrincipal.add(panelIcon, BorderLayout.CENTER);
+		
+		//fill borderlayout
+//		JPanel west = new JPanel();
+//		west.setPreferredSize(new Dimension(0,500));
+//		panelPrincipal.add(west);
+//		panelPrincipal.add(new JPanel(), BorderLayout.EAST);
+//		panelPrincipal.add(new JPanel(), BorderLayout.NORTH);
 		
 		
 		return panelPrincipal;
