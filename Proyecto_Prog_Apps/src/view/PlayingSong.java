@@ -50,6 +50,7 @@ public class PlayingSong extends JFrame{
 		//SongIcon
 		JPanel panelIcon = new JPanel();
 		JLabel Icon = new JLabel();
+		//Icon.setIcon(new ImageIcon("/resources/icons/SongIcon.png"));
 		Icon.setIcon(new ImageIcon("C:\\Users\\ekaitz.lazkano\\git\\proyecto_prog_aplicaciones\\Proyecto_Prog_Apps\\src\\resources\\icons\\SongIcon.png"));
 		panelIcon.add(Icon);
 		panelPrincipal.add(panelIcon, BorderLayout.CENTER);
