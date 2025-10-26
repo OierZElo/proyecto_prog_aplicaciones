@@ -49,19 +49,13 @@ public class PlayingSong extends JFrame{
 		
 		//SongIcon
 		JPanel panelIcon = new JPanel();
+		panelIcon.setBackground(Color.black);
 		JLabel Icon = new JLabel();
-		//Icon.setIcon(new ImageIcon("/resources/icons/SongIcon.png"));
-		Icon.setIcon(new ImageIcon("C:\\Users\\ekaitz.lazkano\\git\\proyecto_prog_aplicaciones\\Proyecto_Prog_Apps\\src\\resources\\icons\\SongIcon.png"));
+		Icon.setIcon(new ImageIcon("Proyecto_Prog_Apps/src/resources/icons/SongIcon.png"));
 		panelIcon.add(Icon);
 		panelPrincipal.add(panelIcon, BorderLayout.CENTER);
 		
-		//fill borderlayout
-//		JPanel west = new JPanel();
-//		west.setPreferredSize(new Dimension(0,500));
-//		panelPrincipal.add(west);
-//		panelPrincipal.add(new JPanel(), BorderLayout.EAST);
-//		panelPrincipal.add(new JPanel(), BorderLayout.NORTH);
-		
+
 		
 		return panelPrincipal;
 	}
