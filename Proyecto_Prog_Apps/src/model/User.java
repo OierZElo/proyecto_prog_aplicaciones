@@ -1,17 +1,19 @@
 package model;
 
+import java.util.ArrayList;
+
 public class User {
-	private int id;
 	private static int counter = 0;
-	private int cod;
-	private String username;
+	private int id;
+	private String username = "";
 	private String password;
+	private ArrayList<String> usernames;
 	
 	//constructor
 	public User(String username, String password) {
-		this.cod = counter;
+		this.id = counter;
 		counter += 1;
-		this.username = username;
+		this.setUsername(username);
 		this.password = password;
 	}
 
@@ -21,6 +23,9 @@ public class User {
 	}
 
 	public void setUsername(String username) {
+		if (usernames.contains(username)) {
+			this.username = "User-"+counter;
+		}
 		this.username = username;
 	}
 
@@ -32,8 +37,8 @@ public class User {
 		this.password = password;
 	}
 
-	public int getCod() {
-		return cod;
+	public int getId() {
+		return id;
 	}
 	
 	
