@@ -15,6 +15,7 @@ import java.awt.event.ComponentListener;
 import javax.swing.Timer;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.swing.BorderFactory;
@@ -30,6 +31,8 @@ import javax.swing.border.MatteBorder;
 import view.PlayingSong;
 import view.songBar;
 import java.awt.event.ComponentEvent;
+
+import model.Playlist;
 import model.Song;
 public class MainFrame extends JFrame {
 
@@ -86,13 +89,15 @@ public class MainFrame extends JFrame {
 //        dummyPanel.setBackground(Color.YELLOW);
 //        cardPanel.add(dummyPanel, "dummy");
 //        cardLayout.show(cardPanel, "dummy");
-        //prueba github
+     
         //PLAYING SONG
-
-        cardPanel.add(PlayingSong.PlayingSongPanel(new Song("TITLE", 2, "BAND")), "PlayingSong");
-
-        cardPanel.add(PlayingSong.PlayingSongPanel(song));
-        cardLayout.show(cardPanel, "PlayingSong");
+        //cardPanel.add(PlayingSong.PlayingSongPanel(song), "PlayingSong");
+        //cardLayout.show(cardPanel, "PlayingSong");
+        //PLAYLIST MANAGER DIALOG
+        List<Song> l_songs = new ArrayList<Song>();
+        Playlist playlist = new Playlist("Playlist 1", 3, 12345, 43, l_songs);
+        cardPanel.add(PlaylistManagerDialog.PlaylistManagerDialogPanel(playlist), "PlaylisyManagerDialog");
+        cardLayout.show(cardPanel, "PlaylisyManagerDialog");
         
         indexPanel = new JPanel(flowLayout);
         indexPanel.setBackground(BackgroundColor);
