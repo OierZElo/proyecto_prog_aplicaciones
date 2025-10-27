@@ -13,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import model.Song;
-import view.MainFrame;
 
 public class PlayingSong extends JFrame{
 	private static final long serialVersionUID = 1L;
@@ -37,16 +36,16 @@ public class PlayingSong extends JFrame{
 		JLabel title = new JLabel(song.getTitle());
 		title.setVisible(true);
 		title.setOpaque(true);
-		title.setForeground(Color.white);
-		title.setBackground(Color.black);
+		title.setForeground(MainFrame.TextColor);
+		title.setBackground(MainFrame.BackgroundColor);
 		title.setHorizontalAlignment(JLabel.CENTER);
 		title.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 26));
 		//band
 		JLabel band = new JLabel(song.getBand());
 		band.setVisible(true);
 		band.setOpaque(true);
-		band.setForeground(Color.black);
-		band.setBackground(Color.black);
+		band.setForeground(MainFrame.BorderColor);
+		band.setBackground(MainFrame.BackgroundColor);
 		band.setHorizontalAlignment(JLabel.CENTER);
 		band.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 18));
 		southPanel.add(title);
