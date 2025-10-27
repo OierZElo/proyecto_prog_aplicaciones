@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.ImageIcon;
@@ -12,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import model.Song;
+import view.MainFrame;
 
 public class PlayingSong extends JFrame{
 	private static final long serialVersionUID = 1L;
@@ -23,28 +25,32 @@ public class PlayingSong extends JFrame{
 		BorderLayout borderLayout = new BorderLayout();
 		panelPrincipal.setLayout(borderLayout);
 		
+		//now playing
+		
 		//title and band
 		JPanel southPanel = new JPanel();
 		southPanel.setVisible(true);
 		southPanel.setOpaque(true);
 		GridLayout gridSouth = new GridLayout(2,1);
 		southPanel.setLayout(gridSouth);
+		//title
 		JLabel title = new JLabel(song.getTitle());
 		title.setVisible(true);
 		title.setOpaque(true);
 		title.setForeground(Color.white);
 		title.setBackground(Color.black);
 		title.setHorizontalAlignment(JLabel.CENTER);
+		title.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 26));
+		//band
 		JLabel band = new JLabel(song.getBand());
 		band.setVisible(true);
 		band.setOpaque(true);
 		band.setForeground(Color.black);
-		band.setBackground(Color.white);
+		band.setBackground(Color.black);
 		band.setHorizontalAlignment(JLabel.CENTER);
-		
+		band.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 18));
 		southPanel.add(title);
 		southPanel.add(band);
-		
 		panelPrincipal.add(southPanel, BorderLayout.SOUTH);
 		
 		//SongIcon
@@ -56,7 +62,6 @@ public class PlayingSong extends JFrame{
 		panelPrincipal.add(panelIcon, BorderLayout.CENTER);
 		
 
-		
 		return panelPrincipal;
 	}
 
