@@ -92,10 +92,10 @@ public class MainFrame extends JFrame {
      
         //PLAYING SONG
         cardPanel.add(PlayingSong.PlayingSongPanel(song), "PlayingSong");
-        cardLayout.show(cardPanel, "PlayingSong");
+        // cardLayout.show(cardPanel, "PlayingSong");
         //PLAYLIST MANAGER DIALOG
-        //cardPanel.add(PlaylistManagerDialog.PlaylistManagerDialogPanel(playlist), "PlaylisyManagerDialog");
-        //cardLayout.show(cardPanel, "PlaylisyManagerDialog");
+        cardPanel.add(PlaylistManagerDialog.PlaylistManagerDialogPanel(playlist), "PlaylisyManagerDialog");
+        cardLayout.show(cardPanel, "PlaylisyManagerDialog");
         
         indexPanel = new JPanel(flowLayout);
         indexPanel.setBackground(BackgroundColor);
