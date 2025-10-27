@@ -1,9 +1,11 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Button;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -39,8 +41,11 @@ public class songBar {
 	    JPanel buttonsPanel = new JPanel(buttonLayout);
 	    buttonsPanel.setBackground(MainFrame.BackgroundColor);
 	    String[] songButtons = {"🔀", "⏮", "▶", "⏭", "🔁"};
+	    ArrayList<JButton> buttonList = new ArrayList<JButton>();
+	    
 	    for (int i = 0; i < songButtons.length; i++) {
 			JButton b = new JButton(songButtons[i]);
+			buttonList.add(b);
 			b.setPreferredSize(new Dimension(40,35));
         	b.setHorizontalAlignment(JLabel.CENTER);
 			b.setFocusPainted(false);
@@ -50,6 +55,15 @@ public class songBar {
 			b.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 26));
 			buttonsPanel.add(b);
 		}
+	    
+	    progressBar.addMouseListener(new java.awt.event.MouseAdapter() {
+	        @Override
+	        public void mousePressed(java.awt.event.MouseEvent e) {
+	            int newValue = (int) ((double) e.getX() / (double) progressBar.getWidth() * progressBar.getMaximum());
+	            progressBar.setValue(newValue);
+	        }
+	    });
+	    
 	    playerBar.add(buttonsPanel, BorderLayout.SOUTH);
 	    
 		return playerBar;
