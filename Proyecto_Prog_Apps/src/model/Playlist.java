@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Playlist {
+	private static int counter = 0;
 	private int cod;
 	private String name;
 	private int n_songs;
@@ -13,7 +14,8 @@ public class Playlist {
 	
 	public Playlist(int cod, String name, int n_songs, int user_id, int duration, List<Song> l_songs) {
 		super();
-		this.cod = cod;
+		this.cod = counter;
+		counter += 1;
 		this.name = name;
 		this.n_songs = 0;
 		this.user_id = user_id;
