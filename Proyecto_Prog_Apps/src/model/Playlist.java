@@ -25,7 +25,7 @@ public class Playlist {
 
 	public int getCod() {
 		return cod;
-	}
+	} 
 
 	public String getName() {
 		return name;
