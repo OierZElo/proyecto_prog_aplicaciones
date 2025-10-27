@@ -9,6 +9,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentListener;
 
 import javax.swing.Timer;
 
@@ -27,7 +29,7 @@ import javax.swing.border.MatteBorder;
 
 import view.PlayingSong;
 import view.songBar;
-
+import java.awt.event.ComponentEvent;
 import model.Song;
 public class MainFrame extends JFrame {
 
@@ -69,7 +71,7 @@ public class MainFrame extends JFrame {
 
 		setSize(900, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
+        setResizable(true);
         setLocationRelativeTo(null);
         
         mainPanel = new JPanel(borderLayout);
@@ -84,7 +86,7 @@ public class MainFrame extends JFrame {
 //        dummyPanel.setBackground(Color.YELLOW);
 //        cardPanel.add(dummyPanel, "dummy");
 //        cardLayout.show(cardPanel, "dummy");
-        
+        //prueba github
         //PLAYING SONG
 
         cardPanel.add(PlayingSong.PlayingSongPanel(new Song("TITLE", 2, "BAND")), "PlayingSong");
@@ -95,6 +97,7 @@ public class MainFrame extends JFrame {
         indexPanel = new JPanel(flowLayout);
         indexPanel.setBackground(BackgroundColor);
         indexPanel.setBorder(new MatteBorder(0,0,0,1, BorderColor));
+//        indexPanel.setPreferredSize(new Dimension((int)(this.getWidth()*0.2222), 0));
         indexPanel.setPreferredSize(new Dimension(200, 0));
         mainPanel.add(indexPanel, BorderLayout.WEST);
                         
@@ -106,6 +109,7 @@ public class MainFrame extends JFrame {
         	button.setForeground(TextColor);
         	button.setHorizontalAlignment(JLabel.CENTER);
         	button.setBackground(BackgroundColor);
+//        	button.setPreferredSize(new Dimension((int)(this.getWidth()*0.2211) , (int)(this.getWidth()*0.0556)));
         	button.setPreferredSize(new Dimension(199, 50));
         	button.setFocusPainted(false);
         	indexPanel.add(button);
@@ -117,7 +121,14 @@ public class MainFrame extends JFrame {
         JPanel playerBar = songBar.createPlayerBar(song);
         mainPanel.add(playerBar, BorderLayout.SOUTH);
         
+//        this.addComponentListener(new ComponentAdapter() {
+//        	public void componentResized(ComponentEvent e) {
+//        		
+//        	};
+//		});
 	}
+	
+	
 	
 	private void actualizarTitulo() {
         String titulo = new String();
