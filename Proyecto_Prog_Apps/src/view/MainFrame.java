@@ -26,6 +26,7 @@ import javax.swing.JSlider;
 import javax.swing.border.MatteBorder;
 
 import view.PlayingSong;
+import view.songBar;
 
 import model.Song;
 public class MainFrame extends JFrame {
@@ -41,9 +42,9 @@ public class MainFrame extends JFrame {
 	private CardLayout cardLayout = new CardLayout();
 	private FlowLayout flowLayout = new FlowLayout(FlowLayout.CENTER,0,0);
 	
-	private Color BackgroundColor = Color.black;
-	private Color BorderColor = Color.GRAY;
-	private Color TextColor = Color.white;
+	public static Color BackgroundColor = Color.black;
+	public static Color BorderColor = Color.GRAY;
+	public static Color TextColor = Color.white;
 	
 	private boolean desplegado = true;
 	
@@ -85,8 +86,8 @@ public class MainFrame extends JFrame {
 //        cardLayout.show(cardPanel, "dummy");
         
         //PLAYING SONG
-        //cardPanel.add(PlayingSong.PlayingSongPanel(new Song("TITLE", 2, "BAND")), "PlayingSong");
-        //cardLayout.show(cardPanel, "PlayingSong");
+        cardPanel.add(PlayingSong.PlayingSongPanel(song));
+        cardLayout.show(cardPanel, "PlayingSong");
         
         indexPanel = new JPanel(flowLayout);
         indexPanel.setBackground(BackgroundColor);
@@ -110,7 +111,7 @@ public class MainFrame extends JFrame {
         
         buttonList.get(0).addActionListener(e -> toggleSidebar());
         
-        JPanel playerBar = createPlayerBar(song);
+        JPanel playerBar = songBar.createPlayerBar(song);
         mainPanel.add(playerBar, BorderLayout.SOUTH);
         
 	}
@@ -146,47 +147,6 @@ public class MainFrame extends JFrame {
 	    mainPanel.revalidate();
 	    mainPanel.repaint();
 	}
-	
-	public JPanel createPlayerBar(Song s) {
-		//ProgressBar, buttons
-		BorderLayout songBarLayout = new BorderLayout();
-		FlowLayout buttonLayout = new FlowLayout();
-		
-		JPanel playerBar = new JPanel(songBarLayout);
-        playerBar.setBackground(BackgroundColor);
-        playerBar.setPreferredSize(new Dimension(0, 90));
-        playerBar.setBorder(new MatteBorder(1, 0, 0, 0, BorderColor));
-        
-        JLabel songLabel = new JLabel();
-        songLabel = new JLabel("Nothing’s Playing");
-        songLabel.setForeground(TextColor);
-        songLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        playerBar.add(songLabel, BorderLayout.NORTH);
-        
-		JSlider progressBar = new JSlider(0, s.getDuration(), 0);
-	    progressBar.setBackground(BackgroundColor);
-	    playerBar.add(progressBar, BorderLayout.CENTER);
-	    
-	    JPanel buttonsPanel = new JPanel(buttonLayout);
-	    buttonsPanel.setBackground(BackgroundColor);
-	    String[] songButtons = {"🔀", "⏮", "▶", "⏭", "🔁"};
-	    for (int i = 0; i < songButtons.length; i++) {
-			JButton b = new JButton(songButtons[i]);
-			b.setPreferredSize(new Dimension(40,35));
-        	b.setHorizontalAlignment(JLabel.CENTER);
-			b.setMargin(new Insets(0, 0, 0, 0));
-			b.setFocusPainted(false);
-			b.setBackground(BackgroundColor);
-			b.setForeground(TextColor);
-			b.setBorder(BorderFactory.createEmptyBorder());
-			b.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 26));
-			buttonsPanel.add(b);
-		}
-	    playerBar.add(buttonsPanel, BorderLayout.SOUTH);
-	    
-		return playerBar;
-	}
-
 }
 
 
