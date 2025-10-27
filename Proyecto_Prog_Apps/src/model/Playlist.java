@@ -72,7 +72,7 @@ public class Playlist {
         }
     }
 	
-	public String getDurationFormat() {
+	public static String getDurationFormat(int duration) {
         int min = duration / 60;
         int sec = duration % 60;
         return String.format("%d:%02d", min, sec);

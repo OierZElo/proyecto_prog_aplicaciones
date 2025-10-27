@@ -16,6 +16,7 @@ import javax.swing.Timer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.swing.BorderFactory;
@@ -34,6 +35,7 @@ import java.awt.event.ComponentEvent;
 
 import model.Playlist;
 import model.Song;
+import utils.Utils;
 public class MainFrame extends JFrame {
 
 	/**
@@ -58,11 +60,15 @@ public class MainFrame extends JFrame {
     String[] buttons = {"☰", "Home", "Playlists", "Queue", "Settings", "Account"};  
     String[] nombres = {"🔙", "🏠", "🎵", "📄", "⚙", "👤"}; 
     ArrayList<JButton> buttonList = new ArrayList<>();
+    
+    private model.Queue queue;
 
 	Song song = new Song("TEST", 1200, "TESTBAND");
 	List<Song> l_songs = new ArrayList<Song>();
 	Playlist playlist = new Playlist("Playlist 1", 3, 12345, 43, l_songs);
 	public MainFrame() {
+		Utils.generateSongs();
+        queue = new model.Queue();
         initialize();
         
         Timer timer = new Timer(150, e -> actualizarTitulo());
@@ -96,6 +102,11 @@ public class MainFrame extends JFrame {
         //PLAYLIST MANAGER DIALOG
         cardPanel.add(PlaylistManagerDialog.PlaylistManagerDialogPanel(playlist), "PlaylisyManagerDialog");
         cardLayout.show(cardPanel, "PlaylisyManagerDialog");
+        //QUEUE
+        cardPanel.add(PlaybackQueueDialog.QueuePanel(), "Queue");
+        cardLayout.show(cardPanel, "Queue");
+        
+        
         
         indexPanel = new JPanel(flowLayout);
         indexPanel.setBackground(BackgroundColor);

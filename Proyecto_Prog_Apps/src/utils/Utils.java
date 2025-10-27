@@ -2,11 +2,13 @@ package utils;
 
 import java.util.ArrayList;
 
+import model.Song;
 import model.User;
 
 public class Utils {
-	private ArrayList<User> users = new ArrayList<User>();
-	
+	ArrayList<User> users = new ArrayList<User>();
+	public static ArrayList<Song> songs = new ArrayList<>();
+
 	public void generateUsers() {
 		users.add(new User("user1", "password1"));
 		users.add(new User("user2", "password2"));
@@ -14,13 +16,72 @@ public class Utils {
 		users.add(new User("user4", "password4"));
 		users.add(new User("user5", "password5"));
 	}
-	
+
 	public User getUserFromUsername(String username) {
-		for(User user: users) {
-			if (user.getUsername().equals(username)) {
+		for (User user : users) {
+			if (user.getName().equals(username)) {
 				return user;
 			}
 		}
 		return null;
+	}
+
+	// list of music genres
+	public static String[] genres = { "Rock", "Pop", "Jazz", "Clásica", "Hip-Hop", "Reggae", "Electrónica", "Blues",
+			"Country", "Metal" };
+
+	// list of songs
+	public static void generateSongs() {
+		songs.add(new Song("Bohemian Rhapsody", 354, "Queen"));
+		songs.add(new Song("Stairway to Heaven", 482, "Led Zeppelin"));
+		songs.add(new Song("Hotel California", 391, "Eagles"));
+		songs.add(new Song("Smells Like Teen Spirit", 301, "Nirvana"));
+		songs.add(new Song("Imagine", 183, "John Lennon"));
+		songs.add(new Song("Billie Jean", 294, "Michael Jackson"));
+		songs.add(new Song("Sweet Child O' Mine", 356, "Guns N' Roses"));
+		songs.add(new Song("Wonderwall", 258, "Oasis"));
+		songs.add(new Song("Hey Jude", 431, "The Beatles"));
+		songs.add(new Song("Lose Yourself", 326, "Eminem"));
+		songs.add(new Song("Like a Rolling Stone", 369, "Bob Dylan"));
+		songs.add(new Song("Comfortably Numb", 384, "Pink Floyd"));
+		songs.add(new Song("Nothing Else Matters", 388, "Metallica"));
+		songs.add(new Song("Under Pressure", 248, "Queen & David Bowie"));
+		songs.add(new Song("One", 444, "U2"));
+		songs.add(new Song("Enter Sandman", 331, "Metallica"));
+		songs.add(new Song("Livin' on a Prayer", 249, "Bon Jovi"));
+		songs.add(new Song("Back in Black", 255, "AC/DC"));
+		songs.add(new Song("Thunderstruck", 292, "AC/DC"));
+		songs.add(new Song("Hallelujah", 283, "Leonard Cohen"));
+		songs.add(new Song("Yesterday", 125, "The Beatles"));
+		songs.add(new Song("Shape of You", 233, "Ed Sheeran"));
+		songs.add(new Song("Rolling in the Deep", 228, "Adele"));
+		songs.add(new Song("Blinding Lights", 200, "The Weeknd"));
+		songs.add(new Song("Take on Me", 225, "a-ha"));
+		songs.add(new Song("Africa", 295, "Toto"));
+		songs.add(new Song("Don’t Stop Believin’", 251, "Journey"));
+		songs.add(new Song("Highway to Hell", 208, "AC/DC"));
+		songs.add(new Song("Another One Bites the Dust", 217, "Queen"));
+		songs.add(new Song("Beat It", 258, "Michael Jackson"));
+		songs.add(new Song("Let It Be", 243, "The Beatles"));
+		songs.add(new Song("Come Together", 259, "The Beatles"));
+		songs.add(new Song("Smoke on the Water", 340, "Deep Purple"));
+		songs.add(new Song("Paranoid", 171, "Black Sabbath"));
+		songs.add(new Song("Seven Nation Army", 231, "The White Stripes"));
+		songs.add(new Song("Karma Police", 260, "Radiohead"));
+		songs.add(new Song("Creep", 238, "Radiohead"));
+		songs.add(new Song("Fix You", 294, "Coldplay"));
+		songs.add(new Song("Viva la Vida", 242, "Coldplay"));
+		songs.add(new Song("Mr. Brightside", 222, "The Killers"));
+		songs.add(new Song("Somebody Told Me", 197, "The Killers"));
+		songs.add(new Song("Boulevard of Broken Dreams", 260, "Green Day"));
+		songs.add(new Song("Holiday", 232, "Green Day"));
+		songs.add(new Song("In the End", 216, "Linkin Park"));
+		songs.add(new Song("Numb", 185, "Linkin Park"));
+		songs.add(new Song("Chop Suey!", 210, "System of a Down"));
+		songs.add(new Song("Toxicity", 217, "System of a Down"));
+		songs.add(new Song("Californication", 329, "Red Hot Chili Peppers"));
+		songs.add(new Song("Scar Tissue", 216, "Red Hot Chili Peppers"));
+		songs.add(new Song("Dream On", 269, "Aerosmith"));
+		songs.add(new Song("Sweet Emotion", 243, "Aerosmith"));
 	}
 }
