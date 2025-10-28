@@ -2,30 +2,37 @@ package model;
 
 import java.util.ArrayList;
 
+import view.PlaybackQueueDialog;
+
 public class Queue {
-    private ArrayList<Song> queue;
-    private int currentIndex;
+    private static ArrayList<Song> queue;
     
     public Queue() {
     	queue = new ArrayList<>();
-        currentIndex = 0;
     }
     
     public void enqueue(Song song) {
         queue.add(song);
     }
     
-    public Song getCurrentSong() {
-        if (currentIndex >= 0 && currentIndex < queue.size()) {
-            return queue.get(currentIndex);
-        }
-        return null;
+    public ArrayList<Song> getQueue() {
+		return queue;
+	}
+
+	public void moveUp(int index) {
+            Song temp = queue.get(index - 1);
+            queue.set(index - 1, queue.get(index));
+            queue.set(index, temp);
+	}
+    
+    public void moveDown(int index) {
+        	Song temp = queue.get(index + 1);
+            queue.set(index + 1, queue.get(index));
+            queue.set(index, temp);
     }
     
-    public void moveUp(int index) {}
-    
-    public void moveDown(int index) {}
-    
-    public void remove(int index) {}
+    public static void remove(int index) {
+    	queue.remove(index);
+    }
 
 }
