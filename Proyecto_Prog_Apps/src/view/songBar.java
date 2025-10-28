@@ -20,6 +20,8 @@ import model.Song;
 public class songBar {
     static ArrayList<JButton> buttonList = new ArrayList<JButton>();
     static JLabel songLabel = new JLabel();
+    static JSlider progressBar = new JSlider();
+
 
 	public static JPanel createPlayerBar(Song s) {
 		//ProgressBar, buttons
@@ -35,7 +37,7 @@ public class songBar {
         songLabel.setFont(new Font("Arial", Font.BOLD, 14));
         playerBar.add(songLabel, BorderLayout.NORTH);
         
-		JSlider progressBar = new JSlider(0, s.getDuration(), 0);
+        progressBar = new JSlider(0, s.getDuration(), 0);
 	    progressBar.setBackground(MainFrame.BackgroundColor);
 	    playerBar.add(progressBar, BorderLayout.CENTER);
 	    
@@ -83,6 +85,7 @@ public class songBar {
 	
 	public static void updateSongLabel(Song s) {
         songLabel.setText(s.getTitle() + " - " + s.getBand());
+        progressBar.setMaximum(s.getDuration());
     }
 
 }

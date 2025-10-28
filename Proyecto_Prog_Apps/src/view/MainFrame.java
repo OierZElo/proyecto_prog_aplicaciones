@@ -57,7 +57,8 @@ public class MainFrame extends JFrame {
 	
 	private boolean desplegado = true;
 	
-	public static Song playingSong;
+	public static Song playingSong = new Song("title", 2, "band");
+	//public static Song playingSong;
 	
 	char[] bloques = {'▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'};
 	
@@ -84,7 +85,7 @@ public class MainFrame extends JFrame {
 
 		setSize(900, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(true);
+        setResizable(false);
         setLocationRelativeTo(null);
         
         mainPanel = new JPanel(borderLayout);
@@ -95,10 +96,6 @@ public class MainFrame extends JFrame {
         cardPanel.setOpaque(true);
         cardPanel.setBackground(BackgroundColor);
         mainPanel.add(cardPanel, BorderLayout.CENTER);
-//        JPanel dummyPanel = new JPanel();
-//        dummyPanel.setBackground(Color.YELLOW);
-//        cardPanel.add(dummyPanel, "dummy");
-//        cardLayout.show(cardPanel, "dummy");
      
         //PLAYING SONG
         // cardPanel.add(PlayingSong.PlayingSongPanel(playingSong), "PlayingSong");
@@ -110,8 +107,13 @@ public class MainFrame extends JFrame {
         cardLayout.show(cardPanel, "PlaylisyManagerDialog");
         
         //QUEUE
+<<<<<<< HEAD
         // cardPanel.add(PlaybackQueueDialog.QueuePanel(), "Queue");
         // cardLayout.show(cardPanel, "Queue");
+=======
+        cardPanel.add(PlaybackQueueDialog.QueuePanel(), "Queue");
+        //cardLayout.show(cardPanel, "Queue");
+>>>>>>> branch 'main' of git@github.com:OierZElo/proyecto_prog_aplicaciones.git
         
         
         
