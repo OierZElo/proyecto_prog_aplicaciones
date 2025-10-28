@@ -36,6 +36,7 @@ import java.awt.event.ComponentEvent;
 import model.Playlist;
 import model.Song;
 import utils.Utils;
+
 public class MainFrame extends JFrame {
 
 	/**
@@ -49,157 +50,150 @@ public class MainFrame extends JFrame {
 	public static JPanel playerBar;
 	public static BorderLayout borderLayout = new BorderLayout();
 	private CardLayout cardLayout = new CardLayout();
-	private FlowLayout flowLayout = new FlowLayout(FlowLayout.CENTER,0,0);
-	
+	private FlowLayout flowLayout = new FlowLayout(FlowLayout.CENTER, 0, 0);
+
 	public static Color BackgroundColor = Color.black;
 	public static Color BorderColor = Color.GRAY;
 	public static Color TextColor = Color.white;
-	
-	private boolean desplegado = true;
-	
-	public static Song playingSong = new Song("TITLE", 2, "BAND");
-	//public static Song playingSong;
-	
-	char[] bloques = {'▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'};
-	
-    String[] buttons = {"☰", "Home", "Playlists", "Queue", "Settings", "Account"};  
-    String[] nombres = {"🔙", "🏠", "🎵", "📄", "⚙", "👤"}; 
-    ArrayList<JButton> buttonList = new ArrayList<>();
-    
-    private model.Queue queue;
 
+	private boolean desplegado = true;
+
+	public static Song playingSong = new Song("TITLE", 2, "BAND");
+	// public static Song playingSong;
+
+	char[] bloques = { '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█' };
+
+	String[] buttons = { "☰", "Home", "Playlists", "Queue", "Settings", "Account" };
+	String[] nombres = { "🔙", "🏠", "🎵", "📄", "⚙", "👤" };
+	ArrayList<JButton> buttonList = new ArrayList<>();
+
+	private model.Queue queue;
 
 	List<Song> l_songs = new ArrayList<Song>();
 	Playlist playlist = new Playlist("Playlist 1", 12345, l_songs);
 
-
 	public MainFrame() {
 		instance = this;
 		Utils.generateSongs();
-        queue = new model.Queue();
-        initialize();
-        
-        Timer timer = new Timer(150, e -> actualizarTitulo());
-        timer.start();
-    }
-	
+		queue = new model.Queue();
+		initialize();
+
+		Timer timer = new Timer(150, e -> actualizarTitulo());
+		timer.start();
+	}
+
 	private void initialize() {
 		setTitle("EchoBeat");
 
 		setSize(900, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
-        setLocationRelativeTo(null);
-        
-        mainPanel = new JPanel(borderLayout);
-        setContentPane(mainPanel);
-        
-        cardPanel = new JPanel(cardLayout);
-        cardPanel.setVisible(true);
-        cardPanel.setOpaque(true);
-        cardPanel.setBackground(BackgroundColor);
-        mainPanel.add(cardPanel, BorderLayout.CENTER);
-     
-        //PLAYING SONG
-        // cardPanel.add(PlayingSong.PlayingSongPanel(playingSong), "PlayingSong");
-        // cardLayout.show(cardPanel, "PlayingSong");
-        
-        
-        //PLAYLIST MANAGER DIALOG
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
+		setLocationRelativeTo(null);
 
-        cardPanel.add(PlaylistManagerDialog.PlaylistManagerDialogPanel(playlist), "PlaylisyManagerDialog");
-        cardLayout.show(cardPanel, "PlaylisyManagerDialog");
+		mainPanel = new JPanel(borderLayout);
+		setContentPane(mainPanel);
 
-//        cardPanel.add(PlaylistManagerDialog.PlaylistManagerDialogPanel(playlist), "PlaylisyManagerDialog");
-        //cardLayout.show(cardPanel, "PlaylisyManagerDialog");
+		cardPanel = new JPanel(cardLayout);
+		cardPanel.setVisible(true);
+		cardPanel.setOpaque(true);
+		cardPanel.setBackground(BackgroundColor);
+		mainPanel.add(cardPanel, BorderLayout.CENTER);
 
-        
-        //QUEUE
+		// PLAYING SONG
+		cardPanel.add(PlayingSong.PlayingSongPanel(playingSong), "PlayingSong");
+		// cardLayout.show(cardPanel, "PlayingSong");
 
-        // cardPanel.add(PlaybackQueueDialog.QueuePanel(), "Queue");
-        // cardLayout.show(cardPanel, "Queue");
+		// PLAYLIST MANAGER DIALOG
 
-        cardPanel.add(PlaybackQueueDialog.QueuePanel(), "Queue");
-        //cardLayout.show(cardPanel, "Queue");
+		cardPanel.add(PlaylistManagerDialog.PlaylistManagerDialogPanel(playlist), "Playlist");
+//        cardLayout.show(cardPanel, "PlaylisyManagerDialog");	
 
-        
-        
-        
-        indexPanel = new JPanel(flowLayout);
-        indexPanel.setBackground(BackgroundColor);
-        indexPanel.setBorder(new MatteBorder(0,0,0,1, BorderColor));
+		// QUEUE
+		cardPanel.add(PlaybackQueueDialog.QueuePanel(), "Queue");
+//         cardLayout.show(cardPanel, "Queue");
+
+		indexPanel = new JPanel(flowLayout);
+		indexPanel.setBackground(BackgroundColor);
+		indexPanel.setBorder(new MatteBorder(0, 0, 0, 1, BorderColor));
 //        indexPanel.setPreferredSize(new Dimension((int)(this.getWidth()*0.2222), 0));
-        indexPanel.setPreferredSize(new Dimension(200, 0));
-        mainPanel.add(indexPanel, BorderLayout.WEST);
-                        
-        for(String s: buttons) {
-        	JButton button = new JButton(s);
+		indexPanel.setPreferredSize(new Dimension(200, 0));
+		mainPanel.add(indexPanel, BorderLayout.WEST);
 
+		for (int i = 0; i < buttons.length; i++) {
+			JButton button = new JButton(buttons[i]);
 			button.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 26));
 			button.setMargin(new Insets(0, 0, 0, 0));
-        	button.setForeground(TextColor);
-        	button.setHorizontalAlignment(JLabel.CENTER);
-        	button.setBackground(BackgroundColor);
-//        	button.setPreferredSize(new Dimension((int)(this.getWidth()*0.2211) , (int)(this.getWidth()*0.0556)));
-        	button.setPreferredSize(new Dimension(199, 50));
-        	button.setFocusPainted(false);
-        	indexPanel.add(button);
-        	buttonList.add(button);
-        } 
-        
-        buttonList.get(0).addActionListener(e -> toggleSidebar());
-        
-        
-//        this.addComponentListener(new ComponentAdapter() {
-//        	public void componentResized(ComponentEvent e) {
-//        		
-//        	};
-//		});
-        
+			button.setForeground(TextColor);
+			button.setBackground(BackgroundColor);
+			button.setPreferredSize(new Dimension(199, 50));
+			button.setFocusPainted(false);
+			indexPanel.add(button);
+			buttonList.add(button);
+
+			final int index = i;
+			button.addActionListener(e -> {
+				switch (index) {
+				case 0:
+					toggleSidebar();
+					break;
+				case 1:
+					cardLayout.show(cardPanel, "HomePanel");
+					break;
+				case 2:
+					cardLayout.show(cardPanel, "Playlist");
+					break;
+				case 3:
+					cardLayout.show(cardPanel, "Queue");
+					break;
+				case 4:
+					cardLayout.show(cardPanel, "SettingsPanel");
+					break;
+				case 5:
+					cardLayout.show(cardPanel, "AccountPanel");
+					break;
+				}
+			});
+		}
+
 	}
-	
+
 	public void showPlayingSong() {
 		cardLayout.show(cardPanel, "PlayingSong");
 	}
-	
+
 	private void actualizarTitulo() {
-        String titulo = new String();
-        for (int i = 0; i < 63; i++) {
-        	int random = ThreadLocalRandom.current().nextInt(0, bloques.length);
-            titulo += (bloques[random]);
-        }
-        setTitle(titulo.toString());
-    }
-	
-	private void toggleSidebar() {
-	    if (desplegado) {
-	        indexPanel.setPreferredSize(new Dimension(50, 50));
-	        for (int i = 0; i < buttonList.size(); i++) {
-	        	buttonList.get(i).setText(nombres[i]);
-	        	buttonList.get(i).setPreferredSize(new Dimension(50, 50));
-	        }
-	        
-	       
-	    } else {
-	        indexPanel.setPreferredSize(new Dimension(200, 50));
-	        for (int i = 0; i < buttonList.size(); i++) {
-	        	buttonList.get(i).setText(buttons[i]);
-	        	buttonList.get(i).setPreferredSize(new Dimension(200, 50));
-				
-			} 
-	        	
-	    }
-	    desplegado = !desplegado;
-	    mainPanel.revalidate();
-	    mainPanel.repaint();
+		String titulo = new String();
+		for (int i = 0; i < 63; i++) {
+			int random = ThreadLocalRandom.current().nextInt(0, bloques.length);
+			titulo += (bloques[random]);
+		}
+		setTitle(titulo.toString());
 	}
-	
+
+	private void toggleSidebar() {
+		if (desplegado) {
+			indexPanel.setPreferredSize(new Dimension(50, 50));
+			for (int i = 0; i < buttonList.size(); i++) {
+				buttonList.get(i).setText(nombres[i]);
+				buttonList.get(i).setPreferredSize(new Dimension(50, 50));
+			}
+
+		} else {
+			indexPanel.setPreferredSize(new Dimension(200, 50));
+			for (int i = 0; i < buttonList.size(); i++) {
+				buttonList.get(i).setText(buttons[i]);
+				buttonList.get(i).setPreferredSize(new Dimension(200, 50));
+
+			}
+
+		}
+		desplegado = !desplegado;
+		mainPanel.revalidate();
+		mainPanel.repaint();
+	}
+
 	public static MainFrame getInstance() {
 		return instance;
 	}
-	
-	
 
 }
-
-

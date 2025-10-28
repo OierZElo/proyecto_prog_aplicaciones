@@ -82,6 +82,7 @@ public class PlaybackQueueDialog extends JFrame {
 		
 		songTable.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent e) {
+				if(e.getClickCount() == 2) {
 				int row = songTable.getSelectedRow();
 				if (row >= 0) {
 					String title = (String) tableModel.getValueAt(row, 0);
@@ -102,7 +103,7 @@ public class PlaybackQueueDialog extends JFrame {
 		            mainPanel.revalidate();
 		            mainPanel.repaint();
 				}
-				
+				}
 			}
 		});
 
