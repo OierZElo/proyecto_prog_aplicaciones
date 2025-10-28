@@ -3,6 +3,7 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -13,17 +14,25 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import model.Playlist;
 import model.Queue;
 import model.Song;
 import model.StyledTable;
 import utils.Utils;
+import model.Playlist;
+import view.MainFrame;
 
 public class PlaybackQueueDialog extends JFrame {
 	public static JPanel QueuePanel() {
 		JPanel mainPanel = new JPanel(new BorderLayout());
         String[] columns = {"Title", "Artist", "Duration"};
         
-		DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
+		DefaultTableModel tableModel = new DefaultTableModel(columns, 0){
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		        return false;
+		    }
+		};
 		
 		for (Song s : Utils.songs) {
             Object[] row = {s.getTitle(), s.getBand(), model.Playlist.getDurationFormat(s.getDuration())};
@@ -31,6 +40,21 @@ public class PlaybackQueueDialog extends JFrame {
         }
 		
 		JTable songTable = new StyledTable(tableModel);
+		
+		songTable.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent e) {
+				int row = songTable.getSelectedRow();
+				if (row >= 0) {
+					String title = (String) tableModel.getValueAt(row, 0);
+					String artist = (String) tableModel.getValueAt(row, 1);
+					int duration = Playlist.parseDuration((String) tableModel.getValueAt(row, 2));
+		            
+		            MainFrame.playingSong = new Song(title, duration, artist);
+		            songBar.updateSongLabel(MainFrame.playingSong);
+				}
+				
+			}
+		});
 
 	    // JScrollPane
 	    JScrollPane scrollPane = new JScrollPane(songTable);

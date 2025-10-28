@@ -19,6 +19,7 @@ import model.Song;
 
 public class songBar {
     static ArrayList<JButton> buttonList = new ArrayList<JButton>();
+    static JLabel songLabel = new JLabel("Nothing’s Playing");
 
 	public static JPanel createPlayerBar(Song s) {
 		//ProgressBar, buttons
@@ -30,8 +31,6 @@ public class songBar {
         playerBar.setPreferredSize(new Dimension(0, 90));
         playerBar.setBorder(new MatteBorder(1, 0, 0, 0, MainFrame.BorderColor));
         
-        JLabel songLabel = new JLabel();
-        songLabel = new JLabel("Nothing’s Playing");
         songLabel.setForeground(MainFrame.TextColor);
         songLabel.setFont(new Font("Arial", Font.BOLD, 14));
         playerBar.add(songLabel, BorderLayout.NORTH);
@@ -81,5 +80,9 @@ public class songBar {
 			buttonList.get(2).setText("▶");
 		}
 	}
+	
+	public static void updateSongLabel(Song s) {
+        songLabel.setText(s.getTitle() + " - " + s.getBand());
+    }
 
 }
