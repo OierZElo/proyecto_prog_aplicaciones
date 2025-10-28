@@ -42,6 +42,7 @@ public class MainFrame extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static MainFrame instance;
 	private JPanel mainPanel;
 	private JPanel cardPanel;
 	private JPanel indexPanel;
@@ -68,6 +69,7 @@ public class MainFrame extends JFrame {
 	List<Song> l_songs = new ArrayList<Song>();
 	Playlist playlist = new Playlist("Playlist 1", 3, 12345, 43, l_songs);
 	public MainFrame() {
+		instance = this;
 		Utils.generateSongs();
         queue = new model.Queue();
         initialize();
@@ -100,9 +102,11 @@ public class MainFrame extends JFrame {
         //PLAYING SONG
         cardPanel.add(PlayingSong.PlayingSongPanel(playingSong), "PlayingSong");
         // cardLayout.show(cardPanel, "PlayingSong");
+        
         //PLAYLIST MANAGER DIALOG
         cardPanel.add(PlaylistManagerDialog.PlaylistManagerDialogPanel(playlist), "PlaylisyManagerDialog");
-        cardLayout.show(cardPanel, "PlaylisyManagerDialog");
+        //cardLayout.show(cardPanel, "PlaylisyManagerDialog");
+        
         //QUEUE
         cardPanel.add(PlaybackQueueDialog.QueuePanel(), "Queue");
         cardLayout.show(cardPanel, "Queue");
@@ -141,7 +145,13 @@ public class MainFrame extends JFrame {
 //        		
 //        	};
 //		});
+        
 	}
+	
+	public void showPlayingSong() {
+		cardLayout.show(cardPanel, "PlayingSong");
+	}
+	
 	
 	
 	
@@ -175,6 +185,10 @@ public class MainFrame extends JFrame {
 	    desplegado = !desplegado;
 	    mainPanel.revalidate();
 	    mainPanel.repaint();
+	}
+	
+	public static MainFrame getInstance() {
+		return instance;
 	}
 }
 

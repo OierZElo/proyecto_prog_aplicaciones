@@ -14,6 +14,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+
 import model.Playlist;
 import model.Queue;
 import model.Song;
@@ -23,6 +24,9 @@ import model.Playlist;
 import view.MainFrame;
 
 public class PlaybackQueueDialog extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+
 	public static JPanel QueuePanel() {
 		JPanel mainPanel = new JPanel(new BorderLayout());
         String[] columns = {"Title", "Artist", "Duration"};
@@ -50,6 +54,7 @@ public class PlaybackQueueDialog extends JFrame {
 					int duration = Playlist.parseDuration((String) tableModel.getValueAt(row, 2));
 		            
 		            MainFrame.playingSong = new Song(title, duration, artist);
+		            //MainFrame.getInstance().showPlayingSong();
 		            songBar.updateSongLabel(MainFrame.playingSong);
 				}
 				
