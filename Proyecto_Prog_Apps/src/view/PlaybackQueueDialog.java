@@ -30,6 +30,9 @@ public class PlaybackQueueDialog extends JFrame {
 	public static JPanel QueuePanel() {
 		JPanel mainPanel = new JPanel(new BorderLayout());
         String[] columns = {"Title", "Artist", "Duration"};
+        String[] buttonIcons = {"⬆️", "⬇️", "🗑️"};
+        
+        
         
 		DefaultTableModel tableModel = new DefaultTableModel(columns, 0){
 		    @Override
