@@ -1,13 +1,16 @@
 package utils;
 
 import java.util.ArrayList;
-
+import java.util.List;
+import java.util.Random;
+import model.Playlist;
 import model.Song;
 import model.User;
 
 public class Utils {
 	ArrayList<User> users = new ArrayList<User>();
 	public static ArrayList<Song> songs = new ArrayList<>();
+	public static ArrayList<Song> playlists = new ArrayList<>();
 
 	public void generateUsers() {
 		users.add(new User("user1", "password1"));
@@ -83,5 +86,16 @@ public class Utils {
 		songs.add(new Song("Scar Tissue", 216, "Red Hot Chili Peppers"));
 		songs.add(new Song("Dream On", 269, "Aerosmith"));
 		songs.add(new Song("Sweet Emotion", 243, "Aerosmith"));
+	}
+	
+	public void generatePlaylists() {
+		Playlist playlist1 = new Playlist("Playlist 1", 11, 000, new ArrayList<Song>());
+		Playlist playlist2 = new Playlist("Playlist 1", 11, 000, new ArrayList<Song>());
+		Playlist playlist3 = new Playlist("Playlist 1", 11, 000, new ArrayList<Song>());
+		
+		Random random = new Random();
+		playlist1.getL_songs().add(songs.get(random.nextInt(songs.size())));
+	    playlist2.getL_songs().add(songs.get(random.nextInt(songs.size())));
+	    playlist3.getL_songs().add(songs.get(random.nextInt(songs.size())));
 	}
 }

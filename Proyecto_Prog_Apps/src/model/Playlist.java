@@ -12,14 +12,13 @@ public class Playlist {
 	private int duration;
 	private List<Song> l_songs;
 	
-	public Playlist(String name, int n_songs, int user_id, int duration, List<Song> l_songs) {
+	public Playlist(String name, int n_songs, int user_id, List<Song> l_songs) {
 		super();
 		this.cod = counter;
 		counter += 1;
 		this.name = name;
 		this.n_songs = 0;
 		this.user_id = user_id;
-		this.duration = 0;
 		this.l_songs = new ArrayList<Song>();
 	}
 
@@ -49,10 +48,6 @@ public class Playlist {
 
 	public int getDuration() {
 		return duration;
-	}
-
-	public void setDuration(int duration) {
-		this.duration = duration;
 	}
 
 	public List<Song> getL_songs() {
