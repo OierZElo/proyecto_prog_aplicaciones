@@ -1,9 +1,11 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
@@ -18,7 +20,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTable;
+import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicButtonListener;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -41,12 +45,21 @@ public class PlaybackQueueDialog extends JFrame {
 		String[] buttonIcons = { "  ⬆️", "  ⬇️", "🗑️" };
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		JPanel buttonEastPanel = new JPanel(new GridLayout(2, 1));
-		JPanel soundButtonPanel = new JPanel(new GridLayout(buttonIcons.length, 1));
+		JPanel soundButtonPanel = new JPanel(new GridLayout(buttonIcons.length + 1, 1));
 		soundButtonPanel.setBackground(MainFrame.BackgroundColor);
 		buttonEastPanel.setBackground(MainFrame.BackgroundColor);
+		JLabel volumeLabel = new JLabel("50%", JLabel.CENTER);
+		volumeLabel.setForeground(MainFrame.TextColor);
 
 		JSlider volumeSlider = new JSlider(JSlider.VERTICAL, 0, 100, 50);
 		volumeSlider.setBackground(MainFrame.BackgroundColor);
+		volumeSlider.setForeground(MainFrame.TextColor);
+		volumeSlider.setPaintTrack(true);
+		
+		volumeSlider.addChangeListener(e -> {
+		    int value = volumeSlider.getValue();
+		    volumeLabel.setText(value + "%");
+		});
 	
 		
 		DefaultTableModel tableModel = new DefaultTableModel(columns, 0) {
@@ -135,25 +148,24 @@ public class PlaybackQueueDialog extends JFrame {
 			}
 		});
 		
-		
-
 		// JScrollPane
 		JScrollPane scrollPane = new JScrollPane(songTable);
-		scrollPane.getViewport().setBackground(MainFrame.BackgroundColor);
-		scrollPane.setBorder(null);
+		scrollPane.getViewport().getView().setBackground(MainFrame.BackgroundColor);		
+		scrollPane.getVerticalScrollBar().setBackground(MainFrame.BackgroundColor);
+		scrollPane.getHorizontalScrollBar().setBackground(MainFrame.BackgroundColor);
+		scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+		    @Override
+		    protected void configureScrollBarColors() {
+		        this.thumbColor = MainFrame.TextColor;
+		        this.trackColor = MainFrame.BackgroundColor;
+		    }
+		});
 
 		mainPanel.add(scrollPane, BorderLayout.CENTER);
+		soundButtonPanel.add(volumeLabel);
 		buttonEastPanel.add(soundButtonPanel);
 		buttonEastPanel.add(volumeSlider);
 		mainPanel.add(buttonEastPanel, BorderLayout.EAST);
-
-//	    Queue queue = new Queue();
-
-//	    queue.enqueue(Utils.songs.get(3));
-//	    queue.enqueue(Utils.songs.get(5));
-//	    queue.enqueue(Utils.songs.get(2));
-//	    queue.enqueue(Utils.songs.get(15));
-//	    queue.enqueue(Utils.songs.get(25));
 
 		return mainPanel;
 	}
