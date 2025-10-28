@@ -89,24 +89,25 @@ public class Utils {
 	}
 	
 	public void generatePlaylists() {
-		Playlist playlist1 = new Playlist("Playlist 1", 11, 000, new ArrayList<Song>());
-		Playlist playlist2 = new Playlist("Playlist 1", 11, 000, new ArrayList<Song>());
-		Playlist playlist3 = new Playlist("Playlist 1", 11, 000, new ArrayList<Song>());
+		Playlist playlist1 = new Playlist("Playlist 1",  000, new ArrayList<Song>());
+		Playlist playlist2 = new Playlist("Playlist 1",  000, new ArrayList<Song>());
+		Playlist playlist3 = new Playlist("Playlist 1",  000, new ArrayList<Song>());
 		
+		generateRandomPlaylist(playlist1);
+		generateRandomPlaylist(playlist2);
+		generateRandomPlaylist(playlist3);
+		
+	
+	}
+	private void generateRandomPlaylist(Playlist playlist) {
 		Random random = new Random();
-		playlist1.getL_songs().add(songs.get(random.nextInt(songs.size())));
-		playlist1.getL_songs().add(songs.get(random.nextInt(songs.size())));
-		playlist1.getL_songs().add(songs.get(random.nextInt(songs.size())));
-		playlist1.getL_songs().add(songs.get(random.nextInt(songs.size())));
-		
-	    playlist2.getL_songs().add(songs.get(random.nextInt(songs.size())));
-	    playlist2.getL_songs().add(songs.get(random.nextInt(songs.size())));
-	    playlist2.getL_songs().add(songs.get(random.nextInt(songs.size())));
-	    playlist2.getL_songs().add(songs.get(random.nextInt(songs.size())));
-	    
-	    playlist3.getL_songs().add(songs.get(random.nextInt(songs.size())));
-	    playlist3.getL_songs().add(songs.get(random.nextInt(songs.size())));
-	    playlist3.getL_songs().add(songs.get(random.nextInt(songs.size())));
-	    playlist3.getL_songs().add(songs.get(random.nextInt(songs.size())));
+		while(playlist.getN_songs() < 4) {
+			Song song = songs.get(random.nextInt(songs.size()));
+			if (!playlist.getL_songs().contains(song)) {
+				playlist.getL_songs().add(song);
+				playlist.setN_songs(playlist.getN_songs()+1);
+			}
+		}
+
 	}
 }
