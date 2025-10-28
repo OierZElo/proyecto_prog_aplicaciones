@@ -6,8 +6,8 @@ public class Song {
 	private String title;
 	private int duration;
 	private String band;
-	
-	//constructor
+
+	// constructor
 	public Song(String title, int duration, String band) {
 		this.cod = counter;
 		counter += 1;
@@ -15,31 +15,34 @@ public class Song {
 		this.duration = duration;
 		this.band = band;
 	}
-	
-	//getters and setters
+
+	// getters and setters
 	public String getTitle() {
 		return title;
 	}
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
 	public int getDuration() {
 		return duration;
 	}
+
 	public void setDuration(int duration) {
 		this.duration = duration;
 	}
+
 	public String getBand() {
 		return band;
 	}
+
 	public void setBand(String band) {
 		this.band = band;
 	}
+
 	public int getCod() {
 		return cod;
 	}
-	
-	
-	
-	
+
 }

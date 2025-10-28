@@ -39,23 +39,22 @@ public class songTable {
 		}
 
 		JTable songTable = new StyledTable(tableModel);
-        final boolean[] isAlreadyOneClick = {false};
 
 		songTable.addMouseListener(new MouseAdapter() {
 
 			public void mouseClicked(MouseEvent e) {
-					int row = songTable.rowAtPoint(e.getPoint());
-					if (row >= 0) {
-						String title = (String) tableModel.getValueAt(row, 0);
-						String artist = (String) tableModel.getValueAt(row, 1);
-						int duration = Playlist.parseDuration((String) tableModel.getValueAt(row, 2));
+				int row = songTable.rowAtPoint(e.getPoint());
+				if (row >= 0) {
+					String title = (String) tableModel.getValueAt(row, 0);
+					String artist = (String) tableModel.getValueAt(row, 1);
+					int duration = Playlist.parseDuration((String) tableModel.getValueAt(row, 2));
 
-						MainFrame.playingSong = new Song(title, duration, artist);
+					MainFrame.playingSong = new Song(title, duration, artist);
 
-						if (MainFrame.playerBar == null) {
-							MainFrame.playerBar = songBar.createPlayerBar(MainFrame.playingSong);
-							MainFrame.getInstance().mainPanel.add(MainFrame.playerBar, BorderLayout.SOUTH);
-						}	
+					if (MainFrame.playerBar == null) {
+						MainFrame.playerBar = songBar.createPlayerBar(MainFrame.playingSong);
+						MainFrame.getInstance().mainPanel.add(MainFrame.playerBar, BorderLayout.SOUTH);
+					}
 				}
 			}
 

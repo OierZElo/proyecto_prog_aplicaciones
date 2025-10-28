@@ -3,7 +3,7 @@ package model;
 public class User {
 	private String name;
 	private String password;
-	
+
 	public User(String name, String password) {
 		super();
 		this.name = name;
@@ -25,5 +25,5 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 }

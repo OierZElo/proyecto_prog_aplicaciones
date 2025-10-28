@@ -14,41 +14,36 @@ import javax.swing.JPanel;
 
 import model.Song;
 
-public class PlayingSong extends JFrame{
+public class PlayingSong extends JFrame {
 	private static final long serialVersionUID = 1L;
 
-	static JLabel  title = new JLabel();
+	static JLabel title = new JLabel();
 	static JLabel band = new JLabel();
 	static JPanel panelIcon = new JPanel();
 	static JPanel panelPrincipal = new JPanel(new BorderLayout());
-	static JPanel southPanel = new JPanel(new GridLayout(2,1));
+	static JPanel southPanel = new JPanel(new GridLayout(2, 1));
 	static JLabel Icon = new JLabel();
 	static JPanel panelCentral = new JPanel(new BorderLayout());
-	
+
 	public static JPanel PlayingSongPanel(Song song) {
-		
-		//se le pasa por parametro la cancion que se está reproduciendo
+
+		// se le pasa por parametro la cancion que se está reproduciendo
 		panelPrincipal.setVisible(true);
 		panelPrincipal.setBackground(MainFrame.BackgroundColor);
-		
-		
-		
-		//title and band
+
+		// title and band
 		southPanel.setVisible(true);
 		southPanel.setOpaque(true);
-		
+
 		if (song != null) {
 			setUpPanel(song);
 		}
 		panelPrincipal.add(panelCentral, BorderLayout.CENTER);
-		
-		
-		
+
 		return panelPrincipal;
-		
-		
+
 	}
-	
+
 	private static void setUpPanel(Song song) {
 		title.setText(song.getTitle());
 		title.setVisible(true);
@@ -57,7 +52,7 @@ public class PlayingSong extends JFrame{
 		title.setBackground(MainFrame.BackgroundColor);
 		title.setHorizontalAlignment(JLabel.CENTER);
 		title.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 26));
-		//band
+		// band
 		band.setText(song.getBand());
 		band.setVisible(true);
 		band.setOpaque(true);
@@ -68,20 +63,19 @@ public class PlayingSong extends JFrame{
 		southPanel.add(title);
 		southPanel.add(band);
 		panelCentral.add(southPanel, BorderLayout.SOUTH);
-		
-		//SongIcon
+
+		// SongIcon
 		panelIcon.setBackground(Color.black);
-		
+
 		Icon.setIcon(new ImageIcon("src/resources/icons/SongIcon.png"));
 		panelIcon.add(Icon);
 		panelCentral.add(panelIcon, BorderLayout.CENTER);
 	}
-	
+
 	public static void modifyPlayingSong() {
 		title.setText(MainFrame.playingSong.getTitle());
 		title.setText(MainFrame.playingSong.getBand());
-		
+
 	}
 
-	
 }

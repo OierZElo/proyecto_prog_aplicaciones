@@ -87,25 +87,25 @@ public class Utils {
 		songs.add(new Song("Dream On", 269, "Aerosmith"));
 		songs.add(new Song("Sweet Emotion", 243, "Aerosmith"));
 	}
-	
+
 	public void generatePlaylists() {
-		Playlist playlist1 = new Playlist("Playlist 1",  000, new ArrayList<Song>());
-		Playlist playlist2 = new Playlist("Playlist 2",  001, new ArrayList<Song>());
-		Playlist playlist3 = new Playlist("Playlist 3",  002, new ArrayList<Song>());
-		
+		Playlist playlist1 = new Playlist("Playlist 1", 000, new ArrayList<Song>());
+		Playlist playlist2 = new Playlist("Playlist 2", 001, new ArrayList<Song>());
+		Playlist playlist3 = new Playlist("Playlist 3", 002, new ArrayList<Song>());
+
 		generateRandomPlaylist(playlist1);
 		generateRandomPlaylist(playlist2);
 		generateRandomPlaylist(playlist3);
-		
-	
+
 	}
+
 	private void generateRandomPlaylist(Playlist playlist) {
 		Random random = new Random();
-		while(playlist.getN_songs() < 4) {
+		while (playlist.getN_songs() < 4) {
 			Song song = songs.get(random.nextInt(songs.size()));
 			if (!playlist.getL_songs().contains(song)) {
 				playlist.getL_songs().add(song);
-				playlist.setN_songs(playlist.getN_songs()+1);
+				playlist.setN_songs(playlist.getN_songs() + 1);
 			}
 		}
 

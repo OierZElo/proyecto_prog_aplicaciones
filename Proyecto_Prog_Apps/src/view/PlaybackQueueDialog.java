@@ -55,20 +55,19 @@ public class PlaybackQueueDialog extends JFrame {
 		volumeSlider.setBackground(MainFrame.BackgroundColor);
 		volumeSlider.setForeground(MainFrame.TextColor);
 		volumeSlider.setPaintTrack(true);
-		
+
 		volumeSlider.addChangeListener(e -> {
-		    int value = volumeSlider.getValue();
-		    volumeLabel.setText(value + "%");
+			int value = volumeSlider.getValue();
+			volumeLabel.setText(value + "%");
 		});
-	
-		
+
 		DefaultTableModel tableModel = new DefaultTableModel(columns, 0) {
 			@Override
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
 		};
-		
+
 		JTable songTable = new StyledTable(tableModel);
 
 		for (int i = 0; i < buttonIcons.length; i++) {
@@ -82,7 +81,7 @@ public class PlaybackQueueDialog extends JFrame {
 
 			soundButtonPanel.add(b);
 			buttonList.add(b);
-			
+
 			final int index = i;
 			b.addActionListener(e -> {
 				int selectedRow = songTable.getSelectedRow();
@@ -91,16 +90,17 @@ public class PlaybackQueueDialog extends JFrame {
 					if (selectedRow < queue.getQueue().size() && selectedRow > 0) {
 						queue.moveUp(selectedRow);
 						tableModel.moveRow(selectedRow, selectedRow, selectedRow - 1);
-				        songTable.setRowSelectionInterval(selectedRow - 1, selectedRow - 1);
+						songTable.setRowSelectionInterval(selectedRow - 1, selectedRow - 1);
 					}
 					break;
 				case 1:
 					if (selectedRow >= 0 && selectedRow < queue.getQueue().size() - 1) {
-					queue.moveDown(selectedRow);
-					tableModel.moveRow(selectedRow, selectedRow, selectedRow + 1);
-			        songTable.setRowSelectionInterval(selectedRow + 1, selectedRow + 1);
+						queue.moveDown(selectedRow);
+						tableModel.moveRow(selectedRow, selectedRow, selectedRow + 1);
+						songTable.setRowSelectionInterval(selectedRow + 1, selectedRow + 1);
 					}
-;					break;
+					;
+					break;
 				case 2:
 					queue.getQueue().remove(selectedRow);
 					tableModel.removeRow(selectedRow);
@@ -110,16 +110,14 @@ public class PlaybackQueueDialog extends JFrame {
 
 		}
 
-		
 		for (Song s : Utils.songs) {
 			queue.enqueue(s);
 		}
-		
-		for(Song s : queue.getQueue()) {
-			Object[] row = {s.getTitle(), s.getBand(), model.Playlist.getDurationFormat(s.getDuration())};
-            tableModel.addRow(row);
-		}
 
+		for (Song s : queue.getQueue()) {
+			Object[] row = { s.getTitle(), s.getBand(), model.Playlist.getDurationFormat(s.getDuration()) };
+			tableModel.addRow(row);
+		}
 
 		songTable.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent e) {
@@ -147,18 +145,15 @@ public class PlaybackQueueDialog extends JFrame {
 				}
 			}
 		});
-		
+
 		// JScrollPane
 		JScrollPane scrollPane = new JScrollPane(songTable);
-		scrollPane.getViewport().getView().setBackground(MainFrame.BackgroundColor);		
-		scrollPane.getVerticalScrollBar().setBackground(MainFrame.BackgroundColor);
-		scrollPane.getHorizontalScrollBar().setBackground(MainFrame.BackgroundColor);
 		scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
-		    @Override
-		    protected void configureScrollBarColors() {
-		        this.thumbColor = MainFrame.TextColor;
-		        this.trackColor = MainFrame.BackgroundColor;
-		    }
+			@Override
+			protected void configureScrollBarColors() {
+				this.thumbColor = MainFrame.TextColor;
+				this.trackColor = MainFrame.BackgroundColor;
+			}
 		});
 
 		mainPanel.add(scrollPane, BorderLayout.CENTER);

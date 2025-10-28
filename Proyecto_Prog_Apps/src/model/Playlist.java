@@ -11,7 +11,7 @@ public class Playlist {
 	private int user_id;
 	private int duration;
 	private List<Song> l_songs;
-	
+
 	public Playlist(String name, int user_id, List<Song> l_songs) {
 		super();
 		this.cod = counter;
@@ -23,7 +23,7 @@ public class Playlist {
 
 	public int getCod() {
 		return cod;
-	} 
+	}
 
 	public String getName() {
 		return name;
@@ -54,26 +54,26 @@ public class Playlist {
 	}
 
 	public void addSong(Song s) {
-        l_songs.add(s);
-        n_songs++;
-        duration += s.getDuration();
-    }
-	
+		l_songs.add(s);
+		n_songs++;
+		duration += s.getDuration();
+	}
+
 	public void removeCancion(Song s) {
-        if (l_songs.remove(s)) {
-            n_songs--;
-            duration -= s.getDuration();
-        }
-    }
-	
+		if (l_songs.remove(s)) {
+			n_songs--;
+			duration -= s.getDuration();
+		}
+	}
+
 	public static String getDurationFormat(int duration) {
-        int min = duration / 60;
-        int sec = duration % 60;
-        return String.format("%d:%02d", min, sec);
-    }
-	
+		int min = duration / 60;
+		int sec = duration % 60;
+		return String.format("%d:%02d", min, sec);
+	}
+
 	public static int parseDuration(String duration) {
-	    String[] parts = duration.split(":");
-        return(60*(Integer.parseInt(parts[0])) + Integer.parseInt(parts[1]));
-    }
+		String[] parts = duration.split(":");
+		return (60 * (Integer.parseInt(parts[0])) + Integer.parseInt(parts[1]));
+	}
 }

@@ -16,36 +16,31 @@ import view.MainFrame;
 import utils.Utils;
 
 public class Home {
-	
-	
+
 	public static JPanel PanelHome() {
 		JPanel result = new JPanel();
 		result.setName("home");
 		result.setBackground(MainFrame.BackgroundColor);
 		result.setLayout(new BorderLayout());
-		JPanel norte = new JPanel(); 
-		norte.setLayout(new GridLayout(Math.round(Utils.genres.length/2), 0));
+		JPanel norte = new JPanel();
+		norte.setLayout(new GridLayout(Math.round(Utils.genres.length / 2), 0));
 		norte.setBackground(MainFrame.BackgroundColor);
-	
+
 		result.add(norte, BorderLayout.NORTH);
-		
-		for(String g : Utils.genres) {
+
+		for (String g : Utils.genres) {
 			JButton boton = new JButton(g);
 			boton.setBackground(MainFrame.BackgroundColor);
 			boton.setOpaque(true);
-			norte.add(boton);}
-		
-		JPanel sur = new JPanel(); 
-		sur.setBackground(MainFrame.BackgroundColor);
-		
+			norte.add(boton);
+		}
 
+		JPanel sur = new JPanel();
+		sur.setBackground(MainFrame.BackgroundColor);
 
 		result.add(sur, BorderLayout.CENTER);
 
-	
-	return result; }
-	
-
-	
+		return result;
+	}
 
 }

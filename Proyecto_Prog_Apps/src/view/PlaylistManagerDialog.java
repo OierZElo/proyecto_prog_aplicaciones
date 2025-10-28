@@ -18,38 +18,38 @@ import model.Playlist;
 
 public class PlaylistManagerDialog extends JFrame {
 	private static final long serialVersionUID = 1L;
-	
+
 	public static JPanel PlaylistManagerDialogPanel(Playlist playlist) {
 		JPanel mainpanel = new JPanel();
 		mainpanel.setBackground(MainFrame.BackgroundColor);
 		BorderLayout borderLayout = new BorderLayout();
 		mainpanel.setLayout(borderLayout);
-		
-		
+
 		JTextField buscador = new JTextField("🔍 Buscar playlist");
 		buscador.setOpaque(true);
 		mainpanel.add(buscador, BorderLayout.NORTH);
 		buscador.setBackground(Color.WHITE);
-        buscador.setBorder(new MatteBorder(0,0,2,0, MainFrame.BorderColor));
+		buscador.setBorder(new MatteBorder(0, 0, 2, 0, MainFrame.BorderColor));
 
 		buscador.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 26));
 		buscador.setHorizontalAlignment(JLabel.CENTER);
-		
+
 		buscador.addFocusListener(new FocusAdapter() {
-	            @Override
-	            public void focusGained(FocusEvent e) {
-	                if (buscador.getText().equals("🔍 Buscar playlist")) {
-	                    buscador.setText("");
-	                }
-	            }
-	            @Override
-	            public void focusLost(FocusEvent e) {
-	                if (buscador.getText().isEmpty()) {
-	                    buscador.setText("🔍 Buscar playlist");
-	                }
-	            }
-	        });
-	
+			@Override
+			public void focusGained(FocusEvent e) {
+				if (buscador.getText().equals("🔍 Buscar playlist")) {
+					buscador.setText("");
+				}
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				if (buscador.getText().isEmpty()) {
+					buscador.setText("🔍 Buscar playlist");
+				}
+			}
+		});
+
 		return mainpanel;
 	}
 }

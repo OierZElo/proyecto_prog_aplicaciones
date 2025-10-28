@@ -14,18 +14,19 @@ import view.MainFrame;
 public class StyledTable extends JTable {
 	public StyledTable(DefaultTableModel model) {
 		setModel(model);
-		initStyle();}
-	
-	private void initStyle(){			
+		initStyle();
+	}
+
+	private void initStyle() {
 		setTableHeader(null);
 		setShowGrid(false);
-	    setFillsViewportHeight(true);
-	    setBackground(MainFrame.BackgroundColor);
-	    setForeground(MainFrame.TextColor);
-	    setSelectionBackground(MainFrame.BorderColor);
-	    setSelectionForeground(MainFrame.TextColor);
-	    setRowHeight(40);
-	    setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		setFillsViewportHeight(true);
+		setBackground(MainFrame.BackgroundColor);
+		setForeground(MainFrame.TextColor);
+		setSelectionBackground(MainFrame.BorderColor);
+		setSelectionForeground(MainFrame.TextColor);
+		setRowHeight(40);
+		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		setFont(new Font("Segoe UI Symbol", Font.PLAIN, 16));
 
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -34,5 +35,4 @@ public class StyledTable extends JTable {
 
 	}
 
-	
 }
