@@ -95,7 +95,18 @@ public class Utils {
 		
 		Random random = new Random();
 		playlist1.getL_songs().add(songs.get(random.nextInt(songs.size())));
+		playlist1.getL_songs().add(songs.get(random.nextInt(songs.size())));
+		playlist1.getL_songs().add(songs.get(random.nextInt(songs.size())));
+		playlist1.getL_songs().add(songs.get(random.nextInt(songs.size())));
+		
 	    playlist2.getL_songs().add(songs.get(random.nextInt(songs.size())));
+	    playlist2.getL_songs().add(songs.get(random.nextInt(songs.size())));
+	    playlist2.getL_songs().add(songs.get(random.nextInt(songs.size())));
+	    playlist2.getL_songs().add(songs.get(random.nextInt(songs.size())));
+	    
+	    playlist3.getL_songs().add(songs.get(random.nextInt(songs.size())));
+	    playlist3.getL_songs().add(songs.get(random.nextInt(songs.size())));
+	    playlist3.getL_songs().add(songs.get(random.nextInt(songs.size())));
 	    playlist3.getL_songs().add(songs.get(random.nextInt(songs.size())));
 	}
 }
