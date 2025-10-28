@@ -107,13 +107,13 @@ public class MainFrame extends JFrame {
         cardLayout.show(cardPanel, "PlaylisyManagerDialog");
         
         //QUEUE
-<<<<<<< HEAD
+
         // cardPanel.add(PlaybackQueueDialog.QueuePanel(), "Queue");
         // cardLayout.show(cardPanel, "Queue");
-=======
+
         cardPanel.add(PlaybackQueueDialog.QueuePanel(), "Queue");
         //cardLayout.show(cardPanel, "Queue");
->>>>>>> branch 'main' of git@github.com:OierZElo/proyecto_prog_aplicaciones.git
+
         
         
         
