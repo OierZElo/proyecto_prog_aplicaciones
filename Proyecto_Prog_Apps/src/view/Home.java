@@ -38,27 +38,8 @@ public class Home {
 		JPanel sur = new JPanel(); 
 		sur.setBackground(MainFrame.BackgroundColor);
 		
-//		for (int i = 0; i< Utils.songs.size(); i++) { 
-//		
-//			String[] cancion= {Utils.songs.get(i).getTitle(),
-//					Utils.songs.get(i).getBand(), 
-//					Utils.songs.get(i).getDuration(),
-//			datos[i] = cancion; 
-//		}
-//		Object[] columna = {"Canción", "Cantante", "Duración"};
-//		DefaultTableModel modelo = new DefaultTableModel(datos, columna); 
-//		JTable tablaCanciones = new JTable(modelo);
-//		JScrollPane scroll = new JScrollPane(tablaCanciones); 
-//		sur.add(scroll);
-//		
-		
-//		sur.setLayout(new GridLayout(Math.round(Utils.canciones.size()/2), 0)); 
-//		for(Song g : Utils.canciones) {
-//			JButton boton = new JButton(g.getTitulo());
-//			boton.setBackground(Color.RED);
-//			boton.setOpaque(true);
-//			sur.add(boton);}
-		
+
+
 		result.add(sur, BorderLayout.CENTER);
 
 	
