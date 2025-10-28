@@ -17,7 +17,7 @@ import utils.Utils;
 
 public class Home {
 
-	public static JPanel PanelHome() {
+	public static JPanel HomePanel() {
 		JPanel result = new JPanel();
 		result.setName("home");
 		result.setBackground(MainFrame.BackgroundColor);

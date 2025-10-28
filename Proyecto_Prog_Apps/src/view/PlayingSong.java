@@ -6,6 +6,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -22,7 +23,7 @@ public class PlayingSong extends JFrame {
 	static JPanel panelIcon = new JPanel();
 	static JPanel panelPrincipal = new JPanel(new BorderLayout());
 	static JPanel southPanel = new JPanel(new GridLayout(2, 1));
-	static JLabel Icon = new JLabel();
+	static JLabel icon = new JLabel();
 	static JPanel panelCentral = new JPanel(new BorderLayout());
 
 	public static JPanel PlayingSongPanel(Song song) {
@@ -44,7 +45,7 @@ public class PlayingSong extends JFrame {
 
 	}
 
-	private static void setUpPanel(Song song) {
+	static void setUpPanel(Song song) {
 		title.setText(song.getTitle());
 		title.setVisible(true);
 		title.setOpaque(true);
@@ -67,15 +68,16 @@ public class PlayingSong extends JFrame {
 		// SongIcon
 		panelIcon.setBackground(Color.black);
 
-		Icon.setIcon(new ImageIcon("src/resources/icons/SongIcon.png"));
-		panelIcon.add(Icon);
+		String path = "src/resources/icons/" + song.getTitle() + ".png";
+	    File file = new File(path);
+	    if (!file.exists()) {
+	        path = "src/resources/icons/SongIcon.png";
+	    }
+		
+	    icon = new JLabel(new ImageIcon(path));
+	    
+		panelIcon.add(icon);
 		panelCentral.add(panelIcon, BorderLayout.CENTER);
 	}
-
-	public static void modifyPlayingSong() {
-		title.setText(MainFrame.playingSong.getTitle());
-		title.setText(MainFrame.playingSong.getBand());
-
-	}
-
+			
 }
