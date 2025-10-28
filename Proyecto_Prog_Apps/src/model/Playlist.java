@@ -77,4 +77,9 @@ public class Playlist {
         int sec = duration % 60;
         return String.format("%d:%02d", min, sec);
     }
+	
+	public static int parseDuration(String duration) {
+	    String[] parts = duration.split(":");
+        return(60*(Integer.parseInt(parts[0])) + Integer.parseInt(parts[1]));
+    }
 }

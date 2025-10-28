@@ -55,6 +55,8 @@ public class MainFrame extends JFrame {
 	
 	private boolean desplegado = true;
 	
+	public static Song playingSong = new Song("TEST", 1200, "TESTBAND");;
+	
 	char[] bloques = {'▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'};
 	
     String[] buttons = {"☰", "Home", "Playlists", "Queue", "Settings", "Account"};  
@@ -63,7 +65,6 @@ public class MainFrame extends JFrame {
     
     private model.Queue queue;
 
-	Song song = new Song("TEST", 1200, "TESTBAND");
 	List<Song> l_songs = new ArrayList<Song>();
 	Playlist playlist = new Playlist("Playlist 1", 3, 12345, 43, l_songs);
 	public MainFrame() {
@@ -97,7 +98,7 @@ public class MainFrame extends JFrame {
 //        cardLayout.show(cardPanel, "dummy");
      
         //PLAYING SONG
-        cardPanel.add(PlayingSong.PlayingSongPanel(song), "PlayingSong");
+        cardPanel.add(PlayingSong.PlayingSongPanel(playingSong), "PlayingSong");
         // cardLayout.show(cardPanel, "PlayingSong");
         //PLAYLIST MANAGER DIALOG
         cardPanel.add(PlaylistManagerDialog.PlaylistManagerDialogPanel(playlist), "PlaylisyManagerDialog");
@@ -132,7 +133,7 @@ public class MainFrame extends JFrame {
         
         buttonList.get(0).addActionListener(e -> toggleSidebar());
         
-        JPanel playerBar = songBar.createPlayerBar(song);
+        JPanel playerBar = songBar.createPlayerBar(playingSong);
         mainPanel.add(playerBar, BorderLayout.SOUTH);
         
 //        this.addComponentListener(new ComponentAdapter() {
