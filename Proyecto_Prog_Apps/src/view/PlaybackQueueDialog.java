@@ -2,15 +2,23 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.MouseAdapter;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
 import javax.swing.JTable;
+import javax.swing.plaf.basic.BasicButtonListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,13 +32,37 @@ import model.Playlist;
 import view.MainFrame;
 
 public class PlaybackQueueDialog extends JFrame {
+	static ArrayList<JButton> buttonList = new ArrayList<JButton>();
 
 	private static final long serialVersionUID = 1L;
 
 	public static JPanel QueuePanel() {
+		String[] columns = {"Title", "Artist", "Duration"};
+	    String[] buttonIcons = {"  ⬆️", "  ⬇️", "🗑️"};
 		JPanel mainPanel = new JPanel(new BorderLayout());
-        String[] columns = {"Title", "Artist", "Duration"};
-        String[] buttonIcons = {"⬆️", "⬇️", "🗑️"};
+		JPanel buttonEastPanel = new JPanel(new GridLayout(2, 1));
+		JPanel soundButtonPanel = new JPanel(new GridLayout(buttonIcons.length, 1));
+		soundButtonPanel.setBackground(MainFrame.BackgroundColor);
+		buttonEastPanel.setBackground(MainFrame.BackgroundColor);
+		
+		JSlider volumeSlider = new JSlider(JSlider.VERTICAL, 0, 100, 50);
+		volumeSlider.setBackground(MainFrame.BackgroundColor);
+       
+        
+        for (int i = 0; i < buttonIcons.length; i++) {
+			JButton b = new JButton(buttonIcons[i]);
+			b.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 26));
+        	b.setForeground(MainFrame.TextColor);
+        	b.setBackground(MainFrame.BackgroundColor);
+        	b.setPreferredSize(new Dimension(50, 50));
+        	b.setFocusPainted(false);
+        	b.setBorder(BorderFactory.createEmptyBorder());
+        	
+        	soundButtonPanel.add(b);
+			
+			buttonList.add(b);
+
+		}
         
         
         
@@ -80,6 +112,9 @@ public class PlaybackQueueDialog extends JFrame {
 	    scrollPane.setBorder(null);
 
 	    mainPanel.add(scrollPane, BorderLayout.CENTER);
+	    buttonEastPanel.add(soundButtonPanel);
+	    buttonEastPanel.add(volumeSlider);
+	    mainPanel.add(buttonEastPanel, BorderLayout.EAST);
 
 
 		

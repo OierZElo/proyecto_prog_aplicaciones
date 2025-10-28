@@ -68,8 +68,11 @@ public class MainFrame extends JFrame {
     
     private model.Queue queue;
 
+
 	List<Song> l_songs = new ArrayList<Song>();
 	Playlist playlist = new Playlist("Playlist 1", 12345, l_songs);
+
+
 	public MainFrame() {
 		instance = this;
 		Utils.generateSongs();
@@ -103,8 +106,13 @@ public class MainFrame extends JFrame {
         
         
         //PLAYLIST MANAGER DIALOG
+
         cardPanel.add(PlaylistManagerDialog.PlaylistManagerDialogPanel(playlist), "PlaylisyManagerDialog");
         cardLayout.show(cardPanel, "PlaylisyManagerDialog");
+
+//        cardPanel.add(PlaylistManagerDialog.PlaylistManagerDialogPanel(playlist), "PlaylisyManagerDialog");
+        //cardLayout.show(cardPanel, "PlaylisyManagerDialog");
+
         
         //QUEUE
 
