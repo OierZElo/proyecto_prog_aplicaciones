@@ -54,8 +54,17 @@ public class PlaybackQueueDialog extends JFrame {
 					int duration = Playlist.parseDuration((String) tableModel.getValueAt(row, 2));
 		            
 		            MainFrame.playingSong = new Song(title, duration, artist);
+
 		            //MainFrame.getInstance().showPlayingSong();
-		            songBar.updateSongLabel(MainFrame.playingSong);
+//		            songBar.updateSlider(MainFrame.playingSong);
+		            
+		            if (MainFrame.playerBar == null) {
+		                MainFrame.playerBar = songBar.createPlayerBar(MainFrame.playingSong);
+		                MainFrame.getInstance().mainPanel.add(MainFrame.playerBar, BorderLayout.SOUTH);
+		            }
+	                songBar.updateSongLabel(MainFrame.playingSong);
+		            mainPanel.revalidate();
+		            mainPanel.repaint();
 				}
 				
 			}

@@ -17,7 +17,8 @@ import model.Song;
 public class PlayingSong extends JFrame{
 	private static final long serialVersionUID = 1L;
 	
-	public static JPanel PlayingSongPanel(Song song) {			//se le pasa por parametro la cancion que se está reproduciendo
+	public static JPanel PlayingSongPanel(Song song) {
+		//se le pasa por parametro la cancion que se está reproduciendo
 		JPanel panelPrincipal = new JPanel();
 		panelPrincipal.setVisible(true);
 		panelPrincipal.setBackground(Color.BLACK);

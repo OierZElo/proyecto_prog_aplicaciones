@@ -43,10 +43,11 @@ public class MainFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private static MainFrame instance;
-	private JPanel mainPanel;
-	private JPanel cardPanel;
+	JPanel mainPanel;
+	static JPanel cardPanel;
 	private JPanel indexPanel;
-	private BorderLayout borderLayout = new BorderLayout();
+	public static JPanel playerBar;
+	public static BorderLayout borderLayout = new BorderLayout();
 	private CardLayout cardLayout = new CardLayout();
 	private FlowLayout flowLayout = new FlowLayout(FlowLayout.CENTER,0,0);
 	
@@ -56,7 +57,7 @@ public class MainFrame extends JFrame {
 	
 	private boolean desplegado = true;
 	
-	public static Song playingSong = new Song("TEST", 1200, "TESTBAND");;
+	public static Song playingSong;
 	
 	char[] bloques = {'▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'};
 	
@@ -100,8 +101,9 @@ public class MainFrame extends JFrame {
 //        cardLayout.show(cardPanel, "dummy");
      
         //PLAYING SONG
-        cardPanel.add(PlayingSong.PlayingSongPanel(playingSong), "PlayingSong");
+//        cardPanel.add(PlayingSong.PlayingSongPanel(playingSong), "PlayingSong");
         // cardLayout.show(cardPanel, "PlayingSong");
+        
         
         //PLAYLIST MANAGER DIALOG
         cardPanel.add(PlaylistManagerDialog.PlaylistManagerDialogPanel(playlist), "PlaylisyManagerDialog");
@@ -137,8 +139,6 @@ public class MainFrame extends JFrame {
         
         buttonList.get(0).addActionListener(e -> toggleSidebar());
         
-        JPanel playerBar = songBar.createPlayerBar(playingSong);
-        mainPanel.add(playerBar, BorderLayout.SOUTH);
         
 //        this.addComponentListener(new ComponentAdapter() {
 //        	public void componentResized(ComponentEvent e) {
@@ -151,9 +151,6 @@ public class MainFrame extends JFrame {
 	public void showPlayingSong() {
 		cardLayout.show(cardPanel, "PlayingSong");
 	}
-	
-	
-	
 	
 	private void actualizarTitulo() {
         String titulo = new String();
@@ -190,6 +187,9 @@ public class MainFrame extends JFrame {
 	public static MainFrame getInstance() {
 		return instance;
 	}
+	
+	
+
 }
 
 

@@ -19,7 +19,7 @@ import model.Song;
 
 public class songBar {
     static ArrayList<JButton> buttonList = new ArrayList<JButton>();
-    static JLabel songLabel = new JLabel("Nothing’s Playing");
+    static JLabel songLabel = new JLabel();
 
 	public static JPanel createPlayerBar(Song s) {
 		//ProgressBar, buttons
