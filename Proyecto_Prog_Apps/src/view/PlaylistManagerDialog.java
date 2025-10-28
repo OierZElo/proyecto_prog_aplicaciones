@@ -29,7 +29,7 @@ public class PlaylistManagerDialog extends JFrame {
 		
 		JTextField buscador = new JTextField("Escribe el nombre de la playlist");
 		buscador.setOpaque(true);
-		mainpanel.add(buscador, borderLayout.NORTH);
+		mainpanel.add(buscador, BorderLayout.NORTH);
 		buscador.setBackground(MainFrame.BackgroundColor);
         buscador.setBorder(new MatteBorder(0,0,1,0, MainFrame.BorderColor));
 
