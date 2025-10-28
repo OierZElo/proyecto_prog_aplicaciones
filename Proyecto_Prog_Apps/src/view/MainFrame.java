@@ -57,6 +57,7 @@ public class MainFrame extends JFrame {
 	
 	private boolean desplegado = true;
 	
+	//public static Song playingSong = new Song("title", 2, "band");
 	public static Song playingSong;
 	
 	char[] bloques = {'▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'};
@@ -102,7 +103,7 @@ public class MainFrame extends JFrame {
      
         //PLAYING SONG
         cardPanel.add(PlayingSong.PlayingSongPanel(playingSong), "PlayingSong");
-        cardLayout.show(cardPanel, "PlayingSong");
+        //cardLayout.show(cardPanel, "PlayingSong");
         
         
         //PLAYLIST MANAGER DIALOG
