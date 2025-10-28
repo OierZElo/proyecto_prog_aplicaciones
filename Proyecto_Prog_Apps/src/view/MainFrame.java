@@ -68,7 +68,7 @@ public class MainFrame extends JFrame {
     private model.Queue queue;
 
 	List<Song> l_songs = new ArrayList<Song>();
-	Playlist playlist = new Playlist("Playlist 1", 3, 12345, 43, l_songs);
+	Playlist playlist = new Playlist("Playlist 1", 3, 12345, l_songs);
 	public MainFrame() {
 		instance = this;
 		Utils.generateSongs();
@@ -101,17 +101,17 @@ public class MainFrame extends JFrame {
 //        cardLayout.show(cardPanel, "dummy");
      
         //PLAYING SONG
-        cardPanel.add(PlayingSong.PlayingSongPanel(playingSong), "PlayingSong");
-        cardLayout.show(cardPanel, "PlayingSong");
+        // cardPanel.add(PlayingSong.PlayingSongPanel(playingSong), "PlayingSong");
+        // cardLayout.show(cardPanel, "PlayingSong");
         
         
         //PLAYLIST MANAGER DIALOG
         cardPanel.add(PlaylistManagerDialog.PlaylistManagerDialogPanel(playlist), "PlaylisyManagerDialog");
-        //cardLayout.show(cardPanel, "PlaylisyManagerDialog");
+        cardLayout.show(cardPanel, "PlaylisyManagerDialog");
         
         //QUEUE
-        cardPanel.add(PlaybackQueueDialog.QueuePanel(), "Queue");
-        cardLayout.show(cardPanel, "Queue");
+        // cardPanel.add(PlaybackQueueDialog.QueuePanel(), "Queue");
+        // cardLayout.show(cardPanel, "Queue");
         
         
         
