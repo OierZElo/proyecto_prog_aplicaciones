@@ -18,6 +18,8 @@ import view.MainFrame;
 import model.Song;
 
 public class songBar {
+    static ArrayList<JButton> buttonList = new ArrayList<JButton>();
+
 	public static JPanel createPlayerBar(Song s) {
 		//ProgressBar, buttons
 		BorderLayout songBarLayout = new BorderLayout();
@@ -41,7 +43,6 @@ public class songBar {
 	    JPanel buttonsPanel = new JPanel(buttonLayout);
 	    buttonsPanel.setBackground(MainFrame.BackgroundColor);
 	    String[] songButtons = {"🔀", "⏮", "▶", "⏭", "🔁"};
-	    ArrayList<JButton> buttonList = new ArrayList<JButton>();
 	    
 	    for (int i = 0; i < songButtons.length; i++) {
 			JButton b = new JButton(songButtons[i]);
@@ -64,9 +65,21 @@ public class songBar {
 	        }
 	    });
 	    
+	    
+	    buttonList.get(2).addActionListener(e -> changePlayPause());
+	    
 	    playerBar.add(buttonsPanel, BorderLayout.SOUTH);
 	    
 		return playerBar;
+	}
+	
+	private static void changePlayPause() {
+		if(buttonList.get(2).getText().equals("▶")) {
+			buttonList.get(2).setText("⏸");
+		}
+		else {
+			buttonList.get(2).setText("▶");
+		}
 	}
 
 }
