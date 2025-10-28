@@ -57,7 +57,7 @@ public class MainFrame extends JFrame {
 	
 	private boolean desplegado = true;
 	
-	public static Song playingSong = new Song("title", 2, "band");
+	public static Song playingSong = new Song("TITLE", 2, "BAND");
 	//public static Song playingSong;
 	
 	char[] bloques = {'▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'};

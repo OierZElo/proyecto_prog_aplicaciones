@@ -16,7 +16,7 @@ import model.Song;
 
 public class PlayingSong extends JFrame{
 	private static final long serialVersionUID = 1L;
-	
+
 	static JLabel  title = new JLabel();
 	static JLabel band = new JLabel();
 	static JPanel panelIcon = new JPanel();
