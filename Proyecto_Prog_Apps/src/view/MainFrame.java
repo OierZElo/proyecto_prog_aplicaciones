@@ -101,8 +101,8 @@ public class MainFrame extends JFrame {
 //        cardLayout.show(cardPanel, "dummy");
      
         //PLAYING SONG
-//        cardPanel.add(PlayingSong.PlayingSongPanel(playingSong), "PlayingSong");
-        // cardLayout.show(cardPanel, "PlayingSong");
+        cardPanel.add(PlayingSong.PlayingSongPanel(playingSong), "PlayingSong");
+        cardLayout.show(cardPanel, "PlayingSong");
         
         
         //PLAYLIST MANAGER DIALOG

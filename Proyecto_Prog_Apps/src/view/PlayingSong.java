@@ -18,6 +18,7 @@ public class PlayingSong extends JFrame{
 	private static final long serialVersionUID = 1L;
 	
 	public static JPanel PlayingSongPanel(Song song) {
+		
 		//se le pasa por parametro la cancion que se está reproduciendo
 		JPanel panelPrincipal = new JPanel();
 		panelPrincipal.setVisible(true);
@@ -33,6 +34,7 @@ public class PlayingSong extends JFrame{
 		southPanel.setOpaque(true);
 		GridLayout gridSouth = new GridLayout(2,1);
 		southPanel.setLayout(gridSouth);
+		if (song != null) {
 		//title
 		JLabel title = new JLabel(song.getTitle());
 		title.setVisible(true);
@@ -60,9 +62,11 @@ public class PlayingSong extends JFrame{
 		Icon.setIcon(new ImageIcon("src/resources/icons/SongIcon.png"));
 		panelIcon.add(Icon);
 		panelPrincipal.add(panelIcon, BorderLayout.CENTER);
-		
+		}
 
 		return panelPrincipal;
+		
+		
 	}
 
 	
