@@ -1,8 +1,5 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.FocusEvent;
 
 import javax.swing.JButton;
@@ -51,16 +48,19 @@ public class PlaylistManagerDialog extends JFrame {
 			}
 		});
 		
-		JPanel gridPanel = new JPanel();
-		GridLayout layout = new GridLayout(10, 1, 5, 5);
-		gridPanel.setLayout(layout);
+		JPanel gridPanel = new JPanel(new FlowLayout());
 		gridPanel.setBackground(MainFrame.BackgroundColor);
 
 		for (Playlist p: Utils.playlists) {
-		    String texto = "<html><b>" + p.getName() + "</b><br>" +
-	                   p.getN_songs() + " songs - " + Playlist.getDurationFormat(p.getDuration()) + " minutes</html>";
+	    String text = "<html><b>" + p.getName() + "</b><br>" +
+                   p.getN_songs() + " songs - " + Playlist.getDurationFormat(p.getDuration()) + " minutes</html>";
 
-		    JButton buttonPlaylist = new JButton(texto);
+		    JButton buttonPlaylist = new JButton(text);
+		    buttonPlaylist.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 22));
+		    buttonPlaylist.setBackground(MainFrame.BorderColor);
+		    buttonPlaylist.setForeground(MainFrame.BackgroundColor);
+		    buttonPlaylist.setFocusPainted(false);
+		    buttonPlaylist.setPreferredSize(new Dimension(680, 70));
 		    buttonPlaylist.setHorizontalAlignment(SwingConstants.LEFT);
 		    gridPanel.add(buttonPlaylist);
 		}
