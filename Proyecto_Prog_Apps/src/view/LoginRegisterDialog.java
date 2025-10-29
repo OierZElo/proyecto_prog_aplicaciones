@@ -36,7 +36,7 @@ public class LoginRegisterDialog extends JFrame{
 	
 	public LoginRegisterDialog() {
 		//Jframe
-		setSize(900,600);
+		setSize(600,400);
 		setTitle("Login");
 		setLocationRelativeTo(null);
 		setResizable(false);
