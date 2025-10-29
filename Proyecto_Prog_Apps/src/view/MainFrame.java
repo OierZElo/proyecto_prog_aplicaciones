@@ -60,9 +60,10 @@ public class MainFrame extends JFrame {
 	public static Color BorderColor = Color.GRAY;
 	public static Color TextColor = Color.white;
 
-	private boolean desplegado = true;
+	public static boolean desplegado = true;
 
 	public static Song playingSong;
+	private boolean songPanelSetUpDone = false;
 	// public static Song playingSong;
 
 	char[] bloques = { '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█' };
@@ -170,10 +171,12 @@ public class MainFrame extends JFrame {
 				icon.addMouseListener(new MouseAdapter() {
 				    @Override
 				    public void mouseClicked(MouseEvent e) {
-				    	if (playingSong != null) {
+				        if (!songPanelSetUpDone && playingSong != null) {
 							PlayingSong.setUpPanel(playingSong);
+				            songPanelSetUpDone = true;
 						}
 				        cardLayout.show(cardPanel, "PlayingSong");
+				        icon.setIcon(null);
 				    }
 				});
 		indexPanel.add(icon);
@@ -199,6 +202,7 @@ public class MainFrame extends JFrame {
 			for (int i = 0; i < buttonList.size(); i++) {
 				buttonList.get(i).setText(nombres[i]);
 				buttonList.get(i).setPreferredSize(new Dimension(50, 50));
+				icon.setIcon(null);
 			}
 
 		} else {
@@ -206,6 +210,7 @@ public class MainFrame extends JFrame {
 			for (int i = 0; i < buttonList.size(); i++) {
 				buttonList.get(i).setText(buttons[i]);
 				buttonList.get(i).setPreferredSize(new Dimension(200, 50));
+				updateSongIcon(playingSong);
 
 			}
 
@@ -220,6 +225,7 @@ public class MainFrame extends JFrame {
 	}
 	
 	public static void updateSongIcon(Song s) {
+	    if(desplegado) {
 	    String path = "src/resources/icons/" + s.getTitle() + ".png";
 	    File file = new File(path);
 	    if (!file.exists()) {
@@ -233,5 +239,5 @@ public class MainFrame extends JFrame {
 	    Image newImg = img.getScaledInstance(199, 205, Image.SCALE_SMOOTH);
 	    icon.setIcon(new ImageIcon(newImg));
 	}
-
+	}
 }
