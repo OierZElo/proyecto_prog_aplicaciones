@@ -5,6 +5,8 @@ import utils.Utils;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
@@ -32,7 +34,13 @@ public class LoginRegisterDialog extends JFrame{
 	public static JButton register = new JButton("Sign up");
 	public static JButton login = new JButton("Login");
 	
-	public static JPanel LoginRegisterDialogPanel() {
+	public LoginRegisterDialog() {
+		//Jframe
+		setSize(900,600);
+		setTitle("Login");
+		setLocationRelativeTo(null);
+		setResizable(false);
+		
 		 //general
 		panelPrincipal.setVisible(true);
 		panelPrincipal.setBackground(MainFrame.BackgroundColor);
@@ -121,10 +129,23 @@ public class LoginRegisterDialog extends JFrame{
 		register.setBackground(MainFrame.BorderColor);
 		login.setBackground(MainFrame.BorderColor);
 		panelButtons.add(provisional5);
+		
+		login.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				MainFrame mainFrame = new MainFrame();
+				mainFrame.setVisible(true);
+				dispose();
+			}
+		});
+		
 		panelButtons.add(register);
 		panelButtons.add(login);
 		panelButtons.add(provisional6);
 		panelPrincipal.add(panelButtons);		
-		return panelPrincipal;
+		
+		add(panelPrincipal);
 	 }
 }

@@ -91,7 +91,7 @@ public class MainFrame extends JFrame {
 		timer.start();
 	}
 
-	private void initialize() {
+	public void initialize() {
 		setTitle("EchoBeat");
 	
 		setSize(900, 600);
@@ -124,9 +124,7 @@ public class MainFrame extends JFrame {
 		cardPanel.add(PlaybackQueueDialog.QueuePanel(), "Queue");
 //      cardLayout.show(cardPanel, "Queue");
 		
-		//LOGIN
-		cardPanel.add(LoginRegisterDialog.LoginRegisterDialogPanel(), "Login");
-		cardLayout.show(cardPanel, "Login");
+	
 		
 
 		indexPanel = new JPanel(flowLayout);
