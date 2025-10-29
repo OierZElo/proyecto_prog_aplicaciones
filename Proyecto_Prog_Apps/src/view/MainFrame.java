@@ -64,6 +64,8 @@ public class MainFrame extends JFrame {
 
 	public static Song playingSong;
 	private boolean songPanelSetUpDone = false;
+	
+	private String currentPanel = "Home";
 	// public static Song playingSong;
 
 	char[] bloques = { '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█' };
@@ -108,7 +110,7 @@ public class MainFrame extends JFrame {
 
 		//HOME 
 		cardPanel.add(Home.HomePanel(), "HomePanel");
-		// cardLayout.show(cardPanel, "HomePanel");
+		cardLayout.show(cardPanel, "HomePanel");
 
 		
 		//PLAYING SONG
@@ -124,7 +126,7 @@ public class MainFrame extends JFrame {
 		
 		//LOGIN
 		cardPanel.add(LoginRegisterDialog.LoginRegisterDialogPanel(), "Login");
-		cardLayout.show(cardPanel, "Login");
+//		cardLayout.show(cardPanel, "Login");
 		
 
 		indexPanel = new JPanel(flowLayout);
@@ -153,22 +155,33 @@ public class MainFrame extends JFrame {
 					break;
 				case 1:
 					cardLayout.show(cardPanel, "HomePanel");
-					if(playingSong != null) {updateSongIcon(playingSong);}
+					if(playingSong != null) {
+						updateSongIcon(playingSong);
+						currentPanel = "HomePanel";
+					}
 					break;
 				case 2:
 					cardLayout.show(cardPanel, "PlaylistManagerDialog");
-					if(playingSong != null) {updateSongIcon(playingSong);}
-
+					if(playingSong != null) {
+						updateSongIcon(playingSong);
+						currentPanel = "PlaylistManagerDialog";
+					}
+					
 					break;
 				case 3:
 					cardLayout.show(cardPanel, "Queue");
-					if(playingSong != null) {updateSongIcon(playingSong);}
+					if(playingSong != null) {
+						updateSongIcon(playingSong);
+						currentPanel = "Queue";
+						}
 					break;
 				case 4:
 					cardLayout.show(cardPanel, "SettingsPanel");
+					currentPanel = "SettingsPanel";
 					break;
 				case 5:
 					cardLayout.show(cardPanel, "AccountPanel");
+					currentPanel = "AccountPanel";
 					break;
 				}
 			});
@@ -182,15 +195,12 @@ public class MainFrame extends JFrame {
 				            songPanelSetUpDone = true;
 						}
 				        cardLayout.show(cardPanel, "PlayingSong");
+				        currentPanel = "PlayingSong";
 				        icon.setIcon(null);
 				    }
 				});
 		indexPanel.add(icon);
 
-	}
-
-	public void showPlayingSong() {
-		cardLayout.show(cardPanel, "PlayingSong");
 	}
 
 	private void actualizarTitulo() {
@@ -217,7 +227,7 @@ public class MainFrame extends JFrame {
 	            buttonList.get(i).setPreferredSize(new Dimension(200, 50));
 	        }
 
-	        if (playingSong != null) {
+	        if (playingSong != null && !currentPanel.equals("PlayingSong") ) {
 	            javax.swing.SwingUtilities.invokeLater(() -> updateSongIcon(playingSong));
 	        }
 	    }
