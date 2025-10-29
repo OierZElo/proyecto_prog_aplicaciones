@@ -55,15 +55,13 @@ public class PlaylistManagerDialog extends JFrame {
 		GridLayout layout = new GridLayout(1, 20, 5, 5);
 		gridPanel.setLayout(layout);
 
-		// for (Playlist p: Utils.playlists) {
+		//for (Playlist p: Utils.playlists) {
 			
-		// }
+		//}
 		
 		
 		
-		
-		
-		
+
 		
 		mainpanel.add(gridPanel, BorderLayout.CENTER);		
 		return mainpanel;

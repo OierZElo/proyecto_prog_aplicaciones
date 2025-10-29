@@ -82,9 +82,9 @@ public class MainFrame extends JFrame {
 		instance = this;
 		Utils.generateUsers();
 		Utils.generateSongs();
-		initialize();
 		Utils.generatePlaylists();
-
+		initialize();
+		
 		Timer timer = new Timer(150, e -> actualizarTitulo());
 		timer.start();
 	}
