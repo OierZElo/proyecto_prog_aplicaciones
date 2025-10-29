@@ -107,8 +107,7 @@ public class Utils {
 		while (playlist.getN_songs() < 4) {
 			Song song = songs.get(random.nextInt(songs.size()));
 			if (!playlist.getL_songs().contains(song)) {
-				playlist.getL_songs().add(song);
-				playlist.setN_songs(playlist.getN_songs() + 1);
+				playlist.addSong(song);
 			}
 		}
 	}
