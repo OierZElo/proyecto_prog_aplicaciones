@@ -15,6 +15,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import model.Playlist;
+import utils.Utils;
 
 public class PlaylistManagerDialog extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -49,7 +50,22 @@ public class PlaylistManagerDialog extends JFrame {
 				}
 			}
 		});
+		
+		JPanel gridPanel = new JPanel();
+		GridLayout layout = new GridLayout(1, 20, 5, 5);
+		gridPanel.setLayout(layout);
 
+		// for (Playlist p: Utils.playlists) {
+			
+		// }
+		
+		
+		
+		
+		
+		
+		
+		mainpanel.add(gridPanel, BorderLayout.CENTER);		
 		return mainpanel;
 	}
 }

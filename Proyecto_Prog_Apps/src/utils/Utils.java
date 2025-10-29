@@ -8,11 +8,16 @@ import model.Song;
 import model.User;
 
 public class Utils {
-	ArrayList<User> users = new ArrayList<User>();
+	public static ArrayList<User> users = new ArrayList<User>();
 	public static ArrayList<Song> songs = new ArrayList<>();
 	public static ArrayList<Song> playlists = new ArrayList<>();
 
-	public void generateUsers() {
+	public static Playlist playlist1 = new Playlist("Playlist 1", 000, new ArrayList<Song>());
+	public static Playlist playlist2 = new Playlist("Playlist 2", 001, new ArrayList<Song>());
+	public static Playlist playlist3 = new Playlist("Playlist 3", 002, new ArrayList<Song>());
+
+	
+	public static void generateUsers() {
 		users.add(new User("user1", "password1"));
 		users.add(new User("user2", "password2"));
 		users.add(new User("user3", "password3"));
@@ -88,18 +93,13 @@ public class Utils {
 		songs.add(new Song("Sweet Emotion", 243, "Aerosmith"));
 	}
 
-	public void generatePlaylists() {
-		Playlist playlist1 = new Playlist("Playlist 1", 000, new ArrayList<Song>());
-		Playlist playlist2 = new Playlist("Playlist 2", 001, new ArrayList<Song>());
-		Playlist playlist3 = new Playlist("Playlist 3", 002, new ArrayList<Song>());
-
+	public static void generatePlaylists() {
 		generateRandomPlaylist(playlist1);
 		generateRandomPlaylist(playlist2);
 		generateRandomPlaylist(playlist3);
-
 	}
 
-	private void generateRandomPlaylist(Playlist playlist) {
+	public static void generateRandomPlaylist(Playlist playlist) {
 		Random random = new Random();
 		while (playlist.getN_songs() < 4) {
 			Song song = songs.get(random.nextInt(songs.size()));
@@ -108,6 +108,5 @@ public class Utils {
 				playlist.setN_songs(playlist.getN_songs() + 1);
 			}
 		}
-
 	}
 }
