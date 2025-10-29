@@ -80,8 +80,10 @@ public class MainFrame extends JFrame {
 
 	public MainFrame() {
 		instance = this;
+		Utils.generateUsers();
 		Utils.generateSongs();
 		initialize();
+		Utils.generatePlaylists();
 
 		Timer timer = new Timer(150, e -> actualizarTitulo());
 		timer.start();
@@ -106,16 +108,15 @@ public class MainFrame extends JFrame {
 
 		//HOME 
 		cardPanel.add(Home.HomePanel(), "HomePanel");
-		cardLayout.show(cardPanel, "HomePanel");
+		// cardLayout.show(cardPanel, "HomePanel");
 
 		
 		//PLAYING SONG
 		cardPanel.add(PlayingSong.PlayingSongPanel(playingSong), "PlayingSong");
 		
 		// PLAYLIST MANAGER DIALOG
-
-		cardPanel.add(PlaylistManagerDialog.PlaylistManagerDialogPanel(playlist), "Playlist");
-//        cardLayout.show(cardPanel, "PlaylisyManagerDialog");	
+		cardPanel.add(PlaylistManagerDialog.PlaylistManagerDialogPanel(playlist), "PlaylistManagerDialog");
+		cardLayout.show(cardPanel, "PlaylistManagerDialog");	
 
 		// QUEUE
 		cardPanel.add(PlaybackQueueDialog.QueuePanel(), "Queue");
@@ -150,7 +151,7 @@ public class MainFrame extends JFrame {
 					if(playingSong != null) {updateSongIcon(playingSong);}
 					break;
 				case 2:
-					cardLayout.show(cardPanel, "Playlist");
+					cardLayout.show(cardPanel, "PlaylistManagerDialog");
 					if(playingSong != null) {updateSongIcon(playingSong);}
 
 					break;
