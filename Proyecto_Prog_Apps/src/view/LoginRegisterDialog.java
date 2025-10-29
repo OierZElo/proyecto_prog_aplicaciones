@@ -1,5 +1,8 @@
 package view;
 
-public class LoginRegisterDialog {
+import utils.Utils;
+import model.Playlist;
 
+public class LoginRegisterDialog {
+	 
 }
