@@ -84,13 +84,14 @@ public class MainFrame extends JFrame {
 		Utils.generateSongs();
 		Utils.generatePlaylists();
 		initialize();
+		//
 		Timer timer = new Timer(150, e -> actualizarTitulo());
 		timer.start();
 	}
 
 	private void initialize() {
 		setTitle("EchoBeat");
-
+	
 		setSize(900, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
@@ -115,11 +116,16 @@ public class MainFrame extends JFrame {
 		
 		// PLAYLIST MANAGER DIALOG
 		cardPanel.add(PlaylistManagerDialog.PlaylistManagerDialogPanel(playlist), "PlaylistManagerDialog");
-		cardLayout.show(cardPanel, "PlaylistManagerDialog");	
+		//cardLayout.show(cardPanel, "PlaylistManagerDialog");	
 
 		// QUEUE
 		cardPanel.add(PlaybackQueueDialog.QueuePanel(), "Queue");
-//         cardLayout.show(cardPanel, "Queue");
+//      cardLayout.show(cardPanel, "Queue");
+		
+		//LOGIN
+		cardPanel.add(LoginRegisterDialog.LoginRegisterDialogPanel(), "Login");
+		cardLayout.show(cardPanel, "Login");
+		
 
 		indexPanel = new JPanel(flowLayout);
 		indexPanel.setBackground(BackgroundColor);
