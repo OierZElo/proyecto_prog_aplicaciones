@@ -10,7 +10,7 @@ import model.User;
 public class Utils {
 	public static ArrayList<User> users = new ArrayList<User>();
 	public static ArrayList<Song> songs = new ArrayList<>();
-	public static ArrayList<Song> playlists = new ArrayList<>();
+	public static ArrayList<Playlist> playlists = new ArrayList<>();
 
 	public static Playlist playlist1 = new Playlist("Playlist 1", 000, new ArrayList<Song>());
 	public static Playlist playlist2 = new Playlist("Playlist 2", 001, new ArrayList<Song>());
@@ -97,6 +97,9 @@ public class Utils {
 		generateRandomPlaylist(playlist1);
 		generateRandomPlaylist(playlist2);
 		generateRandomPlaylist(playlist3);
+		playlists.add(playlist1);
+		playlists.add(playlist2);
+		playlists.add(playlist3);
 	}
 
 	public static void generateRandomPlaylist(Playlist playlist) {
@@ -104,8 +107,7 @@ public class Utils {
 		while (playlist.getN_songs() < 4) {
 			Song song = songs.get(random.nextInt(songs.size()));
 			if (!playlist.getL_songs().contains(song)) {
-				playlist.getL_songs().add(song);
-				playlist.setN_songs(playlist.getN_songs() + 1);
+				playlist.addSong(song);
 			}
 		}
 	}

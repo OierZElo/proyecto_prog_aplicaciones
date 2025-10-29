@@ -4,14 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.FocusEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import model.Playlist;
@@ -52,18 +52,22 @@ public class PlaylistManagerDialog extends JFrame {
 		});
 		
 		JPanel gridPanel = new JPanel();
-		GridLayout layout = new GridLayout(1, 20, 5, 5);
+		GridLayout layout = new GridLayout(10, 1, 5, 5);
 		gridPanel.setLayout(layout);
+		gridPanel.setBackground(MainFrame.BackgroundColor);
 
-		// for (Playlist p: Utils.playlists) {
-			
-		// }
+		for (Playlist p: Utils.playlists) {
+		    String texto = "<html><b>" + p.getName() + "</b><br>" +
+	                   p.getN_songs() + " songs - " + Playlist.getDurationFormat(p.getDuration()) + " minutes</html>";
+
+		    JButton buttonPlaylist = new JButton(texto);
+		    buttonPlaylist.setHorizontalAlignment(SwingConstants.LEFT);
+		    gridPanel.add(buttonPlaylist);
+		}
 		
 		
 		
-		
-		
-		
+
 		
 		mainpanel.add(gridPanel, BorderLayout.CENTER);		
 		return mainpanel;
