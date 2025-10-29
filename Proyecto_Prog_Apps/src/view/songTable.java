@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTable;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.table.DefaultTableModel;
 
 import model.Playlist;
@@ -62,8 +63,13 @@ public class songTable {
 
 		// JScrollPane
 		JScrollPane scrollPane = new JScrollPane(songTable);
-		scrollPane.getViewport().setBackground(MainFrame.BackgroundColor);
-		scrollPane.setBorder(null);
+		scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+			@Override
+			protected void configureScrollBarColors() {
+				this.thumbColor = MainFrame.TextColor;
+				this.trackColor = MainFrame.BackgroundColor;
+			}
+		});
 
 		mainPanel.add(scrollPane, BorderLayout.CENTER);
 

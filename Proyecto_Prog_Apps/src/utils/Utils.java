@@ -12,9 +12,16 @@ public class Utils {
 	public static ArrayList<Song> songs = new ArrayList<>();
 	public static ArrayList<Playlist> playlists = new ArrayList<>();
 
-	public static Playlist playlist1 = new Playlist("Playlist 1", 000, new ArrayList<Song>());
-	public static Playlist playlist2 = new Playlist("Playlist 2", 001, new ArrayList<Song>());
-	public static Playlist playlist3 = new Playlist("Playlist 3", 002, new ArrayList<Song>());
+	public static Playlist playlist1 = new Playlist("Playlist 1", 0, new ArrayList<Song>());
+	public static Playlist playlist2 = new Playlist("Playlist 2", 1, new ArrayList<Song>());
+	public static Playlist playlist3 = new Playlist("Playlist 3", 2, new ArrayList<Song>());
+	public static Playlist playlist4 = new Playlist("Playlist 4", 3, new ArrayList<Song>());
+	public static Playlist playlist5 = new Playlist("Playlist 5", 4, new ArrayList<Song>());
+	public static Playlist playlist6 = new Playlist("Playlist 6", 5, new ArrayList<Song>());
+	public static Playlist playlist7 = new Playlist("Playlist 7", 6, new ArrayList<Song>());
+	public static Playlist playlist8 = new Playlist("Playlist 8", 7, new ArrayList<Song>());
+	public static Playlist playlist9 = new Playlist("Playlist 9", 8, new ArrayList<Song>());
+
 
 	
 	public static void generateUsers() {
@@ -97,9 +104,23 @@ public class Utils {
 		generateRandomPlaylist(playlist1);
 		generateRandomPlaylist(playlist2);
 		generateRandomPlaylist(playlist3);
+		generateRandomPlaylist(playlist4);
+		generateRandomPlaylist(playlist5);
+		generateRandomPlaylist(playlist6);
+		generateRandomPlaylist(playlist7);
+		generateRandomPlaylist(playlist8);
+		generateRandomPlaylist(playlist9);
+
 		playlists.add(playlist1);
 		playlists.add(playlist2);
 		playlists.add(playlist3);
+		playlists.add(playlist4);
+		playlists.add(playlist5);
+		playlists.add(playlist6);
+		playlists.add(playlist7);
+		playlists.add(playlist8);
+		playlists.add(playlist9);
+
 	}
 
 	public static void generateRandomPlaylist(Playlist playlist) {

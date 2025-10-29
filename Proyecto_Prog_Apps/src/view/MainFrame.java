@@ -39,6 +39,7 @@ import java.awt.event.ComponentEvent;
 
 import model.Playlist;
 import model.Song;
+import model.User;
 import utils.Utils;
 
 public class MainFrame extends JFrame {
@@ -66,6 +67,7 @@ public class MainFrame extends JFrame {
 	private boolean songPanelSetUpDone = false;
 	
 	private String currentPanel = "Home";
+	private User currentUser;
 	// public static Song playingSong;
 
 	char[] bloques = { '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█' };
