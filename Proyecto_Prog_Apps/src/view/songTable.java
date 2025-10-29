@@ -23,7 +23,7 @@ import model.StyledTable;
 import utils.Utils;
 
 public class songTable {
-	public JPanel createSongTablePlaylist(Playlist playlist) {
+	public static JPanel createSongTablePlaylist(Playlist playlist) {
 		String[] columns = { "Title", "Artist", "Duration" };
 		JPanel mainPanel = new JPanel(new BorderLayout());
 
@@ -42,23 +42,27 @@ public class songTable {
 		JTable songTable = new StyledTable(tableModel);
 
 		songTable.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					int row = songTable.getSelectedRow();
+					if (row >= 0) {
+						String title = (String) tableModel.getValueAt(row, 0);
+						String artist = (String) tableModel.getValueAt(row, 1);
+						int duration = Playlist.parseDuration((String) tableModel.getValueAt(row, 2));
 
-			public void mouseClicked(MouseEvent e) {
-				int row = songTable.rowAtPoint(e.getPoint());
-				if (row >= 0) {
-					String title = (String) tableModel.getValueAt(row, 0);
-					String artist = (String) tableModel.getValueAt(row, 1);
-					int duration = Playlist.parseDuration((String) tableModel.getValueAt(row, 2));
+						MainFrame.playingSong = new Song(title, duration, artist);
 
-					MainFrame.playingSong = new Song(title, duration, artist);
-
-					if (MainFrame.playerBar == null) {
-						MainFrame.playerBar = songBar.createPlayerBar(MainFrame.playingSong);
-						MainFrame.getInstance().mainPanel.add(MainFrame.playerBar, BorderLayout.SOUTH);
+						if (MainFrame.playerBar == null) {
+							MainFrame.playerBar = songBar.createPlayerBar(MainFrame.playingSong);
+							MainFrame.getInstance().mainPanel.add(MainFrame.playerBar, BorderLayout.SOUTH);
+						}
+						songBar.updateSongLabel(MainFrame.playingSong);						
+						MainFrame.updateSongIcon(MainFrame.playingSong);
+						mainPanel.revalidate();
+						mainPanel.repaint();
 					}
 				}
 			}
-
 		});
 
 		// JScrollPane

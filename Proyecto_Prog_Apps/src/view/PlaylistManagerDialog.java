@@ -68,7 +68,10 @@ public class PlaylistManagerDialog extends JFrame {
 		    buttonPlaylist.setHorizontalAlignment(SwingConstants.LEFT);
 	        
 	        buttonPlaylist.addActionListener(evt -> {
-	            System.out.println("Playlist seleccionada: " + p.getName());
+	            JPanel playListSongs = songTable.createSongTablePlaylist(p);
+	            MainFrame.cardPanel.add(playListSongs, "PlaylistSongsTable");
+	            MainFrame.cardLayout.show(MainFrame.cardPanel, "PlaylistSongsTable");
+	            MainFrame.currentPanel = "PlaylistSongsTable";
 	        });
 	        
 	        listPanel.add(Box.createRigidArea(new Dimension(0, 5)));
@@ -86,6 +89,8 @@ public class PlaylistManagerDialog extends JFrame {
 		});
 
 	    mainPanel.add(scrollPane, BorderLayout.CENTER);
+	    
+	    
 
 		
 

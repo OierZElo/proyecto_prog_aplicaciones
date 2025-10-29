@@ -54,7 +54,7 @@ public class MainFrame extends JFrame {
 	private JPanel indexPanel;
 	public static JPanel playerBar;
 	public static BorderLayout borderLayout = new BorderLayout();
-	private CardLayout cardLayout = new CardLayout();
+	static CardLayout cardLayout = new CardLayout();
 	private FlowLayout flowLayout = new FlowLayout(FlowLayout.CENTER, 0, 0);
 
 	public static Color BackgroundColor = Color.black;
@@ -66,8 +66,8 @@ public class MainFrame extends JFrame {
 	public static Song playingSong;
 	private boolean songPanelSetUpDone = false;
 	
-	private String currentPanel = "Home";
-	private User currentUser;
+	public static String currentPanel = "Home";
+	public User currentUser;
 	// public static Song playingSong;
 
 	char[] bloques = { '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█' };
