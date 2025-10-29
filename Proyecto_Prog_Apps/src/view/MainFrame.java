@@ -197,27 +197,28 @@ public class MainFrame extends JFrame {
 	}
 
 	private void toggleSidebar() {
-		if (desplegado) {
-			indexPanel.setPreferredSize(new Dimension(50, 50));
-			for (int i = 0; i < buttonList.size(); i++) {
-				buttonList.get(i).setText(nombres[i]);
-				buttonList.get(i).setPreferredSize(new Dimension(50, 50));
-				icon.setIcon(null);
-			}
+	    if (desplegado) {
+	        indexPanel.setPreferredSize(new Dimension(50, 50));
+	        for (int i = 0; i < buttonList.size(); i++) {
+	            buttonList.get(i).setText(nombres[i]);
+	            buttonList.get(i).setPreferredSize(new Dimension(50, 50));
+	        }
+	        icon.setIcon(null);
+	    } else {
+	        indexPanel.setPreferredSize(new Dimension(200, 50));
+	        for (int i = 0; i < buttonList.size(); i++) {
+	            buttonList.get(i).setText(buttons[i]);
+	            buttonList.get(i).setPreferredSize(new Dimension(200, 50));
+	        }
 
-		} else {
-			indexPanel.setPreferredSize(new Dimension(200, 50));
-			for (int i = 0; i < buttonList.size(); i++) {
-				buttonList.get(i).setText(buttons[i]);
-				buttonList.get(i).setPreferredSize(new Dimension(200, 50));
-				updateSongIcon(playingSong);
+	        if (playingSong != null) {
+	            javax.swing.SwingUtilities.invokeLater(() -> updateSongIcon(playingSong));
+	        }
+	    }
 
-			}
-
-		}
-		desplegado = !desplegado;
-		mainPanel.revalidate();
-		mainPanel.repaint();
+	    desplegado = !desplegado;
+	    mainPanel.revalidate();
+	    mainPanel.repaint();
 	}
 
 	public static MainFrame getInstance() {
