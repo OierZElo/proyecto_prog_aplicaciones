@@ -12,7 +12,7 @@ public class Playlist {
 	private int duration;
 	private List<Song> l_songs;
 
-	public Playlist(String name, int user_id, List<Song> l_songs) {
+	public Playlist(String name, int user_id) {
 		super();
 		this.cod = counter;
 		counter += 1;

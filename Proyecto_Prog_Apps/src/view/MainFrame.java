@@ -77,7 +77,6 @@ public class MainFrame extends JFrame {
 	ArrayList<JButton> buttonList = new ArrayList<>();
 
 	List<Song> l_songs = new ArrayList<Song>();
-	Playlist playlist = new Playlist("Playlist 1", 12345, l_songs);
 	
 	static JLabel icon = new JLabel();
 	
@@ -119,7 +118,7 @@ public class MainFrame extends JFrame {
 		cardPanel.add(PlayingSong.PlayingSongPanel(playingSong), "PlayingSong");
 		
 		// PLAYLIST MANAGER DIALOG
-		cardPanel.add(PlaylistManagerDialog.PlaylistManagerDialogPanel(playlist), "PlaylistManagerDialog");
+		cardPanel.add(PlaylistManagerDialog.PlaylistManagerDialogPanel(), "PlaylistManagerDialog");
 		//cardLayout.show(cardPanel, "PlaylistManagerDialog");	
 
 		// QUEUE

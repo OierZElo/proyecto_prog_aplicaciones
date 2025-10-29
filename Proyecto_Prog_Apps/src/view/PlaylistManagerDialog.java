@@ -22,7 +22,7 @@ import utils.Utils;
 public class PlaylistManagerDialog extends JFrame {
 	private static final long serialVersionUID = 1L;
 
-	public static JPanel PlaylistManagerDialogPanel(Playlist playlist) {
+	public static JPanel PlaylistManagerDialogPanel() {
 		JPanel mainPanel = new JPanel(new BorderLayout());
 	    mainPanel.setBackground(MainFrame.BackgroundColor);
 		

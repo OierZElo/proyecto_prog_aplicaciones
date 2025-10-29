@@ -12,15 +12,15 @@ public class Utils {
 	public static ArrayList<Song> songs = new ArrayList<>();
 	public static ArrayList<Playlist> playlists = new ArrayList<>();
 
-	public static Playlist playlist1 = new Playlist("Playlist 1", 0, new ArrayList<Song>());
-	public static Playlist playlist2 = new Playlist("Playlist 2", 1, new ArrayList<Song>());
-	public static Playlist playlist3 = new Playlist("Playlist 3", 2, new ArrayList<Song>());
-	public static Playlist playlist4 = new Playlist("Playlist 4", 3, new ArrayList<Song>());
-	public static Playlist playlist5 = new Playlist("Playlist 5", 4, new ArrayList<Song>());
-	public static Playlist playlist6 = new Playlist("Playlist 6", 5, new ArrayList<Song>());
-	public static Playlist playlist7 = new Playlist("Playlist 7", 6, new ArrayList<Song>());
-	public static Playlist playlist8 = new Playlist("Playlist 8", 7, new ArrayList<Song>());
-	public static Playlist playlist9 = new Playlist("Playlist 9", 8, new ArrayList<Song>());
+	public static Playlist playlist1 = new Playlist("Playlist 1", 0);
+	public static Playlist playlist2 = new Playlist("Playlist 2", 1);
+	public static Playlist playlist3 = new Playlist("Playlist 3", 2);
+	public static Playlist playlist4 = new Playlist("Playlist 4", 3);
+	public static Playlist playlist5 = new Playlist("Playlist 5", 4);
+	public static Playlist playlist6 = new Playlist("Playlist 6", 5);
+	public static Playlist playlist7 = new Playlist("Playlist 7", 6);
+	public static Playlist playlist8 = new Playlist("Playlist 8", 7);
+	public static Playlist playlist9 = new Playlist("Playlist 9", 8);
 
 
 	
