@@ -110,7 +110,7 @@ public class MainFrame extends JFrame {
 
 		//HOME 
 		cardPanel.add(Home.HomePanel(), "HomePanel");
-		cardLayout.show(cardPanel, "HomePanel");
+		//cardLayout.show(cardPanel, "HomePanel");
 
 		
 		//PLAYING SONG
@@ -126,7 +126,7 @@ public class MainFrame extends JFrame {
 		
 		//LOGIN
 		cardPanel.add(LoginRegisterDialog.LoginRegisterDialogPanel(), "Login");
-//		cardLayout.show(cardPanel, "Login");
+		cardLayout.show(cardPanel, "Login");
 		
 
 		indexPanel = new JPanel(flowLayout);

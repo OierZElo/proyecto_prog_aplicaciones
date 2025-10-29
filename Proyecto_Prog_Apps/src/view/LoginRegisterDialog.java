@@ -10,6 +10,7 @@ import java.awt.event.FocusEvent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import model.Playlist;
@@ -22,6 +23,9 @@ public class LoginRegisterDialog extends JFrame{
 	public static JLabel username = new JLabel("Username");
 	public static JTextField usernameFill = new JTextField("username");
 	public static JPanel panelUsernameFill = new JPanel(new GridLayout(1,3));
+	public static JLabel password = new JLabel("Password");
+	public static JPasswordField passwordFill = new JPasswordField();
+	public static JPanel panelPasswordFill = new JPanel(new GridLayout(1,3));
 	
 	public static JPanel LoginRegisterDialogPanel() {
 		 //general
@@ -46,6 +50,7 @@ public class LoginRegisterDialog extends JFrame{
 		provisional2.setBackground(MainFrame.BackgroundColor);
 		provisional2.setOpaque(true);
 		panelUsernameFill.add(provisional);
+		usernameFill.setBackground(MainFrame.TextColor);
 		usernameFill.setForeground(MainFrame.BorderColor);
 		usernameFill.setHorizontalAlignment(JTextField.CENTER);
 		
@@ -68,6 +73,31 @@ public class LoginRegisterDialog extends JFrame{
 		panelUsernameFill.add(usernameFill);
 		panelUsernameFill.add(provisional2);
 		panelPrincipal.add(panelUsernameFill);
+		JPanel filler2 = new JPanel();
+		filler2.setBackground(MainFrame.BackgroundColor);
+		filler2.setOpaque(true);
+		panelPrincipal.add(filler2);
+		
+		
+		//Password
+		password.setForeground(MainFrame.TextColor);
+		password.setHorizontalAlignment(JLabel.CENTER);
+		panelPrincipal.add(password);
+		
+		//Password fill
+		JLabel provisional3 = new JLabel();
+		provisional3.setBackground(MainFrame.BackgroundColor);
+		provisional3.setOpaque(true);
+		JLabel provisional4 = new JLabel();
+		provisional4.setBackground(MainFrame.BackgroundColor);
+		provisional4.setOpaque(true);
+		passwordFill.setBackground(MainFrame.TextColor);
+		passwordFill.setForeground(MainFrame.BackgroundColor);
+		passwordFill.setHorizontalAlignment(JPasswordField.CENTER);
+		panelPasswordFill.add(provisional3);
+		panelPasswordFill.add(passwordFill);
+		panelPasswordFill.add(provisional4);
+		panelPrincipal.add(panelPasswordFill);
 		 
 		
 		return panelPrincipal;
