@@ -12,6 +12,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
+import javax.swing.plaf.basic.BasicScrollBarUI;
+
 import java.awt.*;
 import java.awt.event.*;
 import model.Playlist;
@@ -64,29 +66,24 @@ public class PlaylistManagerDialog extends JFrame {
 		    buttonPlaylist.setFocusPainted(false);
 		    buttonPlaylist.setPreferredSize(new Dimension(680, 70));
 		    buttonPlaylist.setHorizontalAlignment(SwingConstants.LEFT);
-		    
-		    Dimension fixed = new Dimension(680, 70);
-	        buttonPlaylist.setPreferredSize(fixed);
-	        buttonPlaylist.setMaximumSize(fixed); // evita que se estire al ancho del contenedor
-	        buttonPlaylist.setAlignmentX(Component.CENTER_ALIGNMENT);
 	        
 	        buttonPlaylist.addActionListener(evt -> {
-	            // aquí muestras la vista de la playlist p (ej. cargar panel con canciones)
 	            System.out.println("Playlist seleccionada: " + p.getName());
-	            // cardLayout.show(...), o abrir panel con las canciones de p
 	        });
 	        
-	        listPanel.add(Box.createRigidArea(new Dimension(0, 8)));
+	        listPanel.add(Box.createRigidArea(new Dimension(0, 5)));
 	        listPanel.add(buttonPlaylist);
 	    }
 		
-	    listPanel.add(Box.createVerticalGlue());
 		
 	    JScrollPane scrollPane = new JScrollPane(listPanel);
-	    scrollPane.setBorder(null);
-	    scrollPane.getViewport().setBackground(MainFrame.BackgroundColor);
-	    scrollPane.setBackground(MainFrame.BackgroundColor);
-	    scrollPane.getVerticalScrollBar().setUnitIncrement(16); // suaviza scroll
+		scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+			@Override
+			protected void configureScrollBarColors() {
+				this.thumbColor = MainFrame.TextColor;
+				this.trackColor = MainFrame.BackgroundColor;
+			}
+		});
 
 	    mainPanel.add(scrollPane, BorderLayout.CENTER);
 
