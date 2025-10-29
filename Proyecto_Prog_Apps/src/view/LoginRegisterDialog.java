@@ -1,5 +1,4 @@
 package view;
-<<<<<<< HEAD
 
 import utils.Utils;
 
@@ -73,11 +72,4 @@ public class LoginRegisterDialog extends JFrame{
 		
 		return panelPrincipal;
 	 }
-	
-
-=======
-import 
-public class LoginRegisterDialog {
-	
->>>>>>> branch 'main' of git@github.com:OierZElo/proyecto_prog_aplicaciones.git
 }

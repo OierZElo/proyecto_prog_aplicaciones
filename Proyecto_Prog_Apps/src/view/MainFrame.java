@@ -84,11 +84,7 @@ public class MainFrame extends JFrame {
 		Utils.generateSongs();
 		Utils.generatePlaylists();
 		initialize();
-<<<<<<< HEAD
-		//
-=======
-		
->>>>>>> branch 'main' of git@github.com:OierZElo/proyecto_prog_aplicaciones.git
+
 		Timer timer = new Timer(150, e -> actualizarTitulo());
 		timer.start();
 	}
