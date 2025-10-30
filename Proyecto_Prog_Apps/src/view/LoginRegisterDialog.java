@@ -113,7 +113,9 @@ public class LoginRegisterDialog extends JFrame{
 		
 
 		register.setBackground(MainFrame.BorderColor);
+		register.setFocusPainted(false);
 		login.setBackground(MainFrame.BorderColor);
+		login.setFocusPainted(false);
 		
 		
 		login.addActionListener(new ActionListener() {
@@ -138,7 +140,7 @@ public class LoginRegisterDialog extends JFrame{
 		add(panelPrincipal);
 	 }
 	
-	public JPanel filler() {
+	public static JPanel filler() {
 		JPanel filler = new JPanel();
 		filler.setBackground(MainFrame.BackgroundColor);
 		filler.setPreferredSize(new Dimension(50,0));

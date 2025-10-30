@@ -125,6 +125,9 @@ public class MainFrame extends JFrame {
 		cardPanel.add(PlaybackQueueDialog.QueuePanel(), "Queue");
 //      cardLayout.show(cardPanel, "Queue");
 		
+		//SETTINGS
+		cardPanel.add(ConfigManager.ColorPanel(), "Config");
+		
 	
 		
 
@@ -175,7 +178,7 @@ public class MainFrame extends JFrame {
 						}
 					break;
 				case 4:
-					cardLayout.show(cardPanel, "SettingsPanel");
+					cardLayout.show(cardPanel, "Config");
 					currentPanel = "SettingsPanel";
 					break;
 				case 5:
