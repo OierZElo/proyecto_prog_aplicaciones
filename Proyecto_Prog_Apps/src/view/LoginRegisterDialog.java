@@ -2,6 +2,7 @@ package view;
 
 import utils.Utils;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -10,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
+import javax.swing.Box.Filler;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,20 +25,21 @@ public class LoginRegisterDialog extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	
-	public static JPanel panelPrincipal = new JPanel(new GridLayout(20,1));
+	public static JPanel panelPrincipal = new JPanel(new GridLayout(11,1));
 	public static JLabel username = new JLabel("Username");
 	public static JTextField usernameFill = new JTextField("username");
-	public static JPanel panelUsernameFill = new JPanel(new GridLayout(1,3));
+	public static JPanel panelUsernameFill = new JPanel(new BorderLayout());
 	public static JLabel password = new JLabel("Password");
 	public static JPasswordField passwordFill = new JPasswordField();
-	public static JPanel panelPasswordFill = new JPanel(new GridLayout(1,3));
-	public static JPanel panelButtons = new JPanel(new GridLayout(1,4,5,5));
+	public static JPanel panelPasswordFill = new JPanel(new BorderLayout());
+	public static JPanel panelButtons = new JPanel(new BorderLayout());
+	public static JPanel Buttons = new JPanel(new GridLayout(1,2,5,5));
 	public static JButton register = new JButton("Sign up");
 	public static JButton login = new JButton("Login");
 	
 	public LoginRegisterDialog() {
 		//Jframe
-		setSize(600,400);
+		setSize(300,225);
 		setTitle("Login");
 		setLocationRelativeTo(null);
 		setResizable(false);
@@ -44,10 +47,8 @@ public class LoginRegisterDialog extends JFrame{
 		 //general
 		panelPrincipal.setVisible(true);
 		panelPrincipal.setBackground(MainFrame.BackgroundColor);
-		JLabel filler = new JLabel();
-		filler.setBackground(MainFrame.BackgroundColor);
-		filler.setOpaque(true);
-		panelPrincipal.add(filler);
+	
+		panelPrincipal.add(filler());
 		
 		//Username
 		username.setForeground(MainFrame.TextColor);
@@ -56,13 +57,8 @@ public class LoginRegisterDialog extends JFrame{
 		panelPrincipal.add(username);
 		
 		//Username fill
-		JLabel provisional = new JLabel();
-		provisional.setBackground(MainFrame.BackgroundColor);
-		provisional.setOpaque(true);
-		JLabel provisional2 = new JLabel();
-		provisional2.setBackground(MainFrame.BackgroundColor);
-		provisional2.setOpaque(true);
-		panelUsernameFill.add(provisional);
+		panelUsernameFill.setBackground(MainFrame.BackgroundColor);
+		panelUsernameFill.setOpaque(true);
 		usernameFill.setBackground(MainFrame.TextColor);
 		usernameFill.setForeground(MainFrame.BorderColor);
 		usernameFill.setHorizontalAlignment(JTextField.CENTER);
@@ -83,13 +79,14 @@ public class LoginRegisterDialog extends JFrame{
 			}
 		});
 		
-		panelUsernameFill.add(usernameFill);
-		panelUsernameFill.add(provisional2);
+		panelUsernameFill.add(usernameFill, BorderLayout.CENTER);
+		panelUsernameFill.add(filler(), BorderLayout.WEST);
+		panelUsernameFill.add(filler() , BorderLayout.EAST);
+
+
 		panelPrincipal.add(panelUsernameFill);
-		JPanel filler2 = new JPanel();
-		filler2.setBackground(MainFrame.BackgroundColor);
-		filler2.setOpaque(true);
-		panelPrincipal.add(filler2);
+
+		panelPrincipal.add(filler());
 		
 		
 		//Password
@@ -98,37 +95,26 @@ public class LoginRegisterDialog extends JFrame{
 		panelPrincipal.add(password);
 		
 		//Password fill
-		JLabel provisional3 = new JLabel();
-		provisional3.setBackground(MainFrame.BackgroundColor);
-		provisional3.setOpaque(true);
-		JLabel provisional4 = new JLabel();
-		provisional4.setBackground(MainFrame.BackgroundColor);
-		provisional4.setOpaque(true);
 		passwordFill.setBackground(MainFrame.TextColor);
 		passwordFill.setForeground(MainFrame.BackgroundColor);
 		passwordFill.setHorizontalAlignment(JPasswordField.CENTER);
-		panelPasswordFill.add(provisional3);
-		panelPasswordFill.add(passwordFill);
-		panelPasswordFill.add(provisional4);
+		panelPasswordFill.setBackground(MainFrame.BackgroundColor);
+		panelPasswordFill.setOpaque(true);
+	
+		panelPasswordFill.add(passwordFill, BorderLayout.CENTER);
+		panelPasswordFill.add(filler(), BorderLayout.EAST);
+		panelPasswordFill.add(filler(), BorderLayout.WEST);
 		panelPrincipal.add(panelPasswordFill);
 		 
 		//Buttons
 		panelButtons.setBackground(MainFrame.BackgroundColor);
 		panelButtons.setOpaque(true);
-		JPanel filler3 = new JPanel();
-		filler3.setBackground(MainFrame.BackgroundColor);
-		filler3.setOpaque(true);
-		panelPrincipal.add(filler3);
+		panelPrincipal.add(filler());
 		
-		JLabel provisional5 = new JLabel();
-		provisional5.setBackground(MainFrame.BackgroundColor);
-		provisional5.setOpaque(true);
-		JLabel provisional6 = new JLabel();
-		provisional6.setBackground(MainFrame.BackgroundColor);
-		provisional6.setOpaque(true);
+
 		register.setBackground(MainFrame.BorderColor);
 		login.setBackground(MainFrame.BorderColor);
-		panelButtons.add(provisional5);
+		
 		
 		login.addActionListener(new ActionListener() {
 			
@@ -141,11 +127,21 @@ public class LoginRegisterDialog extends JFrame{
 			}
 		});
 		
-		panelButtons.add(register);
-		panelButtons.add(login);
-		panelButtons.add(provisional6);
+		Buttons.add(register);
+		Buttons.add(login);
+		Buttons.setBackground(MainFrame.BackgroundColor);
+		panelButtons.add(Buttons, BorderLayout.CENTER);
+		panelButtons.add(filler(), BorderLayout.EAST);
+		panelButtons.add(filler(), BorderLayout.WEST);
 		panelPrincipal.add(panelButtons);		
 		
 		add(panelPrincipal);
 	 }
+	
+	public JPanel filler() {
+		JPanel filler = new JPanel();
+		filler.setBackground(MainFrame.BackgroundColor);
+		filler.setPreferredSize(new Dimension(50,0));
+		return filler;
+	}
 }
