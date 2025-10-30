@@ -67,10 +67,18 @@ public class Playlist {
 	}
 
 	public static String getDurationFormat(int duration) {
+		if(duration >= 3600) {
+			int hour = duration / 3600;
+			int min = (duration % 3600) / 60;
+			int sec = duration % 60;
+		    return String.format("%d:%02d:%02d", hour, min, sec);}
+		else {}
+		
 		int min = duration / 60;
 		int sec = duration % 60;
 		return String.format("%d:%02d", min, sec);
 	}
+	
 
 	public static int parseDuration(String duration) {
 		String[] parts = duration.split(":");

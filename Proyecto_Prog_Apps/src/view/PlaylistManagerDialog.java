@@ -57,7 +57,7 @@ public class PlaylistManagerDialog extends JFrame {
 
 		for (Playlist p: Utils.playlists) {
 	    String text = "<html><b>" + p.getName() + "</b><br>" +
-                   p.getN_songs() + " songs - " + Playlist.getDurationFormat(p.getDuration()) + " minutes</html>";
+                   p.getN_songs() + " songs - " + Playlist.getDurationFormat(p.getDuration()) + "</html>";
 
 		    JButton buttonPlaylist = new JButton(text);
 		    buttonPlaylist.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 22));
