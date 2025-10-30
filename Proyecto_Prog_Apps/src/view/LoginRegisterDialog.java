@@ -26,9 +26,9 @@ public class LoginRegisterDialog extends JFrame{
 	private static final long serialVersionUID = 1L;
 	
 	public static JPanel panelPrincipal = new JPanel(new GridLayout(11,1));
-	public static JLabel username = new JLabel("Username");
-	public static JTextField usernameFill = new JTextField("username");
-	public static JPanel panelUsernameFill = new JPanel(new BorderLayout());
+	public static JLabel email = new JLabel("Email");
+	public static JTextField emailFill = new JTextField("Enter your email...");
+	public static JPanel panelEmailFill = new JPanel(new BorderLayout());
 	public static JLabel password = new JLabel("Password");
 	public static JPasswordField passwordFill = new JPasswordField();
 	public static JPanel panelPasswordFill = new JPanel(new BorderLayout());
@@ -50,41 +50,41 @@ public class LoginRegisterDialog extends JFrame{
 	
 		panelPrincipal.add(filler());
 		
-		//Username
-		username.setForeground(MainFrame.TextColor);
+		//Email
+		email.setForeground(MainFrame.TextColor);
 		
-		username.setHorizontalAlignment(JLabel.CENTER);
-		panelPrincipal.add(username);
+		email.setHorizontalAlignment(JLabel.CENTER);
+		panelPrincipal.add(email);
 		
-		//Username fill
-		panelUsernameFill.setBackground(MainFrame.BackgroundColor);
-		panelUsernameFill.setOpaque(true);
-		usernameFill.setBackground(MainFrame.TextColor);
-		usernameFill.setForeground(MainFrame.BorderColor);
-		usernameFill.setHorizontalAlignment(JTextField.CENTER);
+		//Email fill
+		panelEmailFill.setBackground(MainFrame.BackgroundColor);
+		panelEmailFill.setOpaque(true);
+		emailFill.setBackground(MainFrame.TextColor);
+		emailFill.setForeground(MainFrame.BorderColor);
+		emailFill.setHorizontalAlignment(JTextField.CENTER);
 		
-		usernameFill.addFocusListener(new FocusAdapter() {
+		emailFill.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				if (usernameFill.getText().equals("username")) {
-					usernameFill.setText("");
+				if (emailFill.getText().equals("Enter your email...")) {
+					emailFill.setText("");
 				}
 			}
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				if (usernameFill.getText().isEmpty()) {
-					usernameFill.setText("username");
+				if (emailFill.getText().isEmpty()) {
+					emailFill.setText("Enter your email...");
 				}
 			}
 		});
 		
-		panelUsernameFill.add(usernameFill, BorderLayout.CENTER);
-		panelUsernameFill.add(filler(), BorderLayout.WEST);
-		panelUsernameFill.add(filler() , BorderLayout.EAST);
+		panelEmailFill.add(emailFill, BorderLayout.CENTER);
+		panelEmailFill.add(filler(), BorderLayout.WEST);
+		panelEmailFill.add(filler() , BorderLayout.EAST);
 
 
-		panelPrincipal.add(panelUsernameFill);
+		panelPrincipal.add(panelEmailFill);
 
 		panelPrincipal.add(filler());
 		
