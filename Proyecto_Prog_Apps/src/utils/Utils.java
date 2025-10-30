@@ -125,7 +125,7 @@ public class Utils {
 
 	public static void generateRandomPlaylist(Playlist playlist) {
 		Random random = new Random();
-		while (playlist.getN_songs() < 4) {
+		while (playlist.getN_songs() < 10) {
 			Song song = songs.get(random.nextInt(songs.size()));
 			if (!playlist.getL_songs().contains(song)) {
 				playlist.addSong(song);

@@ -64,7 +64,6 @@ public class PlaylistManagerDialog extends JFrame {
 		    buttonPlaylist.setBackground(MainFrame.BorderColor);
 		    buttonPlaylist.setForeground(MainFrame.BackgroundColor);
 		    buttonPlaylist.setFocusPainted(false);
-		    buttonPlaylist.setPreferredSize(new Dimension(680, 70));
 		    buttonPlaylist.setHorizontalAlignment(SwingConstants.LEFT);
 	        
 	        buttonPlaylist.addActionListener(evt -> {
@@ -90,11 +89,6 @@ public class PlaylistManagerDialog extends JFrame {
 
 	    mainPanel.add(scrollPane, BorderLayout.CENTER);
 	    
-	    
-
-		
-
-		
 		return mainPanel;
 	}
 }
