@@ -40,6 +40,9 @@ public class PlaybackQueueDialog extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	public static JPanel QueuePanel() {
+		
+		MainFrame main = MainFrame.getInstance();
+		
 		Queue queue = new Queue();
 		String[] columns = { "Title", "Artist", "Duration" };
 		String[] buttonIcons = { "  ⬆️", "  ⬇️", "🗑️" };
@@ -128,17 +131,14 @@ public class PlaybackQueueDialog extends JFrame {
 						String artist = (String) tableModel.getValueAt(row, 1);
 						int duration = Playlist.parseDuration((String) tableModel.getValueAt(row, 2));
 
-						MainFrame.playingSong = new Song(title, duration, artist);
+						main.setPlayingSong(new Song(title, duration, artist));
 
-						// MainFrame.getInstance().showPlayingSong();
-//		            songBar.updateSlider(MainFrame.playingSong);
-
-						if (MainFrame.playerBar == null) {
-							MainFrame.playerBar = songBar.createPlayerBar(MainFrame.playingSong);
-							MainFrame.getInstance().mainPanel.add(MainFrame.playerBar, BorderLayout.SOUTH);
+						if (main.getPlayerBar() == null) {
+							main.setPlayerBar(songBar.createPlayerBar(main.getPlayingSong()));
+							MainFrame.getInstance().mainPanel.add(main.getPlayerBar(), BorderLayout.SOUTH);
 						}
-						songBar.updateSongLabel(MainFrame.playingSong);						
-						MainFrame.updateSongIcon(MainFrame.playingSong);
+						songBar.updateSongLabel(main.getPlayingSong());						
+						MainFrame.updateSongIcon(main.getPlayingSong());
 						mainPanel.revalidate();
 						mainPanel.repaint();
 					}

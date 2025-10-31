@@ -23,6 +23,7 @@ public class PlaylistManagerDialog extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	public static JPanel PlaylistManagerDialogPanel() {
+		MainFrame main = MainFrame.getInstance();
 		JPanel mainPanel = new JPanel(new BorderLayout());
 	    mainPanel.setBackground(MainFrame.BackgroundColor);
 		
@@ -68,9 +69,9 @@ public class PlaylistManagerDialog extends JFrame {
 	        
 	        buttonPlaylist.addActionListener(evt -> {
 	            JPanel playListSongs = songTable.createSongTablePlaylist(p);
-	            MainFrame.cardPanel.add(playListSongs, "PlaylistSongsTable");
-	            MainFrame.cardLayout.show(MainFrame.cardPanel, "PlaylistSongsTable");
-	            MainFrame.currentPanel = "PlaylistSongsTable";
+	            main.getCardPanel().add(playListSongs, "PlaylistSongsTable");
+	            MainFrame.cardLayout.show(main.getCardPanel(), "PlaylistSongsTable");
+	            main.setCurrenPanel("PlaylistSongsTable");
 	        });
 	        
 	        listPanel.add(Box.createRigidArea(new Dimension(0, 5)));

@@ -50,10 +50,9 @@ public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private static MainFrame instance;
 	JPanel mainPanel;
-	static JPanel cardPanel;
+	private JPanel cardPanel;
 	private JPanel indexPanel;
-	public static JPanel playerBar;
-	public static BorderLayout borderLayout = new BorderLayout();
+	public JPanel playerBar;
 	static CardLayout cardLayout = new CardLayout();
 	private FlowLayout flowLayout = new FlowLayout(FlowLayout.CENTER, 0, 0);
 
@@ -63,12 +62,11 @@ public class MainFrame extends JFrame {
 
 	public static boolean desplegado = true;
 
-	public static Song playingSong;
+	private Song playingSong;
 	private boolean songPanelSetUpDone = false;
 	
-	public static String currentPanel = "Home";
+	private String currentPanel = "Home";
 	public User currentUser;
-	// public static Song playingSong;
 
 	char[] bloques = { '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█' };
 
@@ -100,7 +98,7 @@ public class MainFrame extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 
-		mainPanel = new JPanel(borderLayout);
+		mainPanel = new JPanel(new BorderLayout());
 		setContentPane(mainPanel);
 
 		cardPanel = new JPanel(cardLayout);
@@ -258,5 +256,33 @@ public class MainFrame extends JFrame {
 	    Image newImg = img.getScaledInstance(199, 205, Image.SCALE_SMOOTH);
 	    icon.setIcon(new ImageIcon(newImg));
 	}
+	}
+	
+	public Song getPlayingSong() {
+	    return playingSong;
+	}
+
+	public void setPlayingSong(Song playingSong) {
+	    this.playingSong = playingSong;
+	}
+	
+	public String getCurrentPanel() {
+	    return currentPanel;
+	}
+
+	public void setCurrenPanel(String s) {
+	    this.currentPanel = s;
+	}
+
+	public JPanel getPlayerBar() {
+	    return playerBar;
+	}
+
+	public void setPlayerBar(JPanel p) {
+	    this.playerBar = p;
+	}
+	
+	public JPanel getCardPanel() {
+	    return cardPanel;
 	}
 }
