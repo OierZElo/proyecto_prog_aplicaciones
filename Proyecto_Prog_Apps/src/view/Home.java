@@ -34,6 +34,7 @@ public class Home {
 			boton.setOpaque(true);
 			norte.add(boton);
 		}
+		
 
 		JPanel sur = new JPanel();
 		sur.setBackground(MainFrame.BackgroundColor);
