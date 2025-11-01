@@ -67,7 +67,7 @@ public class PlayingSong extends JFrame {
 		panelCentral.add(southPanel, BorderLayout.SOUTH);
 
 		// SongIcon
-		panelIcon.setBackground(Color.black);
+		panelIcon.setBackground(MainFrame.BackgroundColor);
 
 		String path = "src/resources/icons/" + song.getTitle() + ".png";
 	    File file = new File(path);
