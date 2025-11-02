@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.io.File;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -66,7 +67,7 @@ public class PlayingSong extends JFrame {
 		panelCentral.add(southPanel, BorderLayout.SOUTH);
 
 		// SongIcon
-		panelIcon.setBackground(Color.black);
+		panelIcon.setBackground(MainFrame.BackgroundColor);
 
 		String path = "src/resources/icons/" + song.getTitle() + ".png";
 	    File file = new File(path);

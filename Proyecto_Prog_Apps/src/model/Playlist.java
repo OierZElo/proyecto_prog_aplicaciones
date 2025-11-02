@@ -10,7 +10,7 @@ public class Playlist {
 	private int n_songs;
 	private int user_id;
 	private int duration;
-	private List<Song> l_songs;
+	public List<Song> l_songs;
 
 	public Playlist(String name, int user_id) {
 		super();
