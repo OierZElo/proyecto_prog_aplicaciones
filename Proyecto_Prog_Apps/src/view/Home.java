@@ -12,7 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-
+import model.Playlist;
 import utils.Utils;
 
 public class Home {
@@ -128,7 +128,13 @@ public class Home {
 
 
 		}
+		
+		// panel para random Picks 
+		JPanel quickPicks = new JPanel(); 
+		Utils.generateRandomPlaylist(Utils.playlist1);
+		quickPicks = songTable.createSongTablePlaylist(Utils.playlist1);
 		JPanel sur = new JPanel();
+		sur.add(quickPicks);
 		sur.setBackground(MainFrame.BackgroundColor);
 
 		result.add(sur, BorderLayout.CENTER);
