@@ -8,7 +8,7 @@ import java.util.LinkedList;
 
 
 import javax.swing.JButton;
-
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -138,7 +138,16 @@ public class Home {
 		sur.setBackground(MainFrame.BackgroundColor);
 
 		result.add(sur, BorderLayout.CENTER);
+		JPanel center = new JPanel(); 
+		JLabel x = new JLabel("QUICK PICKS");
+		Font f = new Font("Arial", Font.PLAIN, 24);
+		x.setFont(f);
+		x.setHorizontalAlignment(x.CENTER);
+		x.setForeground(Color.WHITE);
+		center.add(x);
+		center.setBackground(MainFrame.BackgroundColor);
 
+		result.add(center, BorderLayout.SOUTH);
 		return result;
 
 	}
