@@ -17,18 +17,14 @@ import javax.swing.JPanel;
 import model.Song;
 
 public class PlayingSong extends JFrame {
+	
 	private static final long serialVersionUID = 1L;
 
-	static JLabel title = new JLabel();
-	static JLabel band = new JLabel();
-	static JPanel panelIcon = new JPanel();
-	static JPanel panelPrincipal = new JPanel(new BorderLayout());
 	static JPanel southPanel = new JPanel(new GridLayout(2, 1));
-	static JLabel icon = new JLabel();
 	static JPanel panelCentral = new JPanel(new BorderLayout());
 
 	public static JPanel PlayingSongPanel(Song song) {
-
+		JPanel panelPrincipal = new JPanel(new BorderLayout());
 		// se le pasa por parametro la cancion que se está reproduciendo
 		panelPrincipal.setVisible(true);
 		panelPrincipal.setBackground(MainFrame.BackgroundColor);
@@ -47,6 +43,11 @@ public class PlayingSong extends JFrame {
 	}
 
 	static void setUpPanel(Song song) {
+		JLabel title = new JLabel();
+		JLabel band = new JLabel();
+		JPanel panelIcon = new JPanel();
+		JLabel icon = new JLabel();
+		
 		title.setText(song.getTitle());
 		title.setVisible(true);
 		title.setOpaque(true);
