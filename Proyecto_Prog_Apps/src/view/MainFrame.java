@@ -39,6 +39,7 @@ import java.awt.event.ComponentEvent;
 
 import model.Playlist;
 import model.Song;
+import model.User;
 import utils.Utils;
 
 public class MainFrame extends JFrame {
@@ -51,9 +52,8 @@ public class MainFrame extends JFrame {
 	JPanel mainPanel;
 	static JPanel cardPanel;
 	private JPanel indexPanel;
-	public static JPanel playerBar;
-	public static BorderLayout borderLayout = new BorderLayout();
-	private CardLayout cardLayout = new CardLayout();
+	public JPanel playerBar;
+	static CardLayout cardLayout = new CardLayout();
 	private FlowLayout flowLayout = new FlowLayout(FlowLayout.CENTER, 0, 0);
 
 	public static Color BackgroundColor = Color.black;
@@ -62,11 +62,11 @@ public class MainFrame extends JFrame {
 
 	public static boolean desplegado = true;
 
-	public static Song playingSong;
+	private Song playingSong;
 	private boolean songPanelSetUpDone = false;
 	
 	private String currentPanel = "Home";
-	// public static Song playingSong;
+	public User currentUser;
 
 	char[] bloques = { '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█' };
 
@@ -75,7 +75,6 @@ public class MainFrame extends JFrame {
 	ArrayList<JButton> buttonList = new ArrayList<>();
 
 	List<Song> l_songs = new ArrayList<Song>();
-	Playlist playlist = new Playlist("Playlist 1", 12345, l_songs);
 	
 	static JLabel icon = new JLabel();
 	
@@ -91,7 +90,7 @@ public class MainFrame extends JFrame {
 		timer.start();
 	}
 
-	private void initialize() {
+	public void initialize() {
 		setTitle("EchoBeat");
 	
 		setSize(900, 600);
@@ -99,7 +98,7 @@ public class MainFrame extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 
-		mainPanel = new JPanel(borderLayout);
+		mainPanel = new JPanel(new BorderLayout());
 		setContentPane(mainPanel);
 
 		cardPanel = new JPanel(cardLayout);
@@ -117,16 +116,17 @@ public class MainFrame extends JFrame {
 		cardPanel.add(PlayingSong.PlayingSongPanel(playingSong), "PlayingSong");
 		
 		// PLAYLIST MANAGER DIALOG
-		cardPanel.add(PlaylistManagerDialog.PlaylistManagerDialogPanel(playlist), "PlaylistManagerDialog");
+		cardPanel.add(PlaylistManagerDialog.PlaylistManagerDialogPanel(), "PlaylistManagerDialog");
 		//cardLayout.show(cardPanel, "PlaylistManagerDialog");	
 
 		// QUEUE
 		cardPanel.add(PlaybackQueueDialog.QueuePanel(), "Queue");
 //      cardLayout.show(cardPanel, "Queue");
 		
-		//LOGIN
-		cardPanel.add(LoginRegisterDialog.LoginRegisterDialogPanel(), "Login");
-		cardLayout.show(cardPanel, "Login");
+		//SETTINGS
+		cardPanel.add(ConfigManager.ColorPanel(), "Config");
+		
+	
 		
 
 		indexPanel = new JPanel(flowLayout);
@@ -176,7 +176,7 @@ public class MainFrame extends JFrame {
 						}
 					break;
 				case 4:
-					cardLayout.show(cardPanel, "SettingsPanel");
+					cardLayout.show(cardPanel, "Config");
 					currentPanel = "SettingsPanel";
 					break;
 				case 5:
@@ -256,5 +256,33 @@ public class MainFrame extends JFrame {
 	    Image newImg = img.getScaledInstance(199, 205, Image.SCALE_SMOOTH);
 	    icon.setIcon(new ImageIcon(newImg));
 	}
+	}
+	
+	public Song getPlayingSong() {
+	    return playingSong;
+	}
+
+	public void setPlayingSong(Song playingSong) {
+	    this.playingSong = playingSong;
+	}
+	
+	public String getCurrentPanel() {
+	    return currentPanel;
+	}
+
+	public void setCurrenPanel(String s) {
+	    this.currentPanel = s;
+	}
+
+	public JPanel getPlayerBar() {
+	    return playerBar;
+	}
+
+	public void setPlayerBar(JPanel p) {
+	    this.playerBar = p;
+	}
+	
+	public JPanel getCardPanel() {
+	    return cardPanel;
 	}
 }

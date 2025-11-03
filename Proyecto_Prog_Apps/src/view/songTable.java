@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTable;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.table.DefaultTableModel;
 
 import model.Playlist;
@@ -22,7 +23,11 @@ import model.StyledTable;
 import utils.Utils;
 
 public class songTable {
-	public JPanel createSongTablePlaylist(Playlist playlist) {
+	
+	
+	public static JPanel createSongTablePlaylist(Playlist playlist) {
+		MainFrame main = MainFrame.getInstance();
+
 		String[] columns = { "Title", "Artist", "Duration" };
 		JPanel mainPanel = new JPanel(new BorderLayout());
 
@@ -41,29 +46,39 @@ public class songTable {
 		JTable songTable = new StyledTable(tableModel);
 
 		songTable.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					int row = songTable.getSelectedRow();
+					if (row >= 0) {
+						String title = (String) tableModel.getValueAt(row, 0);
+						String artist = (String) tableModel.getValueAt(row, 1);
+						int duration = Playlist.parseDuration((String) tableModel.getValueAt(row, 2));
 
-			public void mouseClicked(MouseEvent e) {
-				int row = songTable.rowAtPoint(e.getPoint());
-				if (row >= 0) {
-					String title = (String) tableModel.getValueAt(row, 0);
-					String artist = (String) tableModel.getValueAt(row, 1);
-					int duration = Playlist.parseDuration((String) tableModel.getValueAt(row, 2));
+						
+						main.setPlayingSong(new Song(title, duration, artist));
 
-					MainFrame.playingSong = new Song(title, duration, artist);
-
-					if (MainFrame.playerBar == null) {
-						MainFrame.playerBar = songBar.createPlayerBar(MainFrame.playingSong);
-						MainFrame.getInstance().mainPanel.add(MainFrame.playerBar, BorderLayout.SOUTH);
+						if (main.getPlayerBar() == null) {
+							main.setPlayerBar(songBar.createPlayerBar(main.getPlayingSong()));
+							main.mainPanel.add(main.getPlayerBar(), BorderLayout.SOUTH);
+						}
+						songBar.updateSongLabel(main.getPlayingSong());						
+						MainFrame.updateSongIcon(main.getPlayingSong());
+						mainPanel.revalidate();
+						mainPanel.repaint();
 					}
 				}
 			}
-
 		});
 
 		// JScrollPane
 		JScrollPane scrollPane = new JScrollPane(songTable);
-		scrollPane.getViewport().setBackground(MainFrame.BackgroundColor);
-		scrollPane.setBorder(null);
+		scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+			@Override
+			protected void configureScrollBarColors() {
+				this.thumbColor = MainFrame.TextColor;
+				this.trackColor = MainFrame.BackgroundColor;
+			}
+		});
 
 		mainPanel.add(scrollPane, BorderLayout.CENTER);
 

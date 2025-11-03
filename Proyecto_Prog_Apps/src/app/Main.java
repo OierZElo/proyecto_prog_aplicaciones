@@ -1,13 +1,17 @@
 package app;
 import javax.swing.SwingUtilities;
-import view.MainFrame;
+
+import view.ConfigManager;
+import view.LoginRegisterDialog;
+
 
 public class Main {
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(() -> {
-			MainFrame mainFrame = new MainFrame();
-			mainFrame.setVisible(true);			
+			ConfigManager.loadColors();
+			LoginRegisterDialog loginFrame = new LoginRegisterDialog();
+			loginFrame.setVisible(true);			
 		});
 		
 

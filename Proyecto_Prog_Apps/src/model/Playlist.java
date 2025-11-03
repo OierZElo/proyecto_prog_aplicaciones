@@ -10,9 +10,9 @@ public class Playlist {
 	private int n_songs;
 	private int user_id;
 	private int duration;
-	private List<Song> l_songs;
+	public List<Song> l_songs;
 
-	public Playlist(String name, int user_id, List<Song> l_songs) {
+	public Playlist(String name, int user_id) {
 		super();
 		this.cod = counter;
 		counter += 1;
@@ -67,10 +67,18 @@ public class Playlist {
 	}
 
 	public static String getDurationFormat(int duration) {
+		if(duration >= 3600) {
+			int hour = duration / 3600;
+			int min = (duration % 3600) / 60;
+			int sec = duration % 60;
+		    return String.format("%d:%02d:%02d", hour, min, sec);}
+		else {}
+		
 		int min = duration / 60;
 		int sec = duration % 60;
 		return String.format("%d:%02d", min, sec);
 	}
+	
 
 	public static int parseDuration(String duration) {
 		String[] parts = duration.split(":");

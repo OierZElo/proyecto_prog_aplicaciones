@@ -1,79 +1,92 @@
 package view;
 
 import utils.Utils;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+
+import javax.swing.Box.Filler;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
 import model.Playlist;
 
 public class LoginRegisterDialog extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	
-	public static JPanel panelPrincipal = new JPanel(new GridLayout(20,1));
-	public static JLabel username = new JLabel("Username");
-	public static JTextField usernameFill = new JTextField("username");
-	public static JPanel panelUsernameFill = new JPanel(new GridLayout(1,3));
+	public static JPanel panelPrincipal = new JPanel(new GridLayout(11,1));
+	public static JLabel email = new JLabel("Email");
+	public static JTextField emailFill = new JTextField("Enter your email...");
+	public static JPanel panelEmailFill = new JPanel(new BorderLayout());
 	public static JLabel password = new JLabel("Password");
 	public static JPasswordField passwordFill = new JPasswordField();
-	public static JPanel panelPasswordFill = new JPanel(new GridLayout(1,3));
+	public static JPanel panelPasswordFill = new JPanel(new BorderLayout());
+	public static JPanel panelButtons = new JPanel(new BorderLayout());
+	public static JPanel Buttons = new JPanel(new GridLayout(1,2,5,5));
+	public static JButton register = new JButton("Sign up");
+	public static JButton login = new JButton("Login");
 	
-	public static JPanel LoginRegisterDialogPanel() {
+	public LoginRegisterDialog() {
+		//Jframe
+		setSize(300,225);
+		setTitle("Login");
+		setLocationRelativeTo(null);
+		setResizable(false);
+		
 		 //general
 		panelPrincipal.setVisible(true);
 		panelPrincipal.setBackground(MainFrame.BackgroundColor);
-		JLabel filler = new JLabel();
-		filler.setBackground(MainFrame.BackgroundColor);
-		filler.setOpaque(true);
-		panelPrincipal.add(filler);
+	
+		panelPrincipal.add(filler());
 		
-		//Username
-		username.setForeground(MainFrame.TextColor);
+		//Email
+		email.setForeground(MainFrame.TextColor);
 		
-		username.setHorizontalAlignment(JLabel.CENTER);
-		panelPrincipal.add(username);
+		email.setHorizontalAlignment(JLabel.CENTER);
+		panelPrincipal.add(email);
 		
-		//Username fill
-		JLabel provisional = new JLabel();
-		provisional.setBackground(MainFrame.BackgroundColor);
-		provisional.setOpaque(true);
-		JLabel provisional2 = new JLabel();
-		provisional2.setBackground(MainFrame.BackgroundColor);
-		provisional2.setOpaque(true);
-		panelUsernameFill.add(provisional);
-		usernameFill.setBackground(MainFrame.TextColor);
-		usernameFill.setForeground(MainFrame.BorderColor);
-		usernameFill.setHorizontalAlignment(JTextField.CENTER);
+		//Email fill
+		panelEmailFill.setBackground(MainFrame.BackgroundColor);
+		panelEmailFill.setOpaque(true);
+		emailFill.setBackground(MainFrame.TextColor);
+		emailFill.setForeground(MainFrame.BorderColor);
+		emailFill.setHorizontalAlignment(JTextField.CENTER);
 		
-		usernameFill.addFocusListener(new FocusAdapter() {
+		emailFill.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				if (usernameFill.getText().equals("username")) {
-					usernameFill.setText("");
+				if (emailFill.getText().equals("Enter your email...")) {
+					emailFill.setText("");
 				}
 			}
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				if (usernameFill.getText().isEmpty()) {
-					usernameFill.setText("username");
+				if (emailFill.getText().isEmpty()) {
+					emailFill.setText("Enter your email...");
 				}
 			}
 		});
 		
-		panelUsernameFill.add(usernameFill);
-		panelUsernameFill.add(provisional2);
-		panelPrincipal.add(panelUsernameFill);
-		JPanel filler2 = new JPanel();
-		filler2.setBackground(MainFrame.BackgroundColor);
-		filler2.setOpaque(true);
-		panelPrincipal.add(filler2);
+		panelEmailFill.add(emailFill, BorderLayout.CENTER);
+		panelEmailFill.add(filler(), BorderLayout.WEST);
+		panelEmailFill.add(filler() , BorderLayout.EAST);
+
+
+		panelPrincipal.add(panelEmailFill);
+
+		panelPrincipal.add(filler());
 		
 		
 		//Password
@@ -82,21 +95,55 @@ public class LoginRegisterDialog extends JFrame{
 		panelPrincipal.add(password);
 		
 		//Password fill
-		JLabel provisional3 = new JLabel();
-		provisional3.setBackground(MainFrame.BackgroundColor);
-		provisional3.setOpaque(true);
-		JLabel provisional4 = new JLabel();
-		provisional4.setBackground(MainFrame.BackgroundColor);
-		provisional4.setOpaque(true);
 		passwordFill.setBackground(MainFrame.TextColor);
 		passwordFill.setForeground(MainFrame.BackgroundColor);
 		passwordFill.setHorizontalAlignment(JPasswordField.CENTER);
-		panelPasswordFill.add(provisional3);
-		panelPasswordFill.add(passwordFill);
-		panelPasswordFill.add(provisional4);
+		panelPasswordFill.setBackground(MainFrame.BackgroundColor);
+		panelPasswordFill.setOpaque(true);
+	
+		panelPasswordFill.add(passwordFill, BorderLayout.CENTER);
+		panelPasswordFill.add(filler(), BorderLayout.EAST);
+		panelPasswordFill.add(filler(), BorderLayout.WEST);
 		panelPrincipal.add(panelPasswordFill);
 		 
+		//Buttons
+		panelButtons.setBackground(MainFrame.BackgroundColor);
+		panelButtons.setOpaque(true);
+		panelPrincipal.add(filler());
 		
-		return panelPrincipal;
+
+		register.setBackground(MainFrame.BorderColor);
+		register.setFocusPainted(false);
+		login.setBackground(MainFrame.BorderColor);
+		login.setFocusPainted(false);
+		
+		
+		login.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				MainFrame mainFrame = new MainFrame();
+				mainFrame.setVisible(true);
+				dispose();
+			}
+		});
+		
+		Buttons.add(register);
+		Buttons.add(login);
+		Buttons.setBackground(MainFrame.BackgroundColor);
+		panelButtons.add(Buttons, BorderLayout.CENTER);
+		panelButtons.add(filler(), BorderLayout.EAST);
+		panelButtons.add(filler(), BorderLayout.WEST);
+		panelPrincipal.add(panelButtons);		
+		
+		add(panelPrincipal);
 	 }
+	
+	public static JPanel filler() {
+		JPanel filler = new JPanel();
+		filler.setBackground(MainFrame.BackgroundColor);
+		filler.setPreferredSize(new Dimension(50,0));
+		return filler;
+	}
 }

@@ -12,9 +12,16 @@ public class Utils {
 	public static ArrayList<Song> songs = new ArrayList<>();
 	public static ArrayList<Playlist> playlists = new ArrayList<>();
 
-	public static Playlist playlist1 = new Playlist("Playlist 1", 000, new ArrayList<Song>());
-	public static Playlist playlist2 = new Playlist("Playlist 2", 001, new ArrayList<Song>());
-	public static Playlist playlist3 = new Playlist("Playlist 3", 002, new ArrayList<Song>());
+	public static Playlist playlist1 = new Playlist("Playlist 1", 0);
+	public static Playlist playlist2 = new Playlist("Playlist 2", 1);
+	public static Playlist playlist3 = new Playlist("Playlist 3", 2);
+	public static Playlist playlist4 = new Playlist("Playlist 4", 3);
+	public static Playlist playlist5 = new Playlist("Playlist 5", 4);
+	public static Playlist playlist6 = new Playlist("Playlist 6", 5);
+	public static Playlist playlist7 = new Playlist("Playlist 7", 6);
+	public static Playlist playlist8 = new Playlist("Playlist 8", 7);
+	public static Playlist playlist9 = new Playlist("Playlist 9", 8);
+
 
 	
 	public static void generateUsers() {
@@ -97,18 +104,120 @@ public class Utils {
 		generateRandomPlaylist(playlist1);
 		generateRandomPlaylist(playlist2);
 		generateRandomPlaylist(playlist3);
+		generateRandomPlaylist(playlist4);
+		generateRandomPlaylist(playlist5);
+		generateRandomPlaylist(playlist6);
+		generateRandomPlaylist(playlist7);
+		generateRandomPlaylist(playlist8);
+		generateRandomPlaylist(playlist9);
+
 		playlists.add(playlist1);
 		playlists.add(playlist2);
 		playlists.add(playlist3);
+		playlists.add(playlist4);
+		playlists.add(playlist5);
+		playlists.add(playlist6);
+		playlists.add(playlist7);
+		playlists.add(playlist8);
+		playlists.add(playlist9);
+
 	}
 
 	public static void generateRandomPlaylist(Playlist playlist) {
 		Random random = new Random();
-		while (playlist.getN_songs() < 4) {
+		while (playlist.getN_songs() < 30) {
 			Song song = songs.get(random.nextInt(songs.size()));
 			if (!playlist.getL_songs().contains(song)) {
 				playlist.addSong(song);
 			}
 		}
 	}
+	
+	// playlists por genero para home: 
+	public static Playlist rock;
+    public static Playlist pop;
+    public static Playlist jazz;
+    public static Playlist clasica;
+    public static Playlist hip_hop;
+    public static Playlist reggae;
+    public static Playlist electronica;
+    public static Playlist blues;
+    public static Playlist country;
+    public static Playlist metal;
+    
+    static {
+    rock = new Playlist("rock", 1);
+    rock.l_songs.add(new Song("bohemian rhapsody", 354, "Queen"));
+    rock.l_songs.add(new Song("stairway to heaven", 482, "Led Zeppelin"));
+    rock.l_songs.add(new Song("hotel california", 391, "Eagles"));
+    rock.l_songs.add(new Song("sweet child o' mine", 356, "Guns N' Roses"));
+    rock.l_songs.add(new Song("back in black", 255, "AC/DC"));
+
+    pop = new Playlist("pop", 1);
+    pop.l_songs.add(new Song("thriller", 358, "Michael Jackson"));
+    pop.l_songs.add(new Song("like a prayer", 342, "Madonna"));
+    pop.l_songs.add(new Song("shape of you", 233, "Ed Sheeran"));
+    pop.l_songs.add(new Song("rolling in the deep", 228, "Adele"));
+    pop.l_songs.add(new Song("blinding lights", 200, "The Weeknd"));
+
+    jazz = new Playlist("jazz", 1);
+    jazz.l_songs.add(new Song("so what", 545, "Miles Davis"));
+    jazz.l_songs.add(new Song("take five", 324, "Dave Brubeck"));
+    jazz.l_songs.add(new Song("my favorite things", 799, "John Coltrane"));
+    jazz.l_songs.add(new Song("summertime", 556, "Ella Fitzgerald"));
+    jazz.l_songs.add(new Song("all of me", 426, "Louis Armstrong"));
+
+    clasica = new Playlist("clasica", 1);
+    clasica.l_songs.add(new Song("symphony no. 5", 425, "Beethoven"));
+    clasica.l_songs.add(new Song("the four seasons", 2520, "Vivaldi"));
+    clasica.l_songs.add(new Song("canon in d", 376, "Pachelbel"));
+    clasica.l_songs.add(new Song("clair de lune", 300, "Debussy"));
+    clasica.l_songs.add(new Song("ride of the valkyries", 330, "Wagner"));
+
+    hip_hop = new Playlist("hip-hop", 1);
+    hip_hop.l_songs.add(new Song("lose yourself", 326, "Eminem"));
+    hip_hop.l_songs.add(new Song("juicy", 300, "The Notorious B.I.G."));
+    hip_hop.l_songs.add(new Song("c.r.e.a.m.", 249, "Wu-Tang Clan"));
+    hip_hop.l_songs.add(new Song("sicko mode", 312, "Travis Scott"));
+    hip_hop.l_songs.add(new Song("humble", 177, "Kendrick Lamar"));
+
+    reggae = new Playlist("reggae", 1);
+    reggae.l_songs.add(new Song("no woman no cry", 431, "Bob Marley"));
+    reggae.l_songs.add(new Song("one love", 176, "Bob Marley"));
+    reggae.l_songs.add(new Song("red red wine", 196, "UB40"));
+    reggae.l_songs.add(new Song("is this love", 218, "Bob Marley"));
+    reggae.l_songs.add(new Song("get up stand up", 210, "Bob Marley"));
+
+    electronica = new Playlist("electronica", 1);
+    electronica.l_songs.add(new Song("one more time", 320, "Daft Punk"));
+    electronica.l_songs.add(new Song("strobe", 630, "deadmau5"));
+    electronica.l_songs.add(new Song("animals", 415, "Martin Garrix"));
+    electronica.l_songs.add(new Song("scary monsters and nice sprites", 314, "Skrillex"));
+    electronica.l_songs.add(new Song("levels", 224, "Avicii"));
+
+    blues = new Playlist("blues", 1);
+    blues.l_songs.add(new Song("the thrill is gone", 335, "B.B. King"));
+    blues.l_songs.add(new Song("crossroads", 250, "Cream"));
+    blues.l_songs.add(new Song("hoochie coochie man", 224, "Muddy Waters"));
+    blues.l_songs.add(new Song("red house", 456, "Jimi Hendrix"));
+    blues.l_songs.add(new Song("sweet home chicago", 285, "Robert Johnson"));
+
+    country = new Playlist("country", 1);
+    country.l_songs.add(new Song("friends in low places", 291, "Garth Brooks"));
+    country.l_songs.add(new Song("jolene", 155, "Dolly Parton"));
+    country.l_songs.add(new Song("take me home country roads", 191, "John Denver"));
+    country.l_songs.add(new Song("the dance", 255, "Garth Brooks"));
+    country.l_songs.add(new Song("ring of fire", 175, "Johnny Cash"));
+
+    metal = new Playlist("metal", 1);
+    metal.l_songs.add(new Song("master of puppets", 515, "Metallica"));
+    metal.l_songs.add(new Song("painkiller", 323, "Judas Priest"));
+    metal.l_songs.add(new Song("iron man", 356, "Black Sabbath"));
+    metal.l_songs.add(new Song("fear of the dark", 438, "Iron Maiden"));
+    metal.l_songs.add(new Song("chop suey", 210, "System of a Down"));
+    
+    }
+    
+    
+    
 }

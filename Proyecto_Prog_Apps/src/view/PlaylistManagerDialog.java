@@ -1,6 +1,8 @@
 package view;
 
 import java.awt.event.FocusEvent;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -14,25 +16,21 @@ import java.awt.*;
 import java.awt.event.*;
 import model.Playlist;
 import utils.Utils;
-import javax.swing.JScrollPane;
 
 public class PlaylistManagerDialog extends JFrame {
 	private static final long serialVersionUID = 1L;
 
-	public static JPanel PlaylistManagerDialogPanel(Playlist playlist) {
-		JPanel mainpanel = new JPanel();
-		mainpanel.setBackground(MainFrame.BackgroundColor);
-		BorderLayout borderLayout = new BorderLayout();
-		mainpanel.setLayout(borderLayout);
-
-		JTextField buscador = new JTextField("🔍 Buscar playlist");
-		buscador.setOpaque(true);
-		mainpanel.add(buscador, BorderLayout.NORTH);
-		buscador.setBackground(Color.WHITE);
-		buscador.setBorder(new MatteBorder(0, 0, 2, 0, MainFrame.BorderColor));
-
-		buscador.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 26));
-		buscador.setHorizontalAlignment(JLabel.CENTER);
+	public static JPanel PlaylistManagerDialogPanel() {
+		MainFrame main = MainFrame.getInstance();
+		JPanel mainPanel = new JPanel(new BorderLayout());
+	    mainPanel.setBackground(MainFrame.BackgroundColor);
+		
+	    JTextField buscador = new JTextField("🔍 Buscar playlist");
+	    buscador.setOpaque(true);
+	    buscador.setBackground(Color.WHITE);
+	    buscador.setBorder(new MatteBorder(0, 0, 2, 0, MainFrame.BorderColor));
+	    buscador.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 26));
+	    buscador.setHorizontalAlignment(JTextField.CENTER);
 
 		buscador.addFocusListener(new FocusAdapter() {
 			@Override
@@ -50,26 +48,36 @@ public class PlaylistManagerDialog extends JFrame {
 			}
 		});
 		
-		JPanel gridPanel = new JPanel(new FlowLayout());
-		gridPanel.setBackground(MainFrame.BackgroundColor);
+	    mainPanel.add(buscador, BorderLayout.NORTH);
+	    
+	    JPanel listPanel = new JPanel();
+	    listPanel.setBackground(MainFrame.BackgroundColor);
+	    listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
 
 		for (Playlist p: Utils.playlists) {
 	    String text = "<html><b>" + p.getName() + "</b><br>" +
-                   p.getN_songs() + " songs - " + Playlist.getDurationFormat(p.getDuration()) + " minutes</html>";
+                   p.getN_songs() + " songs - " + Playlist.getDurationFormat(p.getDuration()) + "</html>";
 
 		    JButton buttonPlaylist = new JButton(text);
 		    buttonPlaylist.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 22));
 		    buttonPlaylist.setBackground(MainFrame.BorderColor);
 		    buttonPlaylist.setForeground(MainFrame.BackgroundColor);
 		    buttonPlaylist.setFocusPainted(false);
-		    buttonPlaylist.setPreferredSize(new Dimension(680, 70));
 		    buttonPlaylist.setHorizontalAlignment(SwingConstants.LEFT);
-		    gridPanel.add(buttonPlaylist);
-		}
-		mainpanel.add(gridPanel, BorderLayout.CENTER);
+	        
+	        buttonPlaylist.addActionListener(evt -> {
+	            JPanel playListSongs = songTable.createSongTablePlaylist(p);
+	            main.getCardPanel().add(playListSongs, "PlaylistSongsTable");
+	            MainFrame.cardLayout.show(main.getCardPanel(), "PlaylistSongsTable");
+	            main.setCurrenPanel("PlaylistSongsTable");
+	        });
+	        
+	        listPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+	        listPanel.add(buttonPlaylist);
+	    }
 		
-		// JScrollPane
-		JScrollPane scrollPane = new JScrollPane(gridPanel);
+		
+	    JScrollPane scrollPane = new JScrollPane(listPanel);
 		scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
 			@Override
 			protected void configureScrollBarColors() {
@@ -77,7 +85,9 @@ public class PlaylistManagerDialog extends JFrame {
 				this.trackColor = MainFrame.BackgroundColor;
 			}
 		});
-		mainpanel.add(scrollPane, BorderLayout.CENTER);
-		return mainpanel;
+
+	    mainPanel.add(scrollPane, BorderLayout.CENTER);
+	    
+		return mainPanel;
 	}
 }
