@@ -1,18 +1,20 @@
 package view;
 
 import java.awt.event.FocusEvent;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 import java.awt.event.*;
 import model.Playlist;
 import utils.Utils;
+import javax.swing.JScrollPane;
 
 public class PlaylistManagerDialog extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -64,12 +66,18 @@ public class PlaylistManagerDialog extends JFrame {
 		    buttonPlaylist.setHorizontalAlignment(SwingConstants.LEFT);
 		    gridPanel.add(buttonPlaylist);
 		}
+		mainpanel.add(gridPanel, BorderLayout.CENTER);
 		
-		
-		
-
-		
-		mainpanel.add(gridPanel, BorderLayout.CENTER);		
+		// JScrollPane
+		JScrollPane scrollPane = new JScrollPane(gridPanel);
+		scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+			@Override
+			protected void configureScrollBarColors() {
+				this.thumbColor = MainFrame.TextColor;
+				this.trackColor = MainFrame.BackgroundColor;
+			}
+		});
+		mainpanel.add(scrollPane, BorderLayout.CENTER);
 		return mainpanel;
 	}
 }
