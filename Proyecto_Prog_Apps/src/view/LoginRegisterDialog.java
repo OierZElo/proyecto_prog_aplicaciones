@@ -20,6 +20,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import model.Playlist;
+import model.User;
 
 public class LoginRegisterDialog extends JFrame{
 
@@ -138,6 +139,7 @@ public class LoginRegisterDialog extends JFrame{
 		panelPrincipal.add(panelButtons);		
 		
 		add(panelPrincipal);
+
 	 }
 	
 	public static JPanel filler() {

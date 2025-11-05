@@ -36,6 +36,14 @@ public class User {
 		return mail;
 	}
 
+	public ImageIcon getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(ImageIcon photo) {
+		this.photo = photo;
+	}
+
 	
 
 }
