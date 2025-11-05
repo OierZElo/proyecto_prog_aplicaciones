@@ -34,7 +34,7 @@ public class Utils {
 
 	public User getUserFromUsername(String username) {
 		for (User user : users) {
-			if (user.getUsername().equals(username)) {
+			if (user.getMail().equals(username)) {
 				return user;
 			}
 		}
