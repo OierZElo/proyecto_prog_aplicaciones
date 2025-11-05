@@ -129,9 +129,9 @@ public class UserPanel {
 		r.add(lg);
 		r.add(chp);
 		// JDialog change picture
-		JDialog newpic = rellenarCampos(result, "Introduce the url of the new picture: ", usuario); 
-		
-       // newPicture.setOpacity(100);
+		JDialog newpic = CambioDeFoto(result, "Introduce the url of the new picture: ", usuario); 
+		JDialog newpassword = CambiarContrasena(result, "Introduce the new password", usuario);
+		chp.addActionListener(e -> newpassword.setVisible(true));
 		cp.addActionListener(new ActionListener() {
 			
 			@Override
@@ -142,8 +142,16 @@ public class UserPanel {
 	return r;
 	}
 	
-	private static JDialog rellenarCampos(JPanel result, String texto, User usuario) {
+	
+	
+	
+	
+	
+	
+	
+	private static JDialog CambioDeFoto(JPanel result, String texto, User usuario) {
 		JDialog r = new JDialog(); 
+		r.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		r.setLayout(new BorderLayout() );
 		// datos de entrada del user
 		JPanel datos = new JPanel(new FlowLayout(FlowLayout.CENTER,10,10) ); 
@@ -185,6 +193,55 @@ public class UserPanel {
 		return r;
 		
 	}
+	
+	private static JDialog CambiarContrasena(JPanel result, String texto, User usuario) {
+		JDialog r = new JDialog(); 
+		r.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		r.setLayout(new BorderLayout() );
+		// datos de entrada del user
+		JPanel datos = new JPanel(new FlowLayout(FlowLayout.CENTER,10,10) ); 
+		JLabel t = new JLabel(texto);
+		t.setBackground(MainFrame.BorderColor);
+		t.setOpaque(true);
+		datos.add(t); 
+		JTextField usersdata = new JTextField(20); 
+		JTextField usersdata2 = new JTextField(20); 
+		datos.add(usersdata);
+		datos.add(usersdata2);
+		r.add(datos, BorderLayout.CENTER);
+		// botones de interacción 
+		JPanel control = new JPanel(new FlowLayout(FlowLayout.CENTER,10,10)); 
+		JButton aceptar = new JButton("ACCEPT"); 
+	    JButton cancelar = new JButton("CANCEL"); 
+	    aceptar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					if (!usersdata.getText().equals(usersdata2.getText())) {
+						JOptionPane.showMessageDialog(null, "The passwords don't match", "ERROR", JOptionPane.ERROR_MESSAGE);
+						
+					}
+					else {
+						usuario.setPassword(usersdata.getText());
+						r.dispose(); }
+				
+				
+			}
+		});
+	    
+	    cancelar.addActionListener( e -> r.dispose());
+	    control.add(aceptar); 
+	    control.add(cancelar); 
+	    r.add(control, BorderLayout.SOUTH);
+        r.setSize(300, 300);
+        r.setLocationRelativeTo(result);
+        r.setBackground(MainFrame.BackgroundColor);
+       
+		return r;
+		
+	}
+	
+	
 	
 	
 	
