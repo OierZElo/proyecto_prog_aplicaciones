@@ -1,21 +1,26 @@
 package model;
 
 public class User {
-	private String name;
+	private static int counter = 0;
+	private int cod;
+	private String mail;
 	private String password;
 
-	public User(String name, String password) {
-		super();
-		this.name = name;
+	//constructor
+	public User(String mail, String password) {
+		this.cod = counter;
+		counter += 1;
+		this.mail = mail;
 		this.password = password;
 	}
 
-	public String getName() {
-		return name;
+	//getters and setters
+	public String getMail() {
+		return mail;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
 
 	public String getPassword() {
@@ -26,4 +31,15 @@ public class User {
 		this.password = password;
 	}
 
-}
+	public int getCod() {
+		return cod;
+	}
+	
+	
+
+};
+
+
+
+
+

@@ -186,6 +186,7 @@ public class MainFrame extends JFrame {
 				}
 			});
 		}
+		
 		// PLAYING SONG
 				icon.addMouseListener(new MouseAdapter() {
 				    @Override

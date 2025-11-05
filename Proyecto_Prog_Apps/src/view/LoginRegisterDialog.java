@@ -36,6 +36,8 @@ public class LoginRegisterDialog extends JFrame{
 	public static JPanel Buttons = new JPanel(new GridLayout(1,2,5,5));
 	public static JButton register = new JButton("Sign up");
 	public static JButton login = new JButton("Login");
+	public static JButton seePassword = new JButton("👁️");
+	public static JPanel panelSeePassword = new JPanel(new BorderLayout());
 	
 	public LoginRegisterDialog() {
 		//Jframe
@@ -100,10 +102,35 @@ public class LoginRegisterDialog extends JFrame{
 		passwordFill.setHorizontalAlignment(JPasswordField.CENTER);
 		panelPasswordFill.setBackground(MainFrame.BackgroundColor);
 		panelPasswordFill.setOpaque(true);
+		
+		char defaultEcho = passwordFill.getEchoChar();
+		
+		seePassword.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (seePassword.getText().equals("👁️")) {
+					passwordFill.setEchoChar((char)0);
+					seePassword.setText("🙈");
+				} else {
+					passwordFill.setEchoChar(defaultEcho);
+					seePassword.setText("👁️");
+				}
+			}
+		});
+		
+		panelSeePassword.setPreferredSize(new Dimension(50,30));
+		panelSeePassword.setMinimumSize(new Dimension(10,30));
+		panelSeePassword.add(seePassword, BorderLayout.CENTER);
+		panelSeePassword.add(filler2(), BorderLayout.EAST);
+		panelSeePassword.add(filler2(), BorderLayout.WEST);
 	
+		
+		
 		panelPasswordFill.add(passwordFill, BorderLayout.CENTER);
-		panelPasswordFill.add(filler(), BorderLayout.EAST);
 		panelPasswordFill.add(filler(), BorderLayout.WEST);
+		panelPasswordFill.add(panelSeePassword, BorderLayout.EAST);
+		
 		panelPrincipal.add(panelPasswordFill);
 		 
 		//Buttons
@@ -144,6 +171,13 @@ public class LoginRegisterDialog extends JFrame{
 		JPanel filler = new JPanel();
 		filler.setBackground(MainFrame.BackgroundColor);
 		filler.setPreferredSize(new Dimension(50,0));
+		return filler;
+	}
+	
+	public static JPanel filler2() {
+		JPanel filler = new JPanel();
+		filler.setBackground(MainFrame.BackgroundColor);
+		filler.setPreferredSize(new Dimension(2,0));
 		return filler;
 	}
 }
