@@ -12,6 +12,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
 import javax.swing.Box.Filler;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 import model.Playlist;
 import model.User;
@@ -100,11 +102,16 @@ public class LoginRegisterDialog extends JFrame{
 		panelPrincipal.add(password);
 		
 		//Password fill
-		passwordFill.setBackground(MainFrame.TextColor);
+		passwordFill.setBackground(MainFrame.BorderColor);
 		passwordFill.setForeground(MainFrame.BackgroundColor);
 		passwordFill.setHorizontalAlignment(JPasswordField.CENTER);
 		panelPasswordFill.setBackground(MainFrame.BackgroundColor);
 		panelPasswordFill.setOpaque(true);
+		
+		seePassword.setBackground(MainFrame.BackgroundColor);
+		seePassword.setFocusPainted(false);
+		seePassword.setForeground(MainFrame.TextColor);
+		seePassword.setBorder(BorderFactory.createEmptyBorder());
 		
 		char defaultEcho = passwordFill.getEchoChar();
 		
@@ -146,7 +153,7 @@ public class LoginRegisterDialog extends JFrame{
 		register.setFocusPainted(false);
 		login.setBackground(MainFrame.BorderColor);
 		login.setFocusPainted(false);
-		System.out.println("hola");
+
 		
 		Utils.generateUsers();
 		

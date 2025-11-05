@@ -126,6 +126,9 @@ public class MainFrame extends JFrame {
 		//SETTINGS
 		cardPanel.add(ConfigManager.ColorPanel(), "Config");
 		
+		// ACCOUNT
+		
+		cardPanel.add(UserPanel.UserPanel(), "AccountPanel");
 	
 		
 
