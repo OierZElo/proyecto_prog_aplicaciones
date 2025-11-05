@@ -3,25 +3,32 @@ package model;
 import javax.swing.ImageIcon;
 
 public class User {
-	private String name;
+	private static int counter = 0;
+	private int cod;
+	private String mail;
 	private String password;
-	private String mail; 
 	private ImageIcon photo; 
+	private String name; 
 
+
+
+	//constructor
 	public User(String mail, String password) {
-		super();
+		this.cod = counter;
+		counter += 1;
 		this.mail = mail;
 		this.password = password;
-		this.name = null;
 		this.photo = new ImageIcon("src\\resources\\icons\\SongIcon.png"); 
+
 	}
 
-	public String getName() {
-		return name;
+	//getters and setters
+	public String getMail() {
+		return mail;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
 
 	public String getPassword() {
@@ -32,8 +39,8 @@ public class User {
 		this.password = password;
 	}
 
-	public String getMail() {
-		return mail;
+	public int getCod() {
+		return cod;
 	}
 
 	public ImageIcon getPhoto() {
@@ -44,6 +51,18 @@ public class User {
 		this.photo = photo;
 	}
 
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
 	
 
-}
+};
+
+
+
+
+
