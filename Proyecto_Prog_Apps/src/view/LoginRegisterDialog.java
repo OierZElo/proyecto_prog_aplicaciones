@@ -146,7 +146,7 @@ public class LoginRegisterDialog extends JFrame{
 		register.setFocusPainted(false);
 		login.setBackground(MainFrame.BorderColor);
 		login.setFocusPainted(false);
-		System.out.println("hola");
+
 		
 		Utils.generateUsers();
 		
