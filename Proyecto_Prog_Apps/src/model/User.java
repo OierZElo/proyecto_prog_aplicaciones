@@ -3,11 +3,13 @@ package model;
 public class User {
 	private String name;
 	private String password;
+	private String mail; 
 
-	public User(String name, String password) {
+	public User(String mail, String password) {
 		super();
-		this.name = name;
+		this.mail = mail;
 		this.password = password;
+		this.name = null;
 	}
 
 	public String getName() {
@@ -25,5 +27,11 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	public String getMail() {
+		return mail;
+	}
+
+	
 
 }
