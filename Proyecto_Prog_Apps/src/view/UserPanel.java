@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -60,7 +61,7 @@ public class UserPanel {
 		 userdata.add(foto, BorderLayout.WEST);
 		 userdata.add(generarDatos(usuario), BorderLayout.CENTER);
 		 //user's data controlers's display:
-		 userdata.add(botonesControl(result),BorderLayout.SOUTH);
+		 userdata.add(botonesControl(result, usuario),BorderLayout.SOUTH);
 
 // Windoe's center's display: 
 		 JPanel lsl = new JPanel(); 
@@ -113,7 +114,7 @@ public class UserPanel {
 		
 		return r; }
 		
-	private static JPanel botonesControl(JPanel result) {
+	private static JPanel botonesControl(JPanel result, User usuario) {
 		JPanel r = new JPanel(); 
 		r.setBackground(MainFrame.BackgroundColor);
 		r.setLayout(new FlowLayout(FlowLayout.CENTER, 70, 10));
@@ -128,25 +129,61 @@ public class UserPanel {
 		r.add(lg);
 		r.add(chp);
 		// JDialog change picture
-		JDialog newPicture = new JDialog(); 
-		newPicture.setLayout(new FlowLayout());
-		JLabel t = new JLabel("Introduce the URL of the new picture: ");
-		t.setBackground(MainFrame.BorderColor);
-		t.setOpaque(true);
-		newPicture.add(t);
-		newPicture.add(new JTextField(10));
-        newPicture.setSize(300, 300);
-        newPicture.setLocationRelativeTo(result);
-        newPicture.setBackground(MainFrame.BackgroundColor);
+		JDialog newpic = rellenarCampos(result, "Introduce the url of the new picture: ", usuario); 
+		
        // newPicture.setOpacity(100);
 		cp.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				newPicture.setVisible(true);
+				newpic.setVisible(true);
 			}
 		});
 	return r;
+	}
+	
+	private static JDialog rellenarCampos(JPanel result, String texto, User usuario) {
+		JDialog r = new JDialog(); 
+		r.setLayout(new BorderLayout() );
+		// datos de entrada del user
+		JPanel datos = new JPanel(new FlowLayout(FlowLayout.CENTER,10,10) ); 
+		JLabel t = new JLabel(texto);
+		t.setBackground(MainFrame.BorderColor);
+		t.setOpaque(true);
+		datos.add(t); 
+		JTextField usersdata = new JTextField(20); 
+		datos.add(usersdata);
+		r.add(datos, BorderLayout.CENTER);
+		// botones de interacción 
+		JPanel control = new JPanel(new FlowLayout(FlowLayout.CENTER,10,10)); 
+		JButton aceptar = new JButton("ACCEPT"); 
+	    JButton cancelar = new JButton("CANCEL"); 
+	    aceptar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+					ImageIcon foto = new ImageIcon(usersdata.getText()); 
+					if (foto.getIconWidth() == -1) {
+						JOptionPane.showMessageDialog(null, "invalid url", "ERROR", JOptionPane.ERROR_MESSAGE);
+					}
+					else { usuario.setPhoto(foto); }
+					r.dispose();
+				
+				
+			}
+		});
+	    
+	    cancelar.addActionListener( e -> r.dispose());
+	    control.add(aceptar); 
+	    control.add(cancelar); 
+	    r.add(control, BorderLayout.SOUTH);
+        r.setSize(300, 300);
+        r.setLocationRelativeTo(result);
+        r.setBackground(MainFrame.BackgroundColor);
+       
+		return r;
+		
 	}
 	
 	
