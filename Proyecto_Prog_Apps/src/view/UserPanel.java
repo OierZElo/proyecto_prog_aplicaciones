@@ -2,12 +2,15 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
+import java.awt.Image;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -28,7 +31,7 @@ public class UserPanel {
 		result.setBorder(BorderFactory.createLineBorder(MainFrame.BackgroundColor, 10));
 
 		result.setBackground(MainFrame.BackgroundColor);
-		result.setLayout(new BorderLayout(20, 10));
+		result.setLayout(new GridLayout(2,1,0, 10));
 		 
 		 
 		 
@@ -41,11 +44,17 @@ public class UserPanel {
 		JPanel userdata = new JPanel();; 
 		 userdata.setBackground(MainFrame.BackgroundColor);
 		 userdata.setLayout(new BorderLayout(10, 10));
-		 userdata.add(new JLabel(usuario.getPhoto()), BorderLayout.WEST);
+		 // user's picture: 
+		 
+		 Image scaledImage = usuario.getPhoto().getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+		 ImageIcon fotoScala = new ImageIcon(scaledImage);
+		 JLabel foto = new JLabel(fotoScala);
+		 foto.setPreferredSize(new Dimension(200, 200));
+
+		 userdata.add(foto, BorderLayout.WEST);
 		 userdata.add(generarDatos(usuario), BorderLayout.CENTER);
 		 //user's data controlers's display:
 		 userdata.add(botonesControl(),BorderLayout.SOUTH);
-		 result.add(userdata, BorderLayout.NORTH);
 
 // Windoe's center's display: 
 		 JPanel lsl = new JPanel(); 
@@ -58,9 +67,14 @@ public class UserPanel {
 		 title.setForeground(MainFrame.TextColor);
 		 Font font = new Font("Arial", Font.BOLD, 24);
 		 title.setFont(font);
-		 lsl.add(title);
-		 result.add(lsl, BorderLayout.CENTER);
+		 lsl.add(title,BorderLayout.NORTH );
+		 Utils.generateRandomPlaylist(Utils.playlist1);
+		 JPanel lastsongs = songTable.createSongTablePlaylist(Utils.playlist1) ;
+		 lsl.add(lastsongs, BorderLayout.CENTER);
 
+// here we add the created JPanels into the result JPanel
+		result.add(userdata);
+		result.add(lsl);
 
 		
 		return result;
@@ -72,6 +86,12 @@ public class UserPanel {
 		JLabel mail = new JLabel("Mail : " + usuario.getMail()); 
 		JLabel name = new  JLabel("Username: " + usuario.getName()); 
 		JLabel password = new JLabel("Password: " + usuario.getPassword());
+		
+		// labels color: 
+		mail.setBackground(MainFrame.BorderColor);
+		name.setBackground(MainFrame.BorderColor);
+		password.setBackground(MainFrame.BorderColor);
+
 		// text Alignment 
 		mail.setHorizontalAlignment(JLabel.CENTER);
 		name.setHorizontalAlignment(JLabel.CENTER);
@@ -90,10 +110,14 @@ public class UserPanel {
 	private static JPanel botonesControl() {
 		JPanel r = new JPanel(); 
 		r.setBackground(MainFrame.BackgroundColor);
-		r.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+		r.setLayout(new FlowLayout(FlowLayout.CENTER, 70, 10));
 		JButton cp = new JButton("Change profile's picture"); 
+		cp.setBackground(MainFrame.BorderColor);
 		JButton lg = new JButton("Sing out"); 
+		lg.setBackground(MainFrame.BorderColor);
 		JButton chp = new JButton("Change password "); 
+		chp.setBackground(MainFrame.BorderColor);
+
 		r.add(cp); 
 		r.add(lg);
 		r.add(chp);
