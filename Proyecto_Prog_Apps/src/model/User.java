@@ -1,10 +1,16 @@
 package model;
 
+import javax.swing.ImageIcon;
+
 public class User {
 	private static int counter = 0;
 	private int cod;
 	private String mail;
 	private String password;
+	private ImageIcon photo; 
+	private String name; 
+
+
 
 	//constructor
 	public User(String mail, String password) {
@@ -12,6 +18,8 @@ public class User {
 		counter += 1;
 		this.mail = mail;
 		this.password = password;
+		this.photo = new ImageIcon("src\\resources\\icons\\SongIcon.png"); 
+
 	}
 
 	//getters and setters
@@ -34,7 +42,22 @@ public class User {
 	public int getCod() {
 		return cod;
 	}
+
+	public ImageIcon getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(ImageIcon photo) {
+		this.photo = photo;
+	}
+
+	public String getName() {
+		return name;
+	}
 	
+	public void setName(String name) {
+		this.name = name;
+	}
 	
 
 };

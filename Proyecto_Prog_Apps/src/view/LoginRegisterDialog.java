@@ -15,11 +15,13 @@ import javax.swing.Box.Filler;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import model.Playlist;
+import model.User;
 
 public class LoginRegisterDialog extends JFrame{
 
@@ -38,6 +40,7 @@ public class LoginRegisterDialog extends JFrame{
 	public static JButton login = new JButton("Login");
 	public static JButton seePassword = new JButton("👁️");
 	public static JPanel panelSeePassword = new JPanel(new BorderLayout());
+	public static boolean found = false;
 	
 	public LoginRegisterDialog() {
 		//Jframe
@@ -61,8 +64,8 @@ public class LoginRegisterDialog extends JFrame{
 		//Email fill
 		panelEmailFill.setBackground(MainFrame.BackgroundColor);
 		panelEmailFill.setOpaque(true);
-		emailFill.setBackground(MainFrame.TextColor);
-		emailFill.setForeground(MainFrame.BorderColor);
+		emailFill.setBackground(MainFrame.BorderColor);
+		emailFill.setForeground(MainFrame.BackgroundColor);
 		emailFill.setHorizontalAlignment(JTextField.CENTER);
 		
 		emailFill.addFocusListener(new FocusAdapter() {
@@ -143,16 +146,32 @@ public class LoginRegisterDialog extends JFrame{
 		register.setFocusPainted(false);
 		login.setBackground(MainFrame.BorderColor);
 		login.setFocusPainted(false);
+		System.out.println("hola");
 		
+		Utils.generateUsers();
 		
 		login.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				MainFrame mainFrame = new MainFrame();
-				mainFrame.setVisible(true);
-				dispose();
+//				found = false;
+				for(User user: Utils.users) {
+			
+					
+					if(user.getMail().equals(emailFill.getText()) 
+							&& user.getPassword().equals(new String(passwordFill.getPassword()))) {
+						found = true;
+						MainFrame mainFrame = new MainFrame();
+						mainFrame.setVisible(true);
+						dispose();
+						break;
+					}
+				}
+				if (!found) {
+					JOptionPane.showMessageDialog(null, "Email and password don't match", "NOT FOUND!", JOptionPane.ERROR_MESSAGE);
+				}
+				
 			}
 		});
 		
@@ -165,6 +184,7 @@ public class LoginRegisterDialog extends JFrame{
 		panelPrincipal.add(panelButtons);		
 		
 		add(panelPrincipal);
+
 	 }
 	
 	public static JPanel filler() {

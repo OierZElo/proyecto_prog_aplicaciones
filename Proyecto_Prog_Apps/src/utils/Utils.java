@@ -30,6 +30,7 @@ public class Utils {
 		users.add(new User("user3@gmail.com", "password3"));
 		users.add(new User("user4@gmail.com", "password4"));
 		users.add(new User("user5@gmail.com", "password5"));
+		users.add(new User("Enter your email...", ""));
 	}
 
 	public User getUserFromUsername(String username) {
