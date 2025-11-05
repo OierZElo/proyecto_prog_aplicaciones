@@ -7,10 +7,10 @@ public class User {
 	private String password;
 
 	//constructor
-	public User(String username, String password) {
+	public User(String mail, String password) {
 		this.cod = counter;
 		counter += 1;
-		this.mail = username;
+		this.mail = mail;
 		this.password = password;
 	}
 
