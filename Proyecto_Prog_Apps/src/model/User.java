@@ -3,24 +3,24 @@ package model;
 public class User {
 	private static int counter = 0;
 	private int cod;
-	private String username;
+	private String mail;
 	private String password;
 
 	//constructor
 	public User(String username, String password) {
 		this.cod = counter;
 		counter += 1;
-		this.username = username;
+		this.mail = username;
 		this.password = password;
 	}
 
 	//getters and setters
-	public String getUsername() {
-		return username;
+	public String getMail() {
+		return mail;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
 
 	public String getPassword() {
