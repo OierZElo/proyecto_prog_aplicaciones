@@ -2,19 +2,25 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import model.User;
 import utils.Utils;
@@ -54,7 +60,7 @@ public class UserPanel {
 		 userdata.add(foto, BorderLayout.WEST);
 		 userdata.add(generarDatos(usuario), BorderLayout.CENTER);
 		 //user's data controlers's display:
-		 userdata.add(botonesControl(),BorderLayout.SOUTH);
+		 userdata.add(botonesControl(result),BorderLayout.SOUTH);
 
 // Windoe's center's display: 
 		 JPanel lsl = new JPanel(); 
@@ -107,7 +113,7 @@ public class UserPanel {
 		
 		return r; }
 		
-	private static JPanel botonesControl() {
+	private static JPanel botonesControl(JPanel result) {
 		JPanel r = new JPanel(); 
 		r.setBackground(MainFrame.BackgroundColor);
 		r.setLayout(new FlowLayout(FlowLayout.CENTER, 70, 10));
@@ -121,6 +127,25 @@ public class UserPanel {
 		r.add(cp); 
 		r.add(lg);
 		r.add(chp);
+		// JDialog change picture
+		JDialog newPicture = new JDialog(); 
+		newPicture.setLayout(new FlowLayout());
+		JLabel t = new JLabel("Introduce the URL of the new picture: ");
+		t.setBackground(MainFrame.BorderColor);
+		t.setOpaque(true);
+		newPicture.add(t);
+		newPicture.add(new JTextField(10));
+        newPicture.setSize(300, 300);
+        newPicture.setLocationRelativeTo(result);
+        newPicture.setBackground(MainFrame.BackgroundColor);
+       // newPicture.setOpacity(100);
+		cp.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				newPicture.setVisible(true);
+			}
+		});
 	return r;
 	}
 	
