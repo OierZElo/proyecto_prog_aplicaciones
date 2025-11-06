@@ -169,7 +169,7 @@ public class LoginRegisterDialog extends JFrame{
 					if(user.getMail().equals(emailFill.getText()) 
 							&& user.getPassword().equals(new String(passwordFill.getPassword()))) {
 						found = true;
-						MainFrame mainFrame = new MainFrame();
+						MainFrame mainFrame = new MainFrame(user);
 						mainFrame.setVisible(true);
 						dispose();
 						break;

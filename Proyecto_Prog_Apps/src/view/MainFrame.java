@@ -61,6 +61,8 @@ public class MainFrame extends JFrame {
 	public static Color TextColor = Color.white;
 
 	public static boolean desplegado = true;
+	
+	
 
 	private Song playingSong;
 	private boolean songPanelSetUpDone = false;
@@ -79,7 +81,7 @@ public class MainFrame extends JFrame {
 	static JLabel icon = new JLabel();
 	
 
-	public MainFrame() {
+	public MainFrame(User currentUser) {
 		instance = this;
 		Utils.generateUsers();
 		Utils.generateSongs();
