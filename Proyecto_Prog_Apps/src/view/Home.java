@@ -3,7 +3,7 @@ package view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 
@@ -16,6 +16,7 @@ import model.Playlist;
 import utils.Utils;
 
 public class Home {
+		private static ArrayList<JButton> buttonList = new ArrayList<JButton>(); 
 
 	public static JPanel HomePanel() {
 		JPanel result = new JPanel(new BorderLayout());
@@ -25,7 +26,7 @@ public class Home {
 		JPanel norte = new JPanel(new GridLayout(Math.round(Utils.genres.length / 2), 0, 10, 10));
 		englobaNorte.add(norte, BorderLayout.NORTH);
 		norte.setBackground(MainFrame.BackgroundColor);
-
+		
 		result.add(englobaNorte, BorderLayout.NORTH);
 		LinkedList<Color> colores = new LinkedList<>();
 		colores.add(Color.RED);
@@ -49,6 +50,7 @@ public class Home {
 			boton.setBackground(colores.pop());
 			boton.setOpaque(true);
 			norte.add(boton);
+
 			final int index = i;
 
 			boton.addActionListener(new ActionListener() {
@@ -116,6 +118,15 @@ public class Home {
 
 						 break;
 					}
+					result.removeAll(); // elimina lo que había antes
+			        result.setLayout(new BorderLayout());
+
+			        // Añade el panel nuevo
+			        result.add(panel, BorderLayout.CENTER);
+
+			        // Refresca la interfaz
+			        result.revalidate();
+			        result.repaint();
 				}
 			});
 		}
