@@ -32,9 +32,10 @@ import utils.Utils;
 public class UserPanel {
 
 	
-	public static JPanel PanelUsuario() {
+	public static JPanel PanelUsuario(User usuario) {
+
 	// de momento usaremos este user de prueba para el display 
-		User usuario = new User("usuario@mail.com", "randomPWRD");
+		
 		
 // JPanel container of all the UserPanel's window	
 		JPanel result = new JPanel(); 

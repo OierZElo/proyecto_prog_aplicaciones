@@ -61,6 +61,8 @@ public class MainFrame extends JFrame {
 	public static Color TextColor = Color.white;
 
 	public static boolean desplegado = true;
+	
+	
 
 	private Song playingSong;
 	private boolean songPanelSetUpDone = false;
@@ -79,18 +81,18 @@ public class MainFrame extends JFrame {
 	static JLabel icon = new JLabel();
 	
 
-	public MainFrame() {
+	public MainFrame(User currentUser) {
 		instance = this;
 		Utils.generateUsers();
 		Utils.generateSongs();
 		Utils.generatePlaylists();
-		initialize();
+		initialize(currentUser);
 
 		Timer timer = new Timer(150, e -> actualizarTitulo());
 		timer.start();
 	}
 
-	public void initialize() {
+	public void initialize(User currentUser) {
 		setTitle("EchoBeat");
 	
 		setSize(900, 600);
@@ -128,7 +130,8 @@ public class MainFrame extends JFrame {
 		
 		// ACCOUNT
 		
-		cardPanel.add(UserPanel.PanelUsuario(), "AccountPanel");
+		cardPanel.add(UserPanel.PanelUsuario(currentUser), "AccountPanel");
+
 	
 		
 
