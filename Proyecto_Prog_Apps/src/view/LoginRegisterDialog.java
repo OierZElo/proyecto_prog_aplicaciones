@@ -171,6 +171,7 @@ public class LoginRegisterDialog extends JFrame{
 						found = true;
 						MainFrame mainFrame = new MainFrame(user);
 						mainFrame.setVisible(true);
+						panelPrincipal.removeAll();
 						dispose();
 						break;
 					}

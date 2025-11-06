@@ -135,6 +135,7 @@ public class UserPanel {
 				LoginRegisterDialog loginFrame = new LoginRegisterDialog();
 				loginFrame.setVisible(true);
 				MainFrame.getInstance().dispose();
+				
 			}
 		});
 		
