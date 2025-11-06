@@ -18,12 +18,9 @@ import utils.Utils;
 public class Home {
 
 	public static JPanel HomePanel() {
-		JPanel result = new JPanel();
-		result.setName("home");
+		JPanel result = new JPanel(new BorderLayout());
 		result.setBackground(MainFrame.BackgroundColor);
-		result.setLayout(new BorderLayout());
-		JPanel norte = new JPanel();
-		norte.setLayout(new GridLayout(Math.round(Utils.genres.length / 2), 0, 10, 10));
+		JPanel norte = new JPanel(new GridLayout(Math.round(Utils.genres.length / 2), 0, 10, 10));
 		norte.setBackground(MainFrame.BackgroundColor);
 
 		result.add(norte, BorderLayout.NORTH);
@@ -116,34 +113,21 @@ public class Home {
 
 						 break;
 					}
-					try {
-						MainFrame.cardPanel.add(panel, name);
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					MainFrame.cardLayout.show(MainFrame.cardPanel, name);
 				}
 			});
-
-
 		}
 		
 		// panel para random Picks 
 		JPanel quickPicks = new JPanel(); 
 		Utils.generateRandomPlaylist(Utils.playlist1);
 		quickPicks = songTable.createSongTablePlaylist(Utils.playlist1);
-		JPanel sur = new JPanel();
-		sur.add(quickPicks);
-		sur.setBackground(MainFrame.BackgroundColor);
 
-		result.add(sur, BorderLayout.CENTER);
+		result.add(quickPicks, BorderLayout.CENTER);
 		JPanel center = new JPanel(); 
 		JLabel x = new JLabel("QUICK PICKS");
-		Font f = new Font("Arial", Font.PLAIN, 24);
-		x.setFont(f);
+		x.setFont(new Font("Arial", Font.PLAIN, 24));
 		x.setHorizontalAlignment(x.CENTER);
-		x.setForeground(Color.WHITE);
+		x.setForeground(MainFrame.TextColor);
 		center.add(x);
 		center.setBackground(MainFrame.BackgroundColor);
 
