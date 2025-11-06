@@ -8,17 +8,18 @@ public class User {
 	private String mail;
 	private String password;
 	private ImageIcon photo; 
-	private String name; 
+	private String username; 
 
 
 
 	//constructor
-	public User(String mail, String password) {
+	public User(String mail, String password, String username) {
 		this.cod = counter;
 		counter += 1;
 		this.mail = mail;
 		this.password = password;
 		this.photo = new ImageIcon("src\\resources\\icons\\SongIcon.png"); 
+		this.username = username;
 
 	}
 
@@ -52,11 +53,11 @@ public class User {
 	}
 
 	public String getName() {
-		return name;
+		return username;
 	}
 	
 	public void setName(String name) {
-		this.name = name;
+		this.username = name;
 	}
 	
 
