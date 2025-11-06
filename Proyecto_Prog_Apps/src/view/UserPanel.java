@@ -2,6 +2,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -9,6 +10,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.Image;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.concurrent.Flow;
@@ -24,8 +26,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
-
+import app.Main;
 import model.User;
 import utils.Utils;
 
@@ -267,18 +270,25 @@ public class UserPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+		        Window dialog = SwingUtilities.getWindowAncestor((Component)e.getSource());
+		        if (dialog != null) {
+		        	dialog.dispose();
+		        }
+				if (MainFrame.getInstance() != null ) {
+					MainFrame.getInstance().dispose();
+				}
 				
-				result.removeAll();
-				result.dispose();
-				MainFrame.getInstance().dispose();
-				MainFrame.getInstance().removeAll();
-				LoginRegisterDialog login = new LoginRegisterDialog(); 
-				login.setVisible(true);
-				
+//				result.removeAll();
+//				result.dispose();
+				SwingUtilities.invokeLater(() -> {
+					new LoginRegisterDialog().setVisible(true);
+				});
 			}
 	
 			// 
 		});
+		
+		
 		no.addActionListener(e -> result.dispose());
 		return result;
 	}
