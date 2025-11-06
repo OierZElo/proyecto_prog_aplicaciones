@@ -124,7 +124,7 @@ public class UserPanel {
 		r.setLayout(new FlowLayout(FlowLayout.CENTER, 70, 10));
 		JButton cp = new JButton("Change profile's picture"); 
 		cp.setBackground(MainFrame.BorderColor);
-		JButton lg = new JButton("Sing out"); 
+		JButton lg = new JButton("Sign out"); 
 		lg.setBackground(MainFrame.BorderColor);
 		JButton chp = new JButton("Change password "); 
 		chp.setBackground(MainFrame.BorderColor);
@@ -270,6 +270,7 @@ public class UserPanel {
 				LoginRegisterDialog login = new LoginRegisterDialog(); 
 				result.dispose();
 				MainFrame.getInstance().dispose();
+				MainFrame.resetInstance();
 				login.setVisible(true);
 				
 			}
