@@ -20,10 +20,13 @@ public class Home {
 	public static JPanel HomePanel() {
 		JPanel result = new JPanel(new BorderLayout());
 		result.setBackground(MainFrame.BackgroundColor);
+		JPanel englobaNorte = new JPanel(new BorderLayout()); 
+		englobaNorte.setBackground(MainFrame.BackgroundColor);
 		JPanel norte = new JPanel(new GridLayout(Math.round(Utils.genres.length / 2), 0, 10, 10));
+		englobaNorte.add(norte, BorderLayout.NORTH);
 		norte.setBackground(MainFrame.BackgroundColor);
 
-		result.add(norte, BorderLayout.NORTH);
+		result.add(englobaNorte, BorderLayout.NORTH);
 		LinkedList<Color> colores = new LinkedList<>();
 		colores.add(Color.RED);
 		colores.add(Color.BLUE);
@@ -123,15 +126,12 @@ public class Home {
 		quickPicks = songTable.createSongTablePlaylist(Utils.playlist1);
 
 		result.add(quickPicks, BorderLayout.CENTER);
-		JPanel center = new JPanel(); 
 		JLabel x = new JLabel("QUICK PICKS");
 		x.setFont(new Font("Arial", Font.PLAIN, 24));
 		x.setHorizontalAlignment(JLabel.CENTER);
 		x.setForeground(MainFrame.TextColor);
-		center.add(x);
-		center.setBackground(MainFrame.BackgroundColor);
+		englobaNorte.add(x, BorderLayout.SOUTH);
 
-		result.add(center, BorderLayout.SOUTH);
 		return result;
 
 	}
