@@ -20,8 +20,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
+import app.Main;
 import model.Playlist;
 import model.User;
 
@@ -161,23 +163,32 @@ public class LoginRegisterDialog extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				found = false; // reseteamos cada vez para prevenir errores
+				User FoundUser = null;
 				
-//				found = false;
 				for(User user: Utils.users) {
-			
-					
 					if(user.getMail().equals(emailFill.getText()) 
 							&& user.getPassword().equals(new String(passwordFill.getPassword()))) {
 						found = true;
-						MainFrame mainFrame = new MainFrame(user);
-						mainFrame.setVisible(true);
-						panelPrincipal.removeAll();
-						dispose();
+						FoundUser = user; 
+			//			panelPrincipal.removeAll();
+//						dispose();
 						break;
 					}
 				}
-				if (!found) {
-					JOptionPane.showMessageDialog(null, "Email and password don't match", "NOT FOUND!", JOptionPane.ERROR_MESSAGE);
+				
+				final User usuario; 
+				usuario = FoundUser;
+				if (found) {
+					dispose(); // cerramos el logIn antes de crear la ventana principal
+					SwingUtilities.invokeLater(() -> {
+						new MainFrame(usuario).setVisible(true);
+					});
+				} else {
+					JOptionPane.showMessageDialog(null,
+							"Email and password don't match", "NOT FOUND!", 
+							JOptionPane.ERROR_MESSAGE);
+
 				}
 				
 			}

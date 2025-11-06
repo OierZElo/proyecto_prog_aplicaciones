@@ -292,8 +292,10 @@ public class MainFrame extends JFrame {
 	public JPanel getCardPanel() {
 	    return cardPanel;
 	}
+	@Override 
+	public void dispose() {
+		super.dispose();
+		instance = null;
+	}
 	
-	 public static void resetInstance() {
-	        instance = null;
-	    }
 }

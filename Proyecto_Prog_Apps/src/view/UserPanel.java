@@ -272,7 +272,6 @@ public class UserPanel {
 				result.dispose();
 				MainFrame.getInstance().dispose();
 				MainFrame.getInstance().removeAll();
-				MainFrame.resetInstance();
 				LoginRegisterDialog login = new LoginRegisterDialog(); 
 				login.setVisible(true);
 				
