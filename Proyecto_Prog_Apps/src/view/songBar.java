@@ -5,8 +5,12 @@ import java.awt.Button;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -43,7 +47,6 @@ public class songBar {
 		JPanel buttonsPanel = new JPanel(buttonLayout);
 		buttonsPanel.setBackground(MainFrame.BackgroundColor);
 		String[] songButtons = { "🔀", "⏮", "▶", "⏭", "🔁" };
-
 		for (int i = 0; i < songButtons.length; i++) {
 			JButton b = new JButton(songButtons[i]);
 			buttonList.add(b);
@@ -56,6 +59,27 @@ public class songBar {
 			b.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 26));
 			buttonsPanel.add(b);
 		}
+		// activamos el foco para que se puedan implmentar acciones de teclado 
+		// 
+		buttonsPanel.getInputMap(JPanel.WHEN_IN_FOCUSED_WINDOW).put(javax.swing.KeyStroke.getKeyStroke("SPACE"), "togglePlayPause");;
+		buttonsPanel.getActionMap().put("togglePlayPause", new AbstractAction() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				changePlayPause();
+			}});
+// primer intento, este funciona regular.
+//		buttonsPanel.setFocusable(true);
+//		buttonsPanel.requestFocusInWindow();
+//	
+//		buttonsPanel.addKeyListener(new KeyAdapter() {
+//			@Override
+//		    public void keyPressed(KeyEvent e) {
+//		        if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+//		        	changePlayPause();
+//		        }
+//		    }
+//		} );
 
 		progressBar.addMouseListener(new java.awt.event.MouseAdapter() {
 			@Override
