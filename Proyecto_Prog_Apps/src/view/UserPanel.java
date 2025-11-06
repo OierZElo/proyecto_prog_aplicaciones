@@ -137,7 +137,7 @@ public class UserPanel {
 		// JDialog change picture
 		JDialog newpic = CambioDeFoto(result, "Introduce the url of the new picture: ", usuario); 
 		JDialog newpassword = CambiarContrasena(result, "Introduce the new password", usuario);
-		JDialog logOut = cerrarSesion();
+		JDialog logOut = cerrarSesion(result);
 		chp.addActionListener(e -> newpassword.setVisible(true));
 		cp.addActionListener(e -> newpic.setVisible(true));
 		lg.addActionListener(e -> logOut.setVisible(true));
@@ -158,6 +158,7 @@ public class UserPanel {
 		r.setLayout(new BorderLayout() );
 		// datos de entrada del user
 		JPanel datos = new JPanel(new FlowLayout(FlowLayout.CENTER,10,10) ); 
+		datos.setBackground(MainFrame.BackgroundColor);
 		JLabel t = new JLabel(texto);
 		t.setBackground(MainFrame.BorderColor);
 		t.setOpaque(true);
@@ -167,8 +168,10 @@ public class UserPanel {
 		r.add(datos, BorderLayout.CENTER);
 		// botones de interacción 
 		JPanel control = new JPanel(new FlowLayout(FlowLayout.CENTER,10,10)); 
+		control.setBackground(MainFrame.BackgroundColor);
 		JButton aceptar = new JButton("ACCEPT"); 
 	    JButton cancelar = new JButton("CANCEL"); 
+	    aceptar.setBackground(MainFrame.BorderColor);
 	    aceptar.addActionListener(new ActionListener() {
 			
 			@Override
@@ -190,34 +193,58 @@ public class UserPanel {
 	    control.add(aceptar); 
 	    control.add(cancelar); 
 	    r.add(control, BorderLayout.SOUTH);
-        r.setSize(300, 300);
         r.setLocationRelativeTo(result);
         r.setBackground(MainFrame.BackgroundColor);
-       
+        r.pack();
 		return r;
 		
 	}
 	
 	private static JDialog CambiarContrasena(JPanel result, String texto, User usuario) {
 		JDialog r = new JDialog(); 
+		r.setBackground(MainFrame.BackgroundColor);
 		r.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		r.setLayout(new BorderLayout() );
+		
 		// datos de entrada del user
 		JPanel datos = new JPanel(new FlowLayout(FlowLayout.CENTER,10,10) ); 
+		datos.setBackground(MainFrame.BackgroundColor);
 		JLabel t = new JLabel(texto);
 		t.setBackground(MainFrame.BorderColor);
 		t.setOpaque(true);
 		datos.add(t); 
 		JPasswordField usersdata = new JPasswordField(20); 
 		JPasswordField usersdata2 = new JPasswordField(20); 
+		char defaultEcho = usersdata.getEchoChar();
+		JButton viewPassword = new JButton("🙈"); 
+		viewPassword.setBackground(MainFrame.BorderColor);
+		
+		viewPassword.addActionListener(e -> {
+			if(viewPassword.getText().equals("🙈")) {
+				viewPassword.setText("👁️");
+				usersdata.setEchoChar((char) 0);
+				usersdata2.setEchoChar((char) 0);
+
+			} else {
+				viewPassword.setText("🙈");
+				usersdata.setEchoChar(defaultEcho);
+				usersdata2.setEchoChar(defaultEcho);
+
+			}
+		});
 		datos.add(usersdata);
 		datos.add(usersdata2);
+		datos.add(viewPassword);
 		r.add(datos, BorderLayout.CENTER);
+		
 		// botones de interacción 
 		JPanel control = new JPanel(new FlowLayout(FlowLayout.CENTER,10,10)); 
+		control.setBackground(MainFrame.BackgroundColor);
 		JButton aceptar = new JButton("ACCEPT"); 
 	    JButton cancelar = new JButton("CANCEL"); 
-	    
+		aceptar.setBackground(MainFrame.BorderColor);
+		cancelar.setBackground(MainFrame.BorderColor);
+
 	    aceptar.addActionListener(new ActionListener() {
 			
 			@Override
@@ -229,6 +256,8 @@ public class UserPanel {
 					}
 					else {
 						usuario.setPassword(usersdata.getPassword().toString() );
+						usersdata.setText("");
+						usersdata2.setText("");
 						r.dispose(); }
 				
 				
@@ -240,29 +269,35 @@ public class UserPanel {
 	    control.add(aceptar); 
 	    control.add(cancelar); 
 	    r.add(control, BorderLayout.SOUTH);
-        r.setSize(300, 300);
         r.setLocationRelativeTo(result);
-        r.setBackground(MainFrame.BackgroundColor);
-       
+        r.pack();
 		return r;
 		
 	}
 	
-	private static JDialog cerrarSesion() {
+	private static JDialog cerrarSesion(JPanel r) {
 		JDialog result = new JDialog(); 
-		result.setSize(400,400);
+		result.setBackground(MainFrame.BackgroundColor);
+		result.setLocationRelativeTo(r);
 		result.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		result.setLayout(new BorderLayout());
 		JLabel pregunta = new JLabel("Are you sure you want to log out?"); 
+		pregunta.setBackground(MainFrame.BorderColor);
 		result.add(pregunta, BorderLayout.NORTH); 
 		//control buttons 
 		JButton yes = new JButton("YES"); 
 		JButton no = new JButton("NO");
+		yes.setBackground(MainFrame.BorderColor);
+		no.setBackground(MainFrame.BorderColor);
+
 		JPanel botones = new JPanel(); 
+		botones.setBackground(MainFrame.BackgroundColor);
 		botones.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20)); 
 		botones.add(yes); 
 		botones.add(no);
 		result.add(botones,BorderLayout.CENTER);
+		result.pack(); 
+
 		// Button's listeners 
 		
 	
