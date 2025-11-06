@@ -128,16 +128,6 @@ public class UserPanel {
 		lg.setBackground(MainFrame.BorderColor);
 		JButton chp = new JButton("Change password "); 
 		chp.setBackground(MainFrame.BorderColor);
-
-		lg.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				LoginRegisterDialog loginFrame = new LoginRegisterDialog();
-				loginFrame.setVisible(true);
-				MainFrame.getInstance().dispose();
-			}
-		});
-		
 		r.add(cp); 
 		r.add(lg);
 		r.add(chp);
@@ -279,6 +269,7 @@ public class UserPanel {
 			public void actionPerformed(ActionEvent e) {
 				LoginRegisterDialog login = new LoginRegisterDialog(); 
 				result.dispose();
+				MainFrame.getInstance().dispose();
 				login.setVisible(true);
 				
 			}
