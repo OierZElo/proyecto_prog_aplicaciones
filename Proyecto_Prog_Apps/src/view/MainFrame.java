@@ -128,7 +128,7 @@ public class MainFrame extends JFrame {
 		
 		// ACCOUNT
 		
-		cardPanel.add(UserPanel.UserPanel(), "AccountPanel");
+		cardPanel.add(UserPanel.PanelUsuario(), "AccountPanel");
 	
 		
 

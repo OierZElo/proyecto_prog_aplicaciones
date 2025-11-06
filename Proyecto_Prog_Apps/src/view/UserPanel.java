@@ -11,6 +11,7 @@ import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.Flow;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -20,8 +21,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
 
 import model.User;
 import utils.Utils;
@@ -29,7 +32,7 @@ import utils.Utils;
 public class UserPanel {
 
 	
-	public static JPanel UserPanel() {
+	public static JPanel PanelUsuario() {
 	// de momento usaremos este user de prueba para el display 
 		User usuario = new User("usuario@mail.com", "randomPWRD");
 		
@@ -175,8 +178,9 @@ public class UserPanel {
 					if (foto.getIconWidth() == -1) {
 						JOptionPane.showMessageDialog(null, "invalid url", "ERROR", JOptionPane.ERROR_MESSAGE);
 					}
-					else { usuario.setPhoto(foto); }
-					r.dispose();
+					else { usuario.setPhoto(foto); 
+					r.dispose();}
+					;
 				
 				
 			}
@@ -204,8 +208,8 @@ public class UserPanel {
 		t.setBackground(MainFrame.BorderColor);
 		t.setOpaque(true);
 		datos.add(t); 
-		JTextField usersdata = new JTextField(20); 
-		JTextField usersdata2 = new JTextField(20); 
+		JPasswordField usersdata = new JPasswordField(20); 
+		JPasswordField usersdata2 = new JPasswordField(20); 
 		datos.add(usersdata);
 		datos.add(usersdata2);
 		r.add(datos, BorderLayout.CENTER);
@@ -217,12 +221,13 @@ public class UserPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-					if (!usersdata.getText().equals(usersdata2.getText())) {
+				
+					if (!java.util.Arrays.equals(usersdata.getPassword(), usersdata2.getPassword())) {
 						JOptionPane.showMessageDialog(null, "The passwords don't match", "ERROR", JOptionPane.ERROR_MESSAGE);
 						
 					}
 					else {
-						usuario.setPassword(usersdata.getText());
+						usuario.setPassword(usersdata.getPassword().toString() );
 						r.dispose(); }
 				
 				
@@ -239,6 +244,34 @@ public class UserPanel {
        
 		return r;
 		
+	}
+	
+	private static JDialog CerrarSesion() {
+		JDialog result = new JDialog(); 
+		result.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		result.setLayout(new BorderLayout());
+		JLabel pregunta = new JLabel("Are you sure you want to log out?"); 
+		result.add(pregunta, BorderLayout.NORTH); 
+		//control buttons 
+		JButton yes = new JButton("YES"); 
+		JButton no = new JButton("NO");
+		JPanel botones = new JPanel(); 
+		botones.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20)); 
+		botones.add(yes); 
+		botones.add(no);
+		result.add(botones,BorderLayout.CENTER);
+		// Button's listeners 
+		
+	
+		yes.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+		});
+		return result;
 	}
 	
 	
