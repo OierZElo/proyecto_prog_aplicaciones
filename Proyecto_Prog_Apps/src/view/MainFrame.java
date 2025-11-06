@@ -293,8 +293,7 @@ public class MainFrame extends JFrame {
 	    return cardPanel;
 	}
 	
-	public static void resetInstance() {
-		instance = null; 
-	}
-	
+	 public static void resetInstance() {
+	        instance = null;
+	    }
 }

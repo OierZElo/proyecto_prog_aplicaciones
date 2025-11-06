@@ -267,10 +267,13 @@ public class UserPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				LoginRegisterDialog login = new LoginRegisterDialog(); 
+				
+				result.removeAll();
 				result.dispose();
 				MainFrame.getInstance().dispose();
+				MainFrame.getInstance().removeAll();
 				MainFrame.resetInstance();
+				LoginRegisterDialog login = new LoginRegisterDialog(); 
 				login.setVisible(true);
 				
 			}
