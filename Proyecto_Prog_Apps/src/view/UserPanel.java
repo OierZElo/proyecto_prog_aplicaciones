@@ -135,14 +135,11 @@ public class UserPanel {
 		// JDialog change picture
 		JDialog newpic = CambioDeFoto(result, "Introduce the url of the new picture: ", usuario); 
 		JDialog newpassword = CambiarContrasena(result, "Introduce the new password", usuario);
+		JDialog logOut = cerrarSesion();
 		chp.addActionListener(e -> newpassword.setVisible(true));
-		cp.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				newpic.setVisible(true);
-			}
-		});
+		cp.addActionListener(e -> newpic.setVisible(true));
+		lg.addActionListener(e -> logOut.setVisible(true));
+
 	return r;
 	}
 	
@@ -218,6 +215,7 @@ public class UserPanel {
 		JPanel control = new JPanel(new FlowLayout(FlowLayout.CENTER,10,10)); 
 		JButton aceptar = new JButton("ACCEPT"); 
 	    JButton cancelar = new JButton("CANCEL"); 
+	    
 	    aceptar.addActionListener(new ActionListener() {
 			
 			@Override
@@ -234,6 +232,7 @@ public class UserPanel {
 				
 			}
 		});
+	   
 	    
 	    cancelar.addActionListener( e -> r.dispose());
 	    control.add(aceptar); 
@@ -247,8 +246,9 @@ public class UserPanel {
 		
 	}
 	
-	private static JDialog CerrarSesion() {
+	private static JDialog cerrarSesion() {
 		JDialog result = new JDialog(); 
+		result.setSize(400,400);
 		result.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		result.setLayout(new BorderLayout());
 		JLabel pregunta = new JLabel("Are you sure you want to log out?"); 
@@ -268,10 +268,15 @@ public class UserPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				LoginRegisterDialog login = new LoginRegisterDialog(); 
+				result.dispose();
+				login.setVisible(true);
 				
 			}
+	
+			// 
 		});
+		no.addActionListener(e -> result.dispose());
 		return result;
 	}
 	
