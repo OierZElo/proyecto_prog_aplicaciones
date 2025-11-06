@@ -25,12 +25,12 @@ public class Utils {
 
 	
 	public static void generateUsers() {
-		users.add(new User("user1@gmail.com", "password1"));
-		users.add(new User("user2@gmail.com", "password2"));
-		users.add(new User("user3@gmail.com", "password3"));
-		users.add(new User("user4@gmail.com", "password4"));
-		users.add(new User("user5@gmail.com", "password5"));
-		users.add(new User("Enter your email...", ""));
+		users.add(new User("user1@gmail.com", "password1", "user1"));
+		users.add(new User("user2@gmail.com", "password2", "user2"));
+		users.add(new User("user3@gmail.com", "password3", "user3"));
+		users.add(new User("user4@gmail.com", "password4", "user4"));
+		users.add(new User("user5@gmail.com", "password5", "user5"));
+		users.add(new User("Enter your email...", "", "prueba user"));
 	}
 
 	public User getUserFromUsername(String username) {
