@@ -126,7 +126,7 @@ public class Home {
 		JPanel center = new JPanel(); 
 		JLabel x = new JLabel("QUICK PICKS");
 		x.setFont(new Font("Arial", Font.PLAIN, 24));
-		x.setHorizontalAlignment(x.CENTER);
+		x.setHorizontalAlignment(JLabel.CENTER);
 		x.setForeground(MainFrame.TextColor);
 		center.add(x);
 		center.setBackground(MainFrame.BackgroundColor);
