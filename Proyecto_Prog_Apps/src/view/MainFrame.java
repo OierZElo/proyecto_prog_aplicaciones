@@ -86,13 +86,13 @@ public class MainFrame extends JFrame {
 		Utils.generateUsers();
 		Utils.generateSongs();
 		Utils.generatePlaylists();
-		initialize();
+		initialize(currentUser);
 
 		Timer timer = new Timer(150, e -> actualizarTitulo());
 		timer.start();
 	}
 
-	public void initialize() {
+	public void initialize(User currentUser) {
 		setTitle("EchoBeat");
 	
 		setSize(900, 600);
@@ -130,7 +130,7 @@ public class MainFrame extends JFrame {
 		
 		// ACCOUNT
 		
-		cardPanel.add(UserPanel.UserPanel(), "AccountPanel");
+		cardPanel.add(UserPanel.UserPanel(currentUser), "AccountPanel");
 	
 		
 
