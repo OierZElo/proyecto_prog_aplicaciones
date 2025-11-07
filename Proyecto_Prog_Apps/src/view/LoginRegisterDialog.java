@@ -158,39 +158,29 @@ public class LoginRegisterDialog extends JFrame{
 
 		
 		Utils.generateUsers();
-		
 		login.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				found = false; // reseteamos cada vez para prevenir errores
-				User FoundUser = null;
-				
+
+//				found = false;
 				for(User user: Utils.users) {
+
+
 					if(user.getMail().equals(emailFill.getText()) 
 							&& user.getPassword().equals(new String(passwordFill.getPassword()))) {
 						found = true;
-						FoundUser = user; 
-			//			panelPrincipal.removeAll();
-//						dispose();
+						MainFrame mainFrame = new MainFrame(user);
+						mainFrame.setVisible(true);
+						panelPrincipal.removeAll();
+						dispose();
 						break;
 					}
 				}
-				
-				final User usuario; 
-				usuario = FoundUser;
-				if (found) {
-					dispose(); // cerramos el logIn antes de crear la ventana principal
-					SwingUtilities.invokeLater(() -> {
-						new MainFrame(usuario).setVisible(true);
-					});
-				} else {
-					JOptionPane.showMessageDialog(null,
-							"Email and password don't match", "NOT FOUND!", 
-							JOptionPane.ERROR_MESSAGE);
-
+				if (!found) {
+					JOptionPane.showMessageDialog(null, "Email and password don't match", "NOT FOUND!", JOptionPane.ERROR_MESSAGE);
 				}
-				
+
 			}
 		});
 		
