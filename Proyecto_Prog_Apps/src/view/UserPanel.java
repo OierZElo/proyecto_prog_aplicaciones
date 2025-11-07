@@ -48,8 +48,6 @@ public class UserPanel {
 		result.setLayout(new GridLayout(2,1,0, 10));
 		 
 		 
-		 
-		
 		 JPanel LastSongs = new JPanel(); 
 		 LastSongs.setBackground(MainFrame.BackgroundColor);
 
@@ -141,21 +139,14 @@ public class UserPanel {
 		chp.addActionListener(e -> newpassword.setVisible(true));
 		cp.addActionListener(e -> newpic.setVisible(true));
 		lg.addActionListener(e -> logOut.setVisible(true));
-
 	return r;
 	}
-	
-	
-	
-	
-	
-	
 	
 	
 	private static JDialog CambioDeFoto(JPanel result, String texto, User usuario) {
 		JDialog r = new JDialog(); 
 		r.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-		r.setLayout(new BorderLayout() );
+		r.setLayout(new BorderLayout());
 		// datos de entrada del user
 		JPanel datos = new JPanel(new FlowLayout(FlowLayout.CENTER,10,10) ); 
 		datos.setBackground(MainFrame.BackgroundColor);
@@ -182,10 +173,8 @@ public class UserPanel {
 						JOptionPane.showMessageDialog(null, "invalid url", "ERROR", JOptionPane.ERROR_MESSAGE);
 					}
 					else { usuario.setPhoto(foto); 
-					r.dispose();}
-					;
-				
-				
+					r.dispose();
+					};	
 			}
 		});
 	    
@@ -236,105 +225,85 @@ public class UserPanel {
 		datos.add(usersdata2);
 		datos.add(viewPassword);
 		r.add(datos, BorderLayout.CENTER);
-		
-		// botones de interacción 
-		JPanel control = new JPanel(new FlowLayout(FlowLayout.CENTER,10,10)); 
+
+		// botones de interacción
+		JPanel control = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
 		control.setBackground(MainFrame.BackgroundColor);
-		JButton aceptar = new JButton("ACCEPT"); 
-	    JButton cancelar = new JButton("CANCEL"); 
+		JButton aceptar = new JButton("ACCEPT");
+		JButton cancelar = new JButton("CANCEL");
 		aceptar.setBackground(MainFrame.BorderColor);
 		cancelar.setBackground(MainFrame.BorderColor);
 
-	    aceptar.addActionListener(new ActionListener() {
-			
+		aceptar.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-					if (!java.util.Arrays.equals(usersdata.getPassword(), usersdata2.getPassword())) {
-						JOptionPane.showMessageDialog(null, "The passwords don't match", "ERROR", JOptionPane.ERROR_MESSAGE);
-						
-					}
-					else {
-						usuario.setPassword(usersdata.getPassword().toString() );
-						usersdata.setText("");
-						usersdata2.setText("");
-						r.dispose(); }
-				
-				
+
+				if (!java.util.Arrays.equals(usersdata.getPassword(), usersdata2.getPassword())) {
+					JOptionPane.showMessageDialog(null, "The passwords don't match", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
+
+				} else {
+					usuario.setPassword(usersdata.getPassword().toString());
+					usersdata.setText("");
+					usersdata2.setText("");
+					r.dispose();
+				}
+
 			}
 		});
-	   
-	    
-	    cancelar.addActionListener( e -> r.dispose());
-	    control.add(aceptar); 
-	    control.add(cancelar); 
-	    r.add(control, BorderLayout.SOUTH);
-        r.setLocationRelativeTo(result);
-        r.pack();
+
+		cancelar.addActionListener(e -> r.dispose());
+		control.add(aceptar);
+		control.add(cancelar);
+		r.add(control, BorderLayout.SOUTH);
+		r.setLocationRelativeTo(result);
+		r.pack();
 		return r;
-		
+
 	}
-	
+
 	private static JDialog cerrarSesion(JPanel r) {
-		JDialog result = new JDialog(); 
+		JDialog result = new JDialog();
+		result.setSize(300, 100);
 		result.setBackground(MainFrame.BackgroundColor);
 		result.setLocationRelativeTo(r);
 		result.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		result.setLayout(new BorderLayout());
-		JLabel pregunta = new JLabel("Are you sure you want to log out?"); 
-		pregunta.setBackground(MainFrame.BorderColor);
-		result.add(pregunta, BorderLayout.NORTH); 
-		//control buttons 
-		JButton yes = new JButton("YES"); 
+		JLabel pregunta = new JLabel("Are you sure you want to log out?");
+		pregunta.setHorizontalAlignment(JLabel.CENTER);
+		pregunta.setBackground(MainFrame.BackgroundColor);
+		pregunta.setOpaque(true);
+		pregunta.setForeground(MainFrame.TextColor);
+		pregunta.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 14));
+
+		result.add(pregunta, BorderLayout.NORTH);
+		
+		// control buttons
+		JButton yes = new JButton("YES");
 		JButton no = new JButton("NO");
 		yes.setBackground(MainFrame.BorderColor);
 		no.setBackground(MainFrame.BorderColor);
 
-		JPanel botones = new JPanel(); 
+		JPanel botones = new JPanel();
 		botones.setBackground(MainFrame.BackgroundColor);
-		botones.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20)); 
-		botones.add(yes); 
+		botones.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
+		botones.add(yes);
 		botones.add(no);
-		result.add(botones,BorderLayout.CENTER);
-		result.pack(); 
+		result.add(botones, BorderLayout.CENTER);
 
-		// Button's listeners 
-		
-	
 		yes.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-		        Window dialog = SwingUtilities.getWindowAncestor((Component)e.getSource());
-		        if (dialog != null) {
-		        	dialog.dispose();
-		        }
-				if (MainFrame.getInstance() != null ) {
-					MainFrame.getInstance().dispose();
-				}
-				
-//				result.removeAll();
-//				result.dispose();
-				SwingUtilities.invokeLater(() -> {
-					new LoginRegisterDialog().setVisible(true);
-				});
+				result.dispose();
+				MainFrame.getInstance().dispose();
+				new LoginRegisterDialog().setVisible(true);
 			}
-	
-			// 
 		});
-		
-		
+
 		no.addActionListener(e -> result.dispose());
 		return result;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-
 }
