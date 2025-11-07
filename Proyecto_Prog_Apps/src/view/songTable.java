@@ -62,7 +62,7 @@ public class songTable {
 							main.mainPanel.add(main.getPlayerBar(), BorderLayout.SOUTH);
 						}
 						songBar.updateSongLabel(main.getPlayingSong());						
-						MainFrame.updateSongIcon(main.getPlayingSong());
+						main.updateSongIcon(main.getPlayingSong());
 						mainPanel.revalidate();
 						mainPanel.repaint();
 					}

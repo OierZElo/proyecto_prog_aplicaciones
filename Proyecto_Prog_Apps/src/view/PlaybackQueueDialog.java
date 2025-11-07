@@ -138,7 +138,7 @@ public class PlaybackQueueDialog extends JFrame {
 							MainFrame.getInstance().mainPanel.add(main.getPlayerBar(), BorderLayout.SOUTH);
 						}
 						songBar.updateSongLabel(main.getPlayingSong());						
-						MainFrame.updateSongIcon(main.getPlayingSong());
+						main.updateSongIcon(main.getPlayingSong());
 						mainPanel.revalidate();
 						mainPanel.repaint();
 					}

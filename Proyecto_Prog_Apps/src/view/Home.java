@@ -122,7 +122,7 @@ public class Home {
 
 			        result.add(panel, BorderLayout.CENTER);
 		            main.getCardPanel().add(panel, name);
-		            MainFrame.cardLayout.show(main.getCardPanel(), name);
+		            main.getCardLayout().show(main.getCardPanel(), name);
 				}
 			});
 		}

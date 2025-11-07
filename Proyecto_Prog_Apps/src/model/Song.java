@@ -1,5 +1,10 @@
 package model;
 
+import java.io.File;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
 public class Song {
 	private static int counter = 0;
 	private int cod;

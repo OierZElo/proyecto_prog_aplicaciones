@@ -35,7 +35,8 @@ import utils.Utils;
 public class UserPanel {
 
 	
-	public static JPanel PanelUsuario(User usuario) {
+	public static JPanel PanelUsuario() {
+		MainFrame main = MainFrame.getInstance();
 
 	// de momento usaremos este user de prueba para el display 
 		
@@ -58,15 +59,15 @@ public class UserPanel {
 		 userdata.setLayout(new BorderLayout(10, 10));
 		 // user's picture: 
 		 
-		 Image scaledImage = usuario.getPhoto().getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+		 Image scaledImage = main.getCurrentUser().getPhoto().getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
 		 ImageIcon fotoScala = new ImageIcon(scaledImage);
 		 JLabel foto = new JLabel(fotoScala);
 		 foto.setPreferredSize(new Dimension(200, 200));
 
 		 userdata.add(foto, BorderLayout.WEST);
-		 userdata.add(generarDatos(usuario), BorderLayout.CENTER);
+		 userdata.add(generarDatos(main.getCurrentUser()), BorderLayout.CENTER);
 		 //user's data controlers's display:
-		 userdata.add(botonesControl(result, usuario),BorderLayout.SOUTH);
+		 userdata.add(botonesControl(result, main.getCurrentUser()),BorderLayout.SOUTH);
 
 // Windoe's center's display: 
 		 JPanel lsl = new JPanel(); 
@@ -298,7 +299,7 @@ public class UserPanel {
 			public void actionPerformed(ActionEvent e) {
 				result.dispose();
 				MainFrame.getInstance().dispose();
-				new LoginRegisterDialog().setVisible(true);
+				new LoginRegisterDialog().setVisible(true); //hacer singletone
 			}
 		});
 
