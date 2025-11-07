@@ -46,7 +46,7 @@ public class songTable {
 		JTable songTable = new StyledTable(tableModel);
 
 		songTable.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(java.awt.event.MouseEvent e) {
+			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 					int row = songTable.getSelectedRow();
 					if (row >= 0) {

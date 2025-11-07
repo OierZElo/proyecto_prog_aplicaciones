@@ -68,7 +68,7 @@ public class MainFrame extends JFrame {
 	private boolean songPanelSetUpDone = false;
 	
 	private String currentPanel = "Home";
-	public User currentUser;
+	public static User currentUser;
 
 	char[] bloques = { '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█' };
 
@@ -245,6 +245,9 @@ public class MainFrame extends JFrame {
 	}
 
 	public static MainFrame getInstance() {
+		if(instance == null) {
+			instance = new MainFrame(MainFrame.currentUser);
+		}
 		return instance;
 	}
 	
@@ -296,6 +299,10 @@ public class MainFrame extends JFrame {
 	public void dispose() {
 		super.dispose();
 		instance = null;
+	}
+	
+	public User getCurrentUser() {
+		return currentUser;
 	}
 	
 }
