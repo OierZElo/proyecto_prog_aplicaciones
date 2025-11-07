@@ -216,17 +216,17 @@ public class UserPanel {
 		JPasswordField usersdata = new JPasswordField(20); 
 		JPasswordField usersdata2 = new JPasswordField(20); 
 		char defaultEcho = usersdata.getEchoChar();
-		JButton viewPassword = new JButton("🙈"); 
+		JButton viewPassword = new JButton("👁️"); 
 		viewPassword.setBackground(MainFrame.BorderColor);
 		
 		viewPassword.addActionListener(e -> {
-			if(viewPassword.getText().equals("🙈")) {
-				viewPassword.setText("👁️");
+			if(viewPassword.getText().equals("👁️")) {
+				viewPassword.setText("🙈");
 				usersdata.setEchoChar((char) 0);
 				usersdata2.setEchoChar((char) 0);
 
 			} else {
-				viewPassword.setText("🙈");
+				viewPassword.setText("👁️");
 				usersdata.setEchoChar(defaultEcho);
 				usersdata2.setEchoChar(defaultEcho);
 
