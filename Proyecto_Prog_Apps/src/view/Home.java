@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,15 +19,16 @@ public class Home {
 		private static ArrayList<JButton> buttonList = new ArrayList<JButton>(); 
 
 	public static JPanel HomePanel() {
+        MainFrame main = MainFrame.getInstance();
+
 		JPanel result = new JPanel(new BorderLayout());
 		result.setBackground(MainFrame.BackgroundColor);
-		JPanel englobaNorte = new JPanel(new BorderLayout()); 
-		englobaNorte.setBackground(MainFrame.BackgroundColor);
 		JPanel norte = new JPanel(new GridLayout(Math.round(Utils.genres.length / 2), 0, 10, 10));
-		englobaNorte.add(norte, BorderLayout.NORTH);
 		norte.setBackground(MainFrame.BackgroundColor);
+		JPanel quickPicks = new JPanel(new BorderLayout());
+		quickPicks.setBackground(MainFrame.BackgroundColor);
 		
-		result.add(englobaNorte, BorderLayout.NORTH);
+		result.add(norte, BorderLayout.NORTH);
 		LinkedList<Color> colores = new LinkedList<>();
 		colores.add(Color.RED);
 		colores.add(Color.BLUE);
@@ -120,7 +121,6 @@ public class Home {
 					}
 
 			        result.add(panel, BorderLayout.CENTER);
-		            MainFrame main = MainFrame.getInstance();
 		            main.getCardPanel().add(panel, name);
 		            MainFrame.cardLayout.show(main.getCardPanel(), name);
 				}
@@ -128,17 +128,16 @@ public class Home {
 		}
 		
 		// panel para random Picks 
-		JPanel quickPicks = new JPanel(); 
 		Utils.generateRandomPlaylist(Utils.playlist1);
-		quickPicks = songTable.createSongTablePlaylist(Utils.playlist1);
+		quickPicks.add(songTable.createSongTablePlaylist(Utils.playlist1), BorderLayout.CENTER);
 
 		result.add(quickPicks, BorderLayout.CENTER);
 		JLabel x = new JLabel("QUICK PICKS");
 		x.setFont(new Font("Arial", Font.PLAIN, 24));
 		x.setHorizontalAlignment(JLabel.CENTER);
 		x.setForeground(MainFrame.TextColor);
-		englobaNorte.add(x, BorderLayout.SOUTH);
-
+		quickPicks.add(x, BorderLayout.NORTH);
+	
 		return result;
 
 	}
