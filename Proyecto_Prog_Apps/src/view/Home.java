@@ -118,15 +118,11 @@ public class Home {
 
 						 break;
 					}
-					result.removeAll(); // elimina lo que había antes
-			        result.setLayout(new BorderLayout());
 
-			        // Añade el panel nuevo
 			        result.add(panel, BorderLayout.CENTER);
-
-			        // Refresca la interfaz
-			        result.revalidate();
-			        result.repaint();
+		            MainFrame main = MainFrame.getInstance();
+		            main.getCardPanel().add(panel, name);
+		            MainFrame.cardLayout.show(main.getCardPanel(), name);
 				}
 			});
 		}
