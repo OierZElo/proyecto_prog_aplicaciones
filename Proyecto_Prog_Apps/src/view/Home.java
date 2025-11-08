@@ -23,12 +23,14 @@ public class Home {
 
 		JPanel result = new JPanel(new BorderLayout());
 		result.setBackground(MainFrame.BackgroundColor);
-		JPanel norte = new JPanel(new GridLayout(Math.round(Utils.genres.length / 2), 0, 10, 10));
+		
+		JPanel norte = new JPanel(new GridLayout(0, 2, 10, 10));
 		norte.setBackground(MainFrame.BackgroundColor);
+		result.add(norte, BorderLayout.NORTH);
+		
 		JPanel quickPicks = new JPanel(new BorderLayout());
 		quickPicks.setBackground(MainFrame.BackgroundColor);
 		
-		result.add(norte, BorderLayout.NORTH);
 		LinkedList<Color> colores = new LinkedList<>();
 		colores.add(Color.RED);
 		colores.add(Color.BLUE);
