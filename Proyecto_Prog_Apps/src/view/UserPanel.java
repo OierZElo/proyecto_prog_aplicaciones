@@ -7,6 +7,7 @@ import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.Image;
@@ -26,6 +27,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import app.Main;
@@ -192,62 +194,99 @@ public class UserPanel {
 	
 	private static JDialog CambiarContrasena(JPanel result, String texto, User usuario) {
 		JDialog r = new JDialog(); 
+		r.setTitle("Reset Password");
+		r.setSize(300,280);
+		r.setLocationRelativeTo(result);
 		r.setBackground(MainFrame.BackgroundColor);
 		r.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		r.setLayout(new BorderLayout() );
 		
-		// datos de entrada del user
-		JPanel datos = new JPanel(new FlowLayout(FlowLayout.CENTER,10,10) ); 
-		datos.setBackground(MainFrame.BackgroundColor);
-		JLabel t = new JLabel(texto);
-		t.setBackground(MainFrame.BorderColor);
-		t.setOpaque(true);
-		datos.add(t); 
-		JPasswordField usersdata = new JPasswordField(20); 
-		JPasswordField usersdata2 = new JPasswordField(20); 
-		char defaultEcho = usersdata.getEchoChar();
-		JButton viewPassword = new JButton("👁️"); 
-		viewPassword.setBackground(MainFrame.BorderColor);
+		// main panel with GridagLayout
+		JPanel mainPanel = new JPanel(new GridLayout(0,1,0,10)); 
+		mainPanel.setBorder(BorderFactory.createEmptyBorder(15,20,15,20));
+		mainPanel.setBackground(MainFrame.BackgroundColor);
 		
+//		// title
+//		JLabel t = new JLabel(texto, SwingConstants.CENTER);
+//		t.setForeground(MainFrame.TextColor);
+//		//t.setBackground(MainFrame.BackgroundColor);
+//		mainPanel.add(t); 
+		
+		// field new password
+		JLabel newPassLabel = new JLabel("New Password",SwingConstants.CENTER  ); 
+		newPassLabel.setForeground(MainFrame.TextColor);
+		mainPanel.add(newPassLabel);
+		
+		JPasswordField newpass = new JPasswordField(); 
+		newpass.setBackground(MainFrame.BorderColor);
+		newpass.setForeground(MainFrame.TextColor); 
+		newpass.setHorizontalAlignment(JTextField.CENTER);
+	    mainPanel.add(newpass);
+	    
+		// field confirm password + button 
+		 JLabel confirmLabel = new JLabel("Confirm Password", SwingConstants.CENTER);
+		 confirmLabel.setForeground(MainFrame.TextColor);
+		 mainPanel.add(confirmLabel);
+		
+		 JPanel confirmPanel = new JPanel(new BorderLayout()); 
+		 confirmPanel.setBackground(MainFrame.BackgroundColor);
+		
+		JPasswordField newpass2 = new JPasswordField(); 
+		newpass2.setBackground(MainFrame.BorderColor);
+		newpass2.setForeground(MainFrame.TextColor);
+		newpass2.setHorizontalAlignment(JTextField.CENTER);
+		confirmPanel.add(newpass2, BorderLayout.CENTER); 
+		
+		JButton viewPassword = new JButton("👁️"); 
+		viewPassword.setBackground(MainFrame.BackgroundColor);
+		viewPassword.setForeground(MainFrame.TextColor);
+		viewPassword.setFocusPainted(false);
+		viewPassword.setBorder(BorderFactory.createEmptyBorder());
+		
+	    char defaultEcho = newpass.getEchoChar();
+	    
 		viewPassword.addActionListener(e -> {
 			if(viewPassword.getText().equals("👁️")) {
 				viewPassword.setText("🙈");
-				usersdata.setEchoChar((char) 0);
-				usersdata2.setEchoChar((char) 0);
+				newpass.setEchoChar((char) 0);
+				newpass2.setEchoChar((char) 0);
 
 			} else {
 				viewPassword.setText("👁️");
-				usersdata.setEchoChar(defaultEcho);
-				usersdata2.setEchoChar(defaultEcho);
+				newpass.setEchoChar(defaultEcho);
+				newpass2.setEchoChar(defaultEcho);
 
 			}
 		});
-		datos.add(usersdata);
-		datos.add(usersdata2);
-		datos.add(viewPassword);
-		r.add(datos, BorderLayout.CENTER);
+		confirmPanel.add(viewPassword, BorderLayout.EAST);
+		mainPanel.add(confirmPanel);
 
-		// botones de interacción
-		JPanel control = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-		control.setBackground(MainFrame.BackgroundColor);
+		// Buttons 
+		
+		JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+		buttonsPanel.setBackground(MainFrame.BackgroundColor);
+		
 		JButton aceptar = new JButton("ACCEPT");
 		JButton cancelar = new JButton("CANCEL");
-		aceptar.setBackground(MainFrame.BorderColor);
-		cancelar.setBackground(MainFrame.BorderColor);
 
+		aceptar.setBackground(MainFrame.BorderColor);
+	    cancelar.setBackground(MainFrame.BorderColor);
+	    aceptar.setFocusPainted(false);
+	    cancelar.setFocusPainted(false);
+		
 		aceptar.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				if (!java.util.Arrays.equals(usersdata.getPassword(), usersdata2.getPassword())) {
+				if (!java.util.Arrays.equals(newpass.getPassword(), newpass2.getPassword())) {
 					JOptionPane.showMessageDialog(null, "The passwords don't match", "ERROR",
 							JOptionPane.ERROR_MESSAGE);
 
 				} else {
-					usuario.setPassword(usersdata.getPassword().toString());
-					usersdata.setText("");
-					usersdata2.setText("");
+					usuario.setPassword(new String(newpass.getPassword()));
+					newpass.setText("");
+					newpass2.setText("");
 					r.dispose();
 				}
 
@@ -255,11 +294,12 @@ public class UserPanel {
 		});
 
 		cancelar.addActionListener(e -> r.dispose());
-		control.add(aceptar);
-		control.add(cancelar);
-		r.add(control, BorderLayout.SOUTH);
-		r.setLocationRelativeTo(result);
-		r.pack();
+		
+		buttonsPanel.add(aceptar);
+		buttonsPanel.add(cancelar);
+		mainPanel.add(buttonsPanel);
+		
+		r.add(mainPanel);
 		return r;
 
 	}
