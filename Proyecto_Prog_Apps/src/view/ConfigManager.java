@@ -106,10 +106,7 @@ public class ConfigManager extends JFrame {
         mainPanel.add(borderPreview);
         underPanel.add(mainPanel);
         savePanelButton.add(saveBtn);
-        savePanelButton.add(LoginRegisterDialog.filler());
-        savePanelButton.add(LoginRegisterDialog.filler());
         underPanel.add(savePanelButton);
-        underPanel.add(LoginRegisterDialog.filler());
     	
     	return underPanel;
     }

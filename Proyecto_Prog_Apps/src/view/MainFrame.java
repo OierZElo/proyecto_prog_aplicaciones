@@ -53,22 +53,19 @@ public class MainFrame extends JFrame {
 	static JPanel cardPanel;
 	private JPanel indexPanel;
 	public JPanel playerBar;
-	static CardLayout cardLayout = new CardLayout();
+	private CardLayout cardLayout = new CardLayout();
 	private FlowLayout flowLayout = new FlowLayout(FlowLayout.CENTER, 0, 0);
 
 	public static Color BackgroundColor = Color.black;
 	public static Color BorderColor = Color.GRAY;
 	public static Color TextColor = Color.white;
-
 	public static boolean desplegado = true;
 	
-	
-
 	private Song playingSong;
 	private boolean songPanelSetUpDone = false;
 	
 	private String currentPanel = "Home";
-	public static User currentUser;
+	public User currentUser;
 
 	char[] bloques = { '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█' };
 
@@ -78,23 +75,22 @@ public class MainFrame extends JFrame {
 
 	List<Song> l_songs = new ArrayList<Song>();
 	
-	static JLabel icon = new JLabel();
+	private ImageIcon icon;
+	private JLabel iconLabel = new JLabel();
 	
 
-	public MainFrame(User currentUser) {
+	private MainFrame() {
 		instance = this;
 		Utils.generateUsers();
 		Utils.generateSongs();
 		Utils.generatePlaylists();
-		initialize(currentUser);
+		initialize();
 
 		Timer timer = new Timer(150, e -> actualizarTitulo());
 		timer.start();
 	}
 
-	public void initialize(User currentUser) {
-		setTitle("EchoBeat");
-	
+	public void initialize() {	
 		setSize(900, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
@@ -129,8 +125,8 @@ public class MainFrame extends JFrame {
 		cardPanel.add(ConfigManager.ColorPanel(), "Config");
 		
 		// ACCOUNT
-		
-		cardPanel.add(UserPanel.PanelUsuario(currentUser), "AccountPanel");
+		if (currentUser != null) {
+		cardPanel.add(UserPanel.PanelUsuario(), "AccountPanel");}
 
 	
 		
@@ -194,7 +190,7 @@ public class MainFrame extends JFrame {
 		}
 		
 		// PLAYING SONG
-				icon.addMouseListener(new MouseAdapter() {
+				iconLabel.addMouseListener(new MouseAdapter() {
 				    @Override
 				    public void mouseClicked(MouseEvent e) {
 				        if (!songPanelSetUpDone && playingSong != null) {
@@ -203,10 +199,10 @@ public class MainFrame extends JFrame {
 						}
 				        cardLayout.show(cardPanel, "PlayingSong");
 				        currentPanel = "PlayingSong";
-				        icon.setIcon(null);
+				        setSongIcon(null);
 				    }
 				});
-		indexPanel.add(icon);
+		indexPanel.add(iconLabel);
 
 	}
 
@@ -226,7 +222,7 @@ public class MainFrame extends JFrame {
 	            buttonList.get(i).setText(nombres[i]);
 	            buttonList.get(i).setPreferredSize(new Dimension(50, 50));
 	        }
-	        icon.setIcon(null);
+	        setSongIcon(null);
 	    } else {
 	        indexPanel.setPreferredSize(new Dimension(200, 50));
 	        for (int i = 0; i < buttonList.size(); i++) {
@@ -245,27 +241,25 @@ public class MainFrame extends JFrame {
 	}
 
 	public static MainFrame getInstance() {
-		if(instance == null) {
-			instance = new MainFrame(MainFrame.currentUser);
-		}
-		return instance;
+	    if (instance == null) {
+	        instance = new MainFrame();
+	    }
+	    return instance;
 	}
 	
-	public static void updateSongIcon(Song s) {
-	    if(desplegado) {
-	    String path = "src/resources/icons/" + s.getTitle() + ".png";
-	    File file = new File(path);
-	    if (!file.exists()) {
-	        path = "src/resources/icons/SongIcon.png";
+	public void updateSongIcon(Song s) {
+	    if (desplegado) {
+	        String path = "src/resources/icons/" + s.getTitle() + ".png";
+	        File file = new File(path);
+	        if (!file.exists()) {
+	            path = "src/resources/icons/SongIcon.png";
+	        }
+
+	        ImageIcon imageIcon = new ImageIcon(path);
+	        Image img = imageIcon.getImage();
+	        Image newImg = img.getScaledInstance(199, 205, Image.SCALE_SMOOTH);
+	        setSongIcon(new ImageIcon(newImg));
 	    }
-
-	    ImageIcon imageIcon = new ImageIcon(path);
-	    Image img = imageIcon.getImage();
-
-
-	    Image newImg = img.getScaledInstance(199, 205, Image.SCALE_SMOOTH);
-	    icon.setIcon(new ImageIcon(newImg));
-	}
 	}
 	
 	public Song getPlayingSong() {
@@ -295,6 +289,7 @@ public class MainFrame extends JFrame {
 	public JPanel getCardPanel() {
 	    return cardPanel;
 	}
+	
 	@Override 
 	public void dispose() {
 		super.dispose();
@@ -305,4 +300,25 @@ public class MainFrame extends JFrame {
 		return currentUser;
 	}
 	
+	public void setCurrentUser(User user) {
+		this.currentUser = user;
+	}
+	
+	public CardLayout getCardLayout() {
+		return cardLayout;
+	}
+	
+	public void setCurrentCardLayout(CardLayout cardlayout) {
+		this.cardLayout = cardlayout;
+	}
+	
+	public void setSongIcon(ImageIcon icon) {
+	    this.icon = icon;
+	    iconLabel.setIcon(icon);
+	}
+
+	public ImageIcon getSongIcon() {
+	    return icon;
+	}
 }
+

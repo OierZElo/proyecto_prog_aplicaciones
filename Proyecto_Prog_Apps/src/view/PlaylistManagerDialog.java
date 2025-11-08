@@ -106,7 +106,7 @@ public class PlaylistManagerDialog extends JFrame {
             JPanel playListSongs = songTable.createSongTablePlaylist(p);
             MainFrame main = MainFrame.getInstance();
             main.getCardPanel().add(playListSongs, "PlaylistSongsTable");
-            MainFrame.cardLayout.show(main.getCardPanel(), "PlaylistSongsTable");
+            main.getCardLayout().show(main.getCardPanel(), "PlaylistSongsTable");
             main.setCurrenPanel("PlaylistSongsTable");
         });
 
