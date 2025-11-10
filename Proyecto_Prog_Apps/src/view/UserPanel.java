@@ -214,12 +214,12 @@ public class UserPanel {
 		
 		// field new password
 		JLabel newPassLabel = new JLabel("New Password",SwingConstants.CENTER  ); 
-		newPassLabel.setForeground(MainFrame.TextColor);
+		newPassLabel.setForeground(MainFrame.BackgroundColor);
 		mainPanel.add(newPassLabel);
 		
 		JPasswordField newpass = new JPasswordField(); 
 		newpass.setBackground(MainFrame.BorderColor);
-		newpass.setForeground(MainFrame.TextColor); 
+		newpass.setForeground(MainFrame.BackgroundColor); 
 		newpass.setHorizontalAlignment(JTextField.CENTER);
 	    mainPanel.add(newpass);
 	    
