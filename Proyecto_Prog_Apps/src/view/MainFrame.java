@@ -179,10 +179,12 @@ public class MainFrame extends JFrame {
 					break;
 				case 4:
 					cardLayout.show(cardPanel, "Config");
+					updateSongIcon(playingSong);
 					currentPanel = "SettingsPanel";
 					break;
 				case 5:
 					cardLayout.show(cardPanel, "AccountPanel");
+					updateSongIcon(playingSong);
 					currentPanel = "AccountPanel";
 					break;
 				}
