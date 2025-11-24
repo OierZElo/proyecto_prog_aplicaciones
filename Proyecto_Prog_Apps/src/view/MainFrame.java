@@ -33,6 +33,7 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.border.MatteBorder;
 
+import controller.ManageDB;
 import view.PlayingSong;
 import view.songBar;
 import java.awt.event.ComponentEvent;
@@ -78,12 +79,18 @@ public class MainFrame extends JFrame {
 	private ImageIcon icon;
 	private JLabel iconLabel = new JLabel();
 	
+    ManageDB managedb = new ManageDB();
+    private ArrayList<Song> songs;
+	
 
 	private MainFrame() {
 		instance = this;
+		managedb.ManageBD();
+		managedb.crearBBDD();
 		Utils.generateUsers();
-		Utils.generateSongs();
-		Utils.generatePlaylists();
+		songs = managedb.getSongs();
+		System.out.println("songs: "+ songs);
+//		Utils.generatePlaylists();
 		initialize();
 
 		Timer timer = new Timer(150, e -> actualizarTitulo());
@@ -322,5 +329,11 @@ public class MainFrame extends JFrame {
 	public ImageIcon getSongIcon() {
 	    return icon;
 	}
+	
+	public ArrayList<Song> getSongs() {
+	    return songs;
+	}
+
+	
 }
 

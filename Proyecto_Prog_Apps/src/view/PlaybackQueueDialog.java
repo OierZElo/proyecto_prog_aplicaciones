@@ -26,6 +26,7 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import model.Genre;
 import model.Playlist;
 import model.Queue;
 import model.Song;
@@ -113,7 +114,7 @@ public class PlaybackQueueDialog extends JFrame {
 
 		}
 
-		for (Song s : Utils.songs) {
+		for (Song s : main.getSongs()) {
 			queue.enqueue(s);
 		}
 
@@ -130,8 +131,9 @@ public class PlaybackQueueDialog extends JFrame {
 						String title = (String) tableModel.getValueAt(row, 0);
 						String artist = (String) tableModel.getValueAt(row, 1);
 						int duration = Playlist.parseDuration((String) tableModel.getValueAt(row, 2));
+						Genre genre = Genre.valueOf(tableModel.getValueAt(row, 3).toString());
 
-						main.setPlayingSong(new Song(title, duration, artist));
+						main.setPlayingSong(new Song(title, duration, artist, genre));
 
 						if (main.getPlayerBar() == null) {
 							main.setPlayerBar(songBar.createPlayerBar(main.getPlayingSong()));

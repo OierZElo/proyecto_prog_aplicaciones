@@ -83,7 +83,7 @@ public class UserPanel {
 		 Font font = new Font("Arial", Font.BOLD, 24);
 		 title.setFont(font);
 		 lsl.add(title,BorderLayout.NORTH );
-		 Utils.generateRandomPlaylist(Utils.playlist1);
+//		 Utils.generateRandomPlaylist(Utils.playlist1, main.getSongs());
 		 JPanel lastsongs = songTable.createSongTablePlaylist(Utils.playlist1) ;
 		 lsl.add(lastsongs, BorderLayout.CENTER);
 

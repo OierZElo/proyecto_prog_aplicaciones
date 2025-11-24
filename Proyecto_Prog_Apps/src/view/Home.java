@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import model.Genre;
 import model.Playlist;
 import utils.Utils;
 
@@ -44,8 +45,8 @@ public class Home {
 		colores.add(new Color(64, 224, 208)); // Turquesa
 		
 		// organización del display de generos 
-		for (int i = 0; i < Utils.genres.length; i++) {
-			JButton boton = new JButton(Utils.genres[i].toUpperCase());
+		for (int i = 0; i < Genre.values().length; i++) {
+			JButton boton = new JButton(Genre.values()[i].toString().toUpperCase());
 			boton.setBackground(MainFrame.BackgroundColor);
 			boton.setHorizontalTextPosition(SwingConstants.CENTER);
 			boton.setFont(new Font("Arial", Font.BOLD, 20));
@@ -64,73 +65,73 @@ public class Home {
 					String name = "";
 					switch(index) {
 					case 0:
-						 panel = songTable.createSongTablePlaylist(Utils.rock);
+//						 panel = songTable.createSongTablePlaylist(Utils.rock);
 						 name = "Rock";
 						 break;
 					case 1:
-						 panel = songTable.createSongTablePlaylist(Utils.pop);
+//						 panel = songTable.createSongTablePlaylist(Utils.pop);
 						 name = "Pop";
 
 						 break;
 
 					case 2:
-						 panel = songTable.createSongTablePlaylist(Utils.jazz);
+//						 panel = songTable.createSongTablePlaylist(Utils.jazz);
 						 name = "Jazz";
 
 						 break;
 
 					case 3:
-						 panel = songTable.createSongTablePlaylist(Utils.clasica);
+//						 panel = songTable.createSongTablePlaylist(Utils.clasica);
 						 name = "Clasica";
 
 						 break;
 
 					case 4: 
-						 panel = songTable.createSongTablePlaylist(Utils.hip_hop);
+//						 panel = songTable.createSongTablePlaylist(Utils.hip_hop);
 						 name = "HipHop";
 
 						 break;
 
 					case 5:
-						 panel = songTable.createSongTablePlaylist(Utils.reggae);
+//						 panel = songTable.createSongTablePlaylist(Utils.reggae);
 						 name = "Reggae";
 
 						 break;
 
 					case 6:
-						 panel = songTable.createSongTablePlaylist(Utils.electronica);
+//						 panel = songTable.createSongTablePlaylist(Utils.electronica);
 						 name = "Electronica";
 
 						 break;
 
 					case 7:
-						 panel = songTable.createSongTablePlaylist(Utils.blues);
+//						 panel = songTable.createSongTablePlaylist(Utils.blues);
 						 name = "Blues";
 
 						 break;
 
 					case 8:
-						 panel = songTable.createSongTablePlaylist(Utils.country);
+//						 panel = songTable.createSongTablePlaylist(Utils.country);
 						 name = "Country";
 
 						 break;
 
 					case 9:
-						 panel =  songTable.createSongTablePlaylist(Utils.metal);
+//						 panel =  songTable.createSongTablePlaylist(Utils.metal);
 						 name = "Metal";
 
 						 break;
 					}
 
-			        result.add(panel, BorderLayout.CENTER);
-		            main.getCardPanel().add(panel, name);
-		            main.getCardLayout().show(main.getCardPanel(), name);
+//			        result.add(panel, BorderLayout.CENTER);
+//		            main.getCardPanel().add(panel, name);
+//		            main.getCardLayout().show(main.getCardPanel(), name);
 				}
 			});
 		}
 		
 		// panel para random Picks 
-		Utils.generateRandomPlaylist(Utils.playlist1);
+//		Utils.generateRandomPlaylist(Utils.playlist1, main.getSongs());
 		quickPicks.add(songTable.createSongTablePlaylist(Utils.playlist1), BorderLayout.CENTER);
 
 		result.add(quickPicks, BorderLayout.CENTER);
