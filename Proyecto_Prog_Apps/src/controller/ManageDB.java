@@ -9,6 +9,7 @@ import model.Genre;
 import model.Playlist;
 import model.Song;
 import model.User;
+import view.MainFrame;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,10 +19,10 @@ public class ManageDB {
 	 protected static final String databaseFile = "src/resources/db/database.db";
 	 private final String driverName = "org.sqlite.JDBC";
 	 private final String connectionString = "jdbc:sqlite:" + databaseFile;
-
+	 private static ManageDB instance = new ManageDB();
 	 
 
-	 public void ManageBD() {
+	 private void ManageBD() {
 	        try {
 	            Class.forName(driverName);
 	        } catch (ClassNotFoundException e) {
@@ -184,5 +185,11 @@ public class ManageDB {
 		    return lista;
 		}
 
+	 public static ManageDB getInstance() {
+		    if (instance == null) {
+		    	instance = new ManageDB();
+		    }
+		    return instance;
+		}
 	 	
 }

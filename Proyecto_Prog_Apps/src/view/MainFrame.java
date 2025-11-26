@@ -79,13 +79,12 @@ public class MainFrame extends JFrame {
 	private ImageIcon icon;
 	private JLabel iconLabel = new JLabel();
 	
-    ManageDB managedb = new ManageDB();
+    ManageDB managedb = ManageDB.getInstance();
     private ArrayList<Song> songs;
 	
 
 	private MainFrame() {
 		instance = this;
-		managedb.ManageBD();
 		managedb.crearBBDD();
 		Utils.generateUsers();
 		songs = managedb.getSongs();
