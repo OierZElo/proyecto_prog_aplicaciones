@@ -22,6 +22,14 @@ public class Song {
 		this.band = band;
 		this.genre = genre;
 	}
+	
+	public Song(String title, int duration, String band) {
+		this.cod = counter;
+		counter += 1;
+		this.title = title;
+		this.duration = duration;
+		this.band = band;
+	}
 
 	// getters and setters
 	public int getId() {

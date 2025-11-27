@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.concurrent.ForkJoinPool.ManagedBlocker;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -16,9 +17,13 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import controller.ManageDB;
+
 public class ConfigManager extends JFrame {
     private static final String CONFIG_PATH = "src/resources/config.properties";
     private static Properties props = new Properties();
+    static ManageDB managedb = ManageDB.getInstance();
+
     
     public static JPanel ColorPanel() {
     	JPanel mainPanel = new JPanel(new GridLayout(3, 2));
@@ -138,5 +143,68 @@ public class ConfigManager extends JFrame {
 
     private static String colorToHex(Color c) {
         return String.format("#%02x%02x%02x", c.getRed(), c.getGreen(), c.getBlue());
+    }
+    
+    public static void loadProperties() {
+        try (FileInputStream f = new FileInputStream(CONFIG_PATH)) {
+            props.load(f);
+            loadColors();
+            
+            if (ConfigManager.shouldLoadSongs()) {
+		        managedb.loadSongsFromCSV("src/resources/db/songs.csv");
+		    }
+		    if (ConfigManager.shouldLoadUsers()) {
+		        managedb.loadUsersFromCSV("src/resources/db/users.csv");
+		    }
+		    if (ConfigManager.shouldLoadPlaylists()) {
+		        managedb.loadPlaylistsFromCSV("src/resources/db/playlists.csv");
+		    }
+		    if (ConfigManager.shouldLoadPlaylistSongs()) {
+		        managedb.loadPlaylistSongsFromCSV("src/resources/db/playlist_songs.csv");
+		    }
+		    
+        } catch (IOException e) {
+            System.out.println("Error loading config.properties, using defaults");
+        }
+    }
+    
+    public static boolean shouldLoadUsers() {
+        return Boolean.parseBoolean(props.getProperty("load.users", "false"));
+    }
+
+    public static boolean shouldLoadSongs() {
+        return Boolean.parseBoolean(props.getProperty("load.songs", "false"));
+    }
+
+    public static boolean shouldLoadPlaylists() {
+        return Boolean.parseBoolean(props.getProperty("load.playlists", "false"));
+    }
+
+    public static boolean shouldLoadPlaylistSongs() {
+        return Boolean.parseBoolean(props.getProperty("load.playlist_songs", "false"));
+    }
+
+    public static void setLoadUsers(boolean value) {
+        props.setProperty("load.users", Boolean.toString(value));
+    }
+
+    public static void setLoadSongs(boolean value) {
+        props.setProperty("load.songs", Boolean.toString(value));
+    }
+
+    public static void setLoadPlaylists(boolean value) {
+        props.setProperty("load.playlists", Boolean.toString(value));
+    }
+
+    public static void setLoadPlaylistSongs(boolean value) {
+        props.setProperty("load.playlist_songs", Boolean.toString(value));
+    }
+
+    public static void saveLoadProperties() {
+        try (FileOutputStream f = new FileOutputStream(CONFIG_PATH)) {
+            props.store(f, "Configuración general");
+        } catch (IOException e) {
+            System.out.println("Error saving load properties: " + e.getMessage());
+        }
     }
 }
