@@ -21,6 +21,10 @@ public class Playlist {
 		this.l_songs = new ArrayList<Song>();
 	}
 
+	public List<Song> getSongs() {
+		return l_songs;
+	}
+	
 	public int getCod() {
 		return cod;
 	}

@@ -45,7 +45,7 @@ public class PlaylistManagerDialog extends JFrame {
 		        buscador.setText("🔍 Buscar playlist");
 		        listPanel.removeAll();
 		        for (Playlist p : Utils.playlists) {
-		            addPlaylistButton(listPanel, p);
+		            addPlaylistButton(listPanel, p, "");
 		        }
 		        listPanel.revalidate();
 		        listPanel.repaint();
@@ -59,7 +59,7 @@ public class PlaylistManagerDialog extends JFrame {
 	    listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
 
 	    for (Playlist p: Utils.playlists) {
-	        addPlaylistButton(listPanel, p);
+	        addPlaylistButton(listPanel, p, "");
 	    }
 
 	    buscador.addKeyListener(new KeyAdapter() {
@@ -70,7 +70,7 @@ public class PlaylistManagerDialog extends JFrame {
 
 	            for (Playlist p : Utils.playlists) {
 	                if (p.getName().toLowerCase().contains(texto)) {
-	                    addPlaylistButton(listPanel, p);
+	                    addPlaylistButton(listPanel, p, texto);
 	                }
 	            }
 	            listPanel.revalidate();
@@ -91,9 +91,24 @@ public class PlaylistManagerDialog extends JFrame {
 		return mainPanel;
 	}
 
-	private static void addPlaylistButton(JPanel listPanel, Playlist p) {
-	    String text = "<html><b>" + p.getName() + "</b><br>" +
-	                  p.getN_songs() + " songs - " + Playlist.getDurationFormat(p.getDuration()) + "</html>";
+	private static void addPlaylistButton(JPanel listPanel, Playlist p, String buscado) {
+	    String nombre = p.getName();
+
+	    if (buscado != null && !buscado.isEmpty()) {
+	    	
+	        int indice = nombre.toLowerCase().indexOf(buscado.toLowerCase());
+	        if (indice != -1) {
+	            String antes = nombre.substring(0, indice);
+	            String match = nombre.substring(indice, indice + buscado.length());
+	            String despues = nombre.substring(indice + buscado.length());
+	            nombre = antes + "<span style='background: yellow;'>" + match + "</span>" + despues;
+	        }
+	    }
+
+	    String text = "<html><b>" + nombre + "</b><br>" +
+	                  p.getN_songs() + " songs - " +
+	                  Playlist.getDurationFormat(p.getDuration()) +
+	                  "</html>";
 
 	    JButton buttonPlaylist = new JButton(text);
 	    buttonPlaylist.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 22));
@@ -101,16 +116,16 @@ public class PlaylistManagerDialog extends JFrame {
 	    buttonPlaylist.setForeground(MainFrame.BackgroundColor);
 	    buttonPlaylist.setFocusPainted(false);
 	    buttonPlaylist.setHorizontalAlignment(SwingConstants.LEFT);
-        
-        buttonPlaylist.addActionListener(evt -> {
-            JPanel playListSongs = songTable.createSongTablePlaylist(p);
-            MainFrame main = MainFrame.getInstance();
-            main.getCardPanel().add(playListSongs, "PlaylistSongsTable");
-            main.getCardLayout().show(main.getCardPanel(), "PlaylistSongsTable");
-            main.setCurrenPanel("PlaylistSongsTable");
-        });
 
-        listPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-        listPanel.add(buttonPlaylist);
+	    buttonPlaylist.addActionListener(evt -> {
+	        JPanel playListSongs = songTable.createSongTablePlaylist(p);
+	        MainFrame main = MainFrame.getInstance();
+	        main.getCardPanel().add(playListSongs, "PlaylistSongsTable");
+	        main.getCardLayout().show(main.getCardPanel(), "PlaylistSongsTable");
+	        main.setCurrenPanel("PlaylistSongsTable");
+	    });
+
+	    listPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+	    listPanel.add(buttonPlaylist);
 	}
 }

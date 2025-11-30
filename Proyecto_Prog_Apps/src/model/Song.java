@@ -11,8 +11,18 @@ public class Song {
 	private String title;
 	private int duration;
 	private String band;
+	private Genre genre;
 
 	// constructor
+	public Song(String title, int duration, String band, Genre genre) {
+		this.cod = counter;
+		counter += 1;
+		this.title = title;
+		this.duration = duration;
+		this.band = band;
+		this.genre = genre;
+	}
+	
 	public Song(String title, int duration, String band) {
 		this.cod = counter;
 		counter += 1;
@@ -22,6 +32,14 @@ public class Song {
 	}
 
 	// getters and setters
+	public int getId() {
+		return counter;
+	}
+
+	public void setId(int cod) {
+		this.cod = cod;
+	}
+	
 	public String getTitle() {
 		return title;
 	}
@@ -48,6 +66,14 @@ public class Song {
 
 	public int getCod() {
 		return cod;
+	}
+	
+	public Genre getGenre() {
+		return genre;
+	}
+
+	public void setGenre(Genre genre) {
+		this.genre = genre;
 	}
 
 }

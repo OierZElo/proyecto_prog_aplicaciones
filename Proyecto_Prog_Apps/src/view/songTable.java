@@ -17,6 +17,7 @@ import javax.swing.JTable;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.table.DefaultTableModel;
 
+import model.Genre;
 import model.Playlist;
 import model.Song;
 import model.StyledTable;
@@ -28,7 +29,7 @@ public class songTable {
 	public static JPanel createSongTablePlaylist(Playlist playlist) {
 		MainFrame main = MainFrame.getInstance();
 
-		String[] columns = { "Title", "Artist", "Duration" };
+		String[] columns = { "Title", "Artist", "Duration", "Genre" };
 		JPanel mainPanel = new JPanel(new BorderLayout());
 
 		DefaultTableModel tableModel = new DefaultTableModel(columns, 0) {
@@ -39,7 +40,7 @@ public class songTable {
 		};
 
 		for (Song s : playlist.getL_songs()) {
-			Object[] row = { s.getTitle(), s.getBand(), model.Playlist.getDurationFormat(s.getDuration()) };
+			Object[] row = { s.getTitle(), s.getBand(), model.Playlist.getDurationFormat(s.getDuration()), s.getGenre() };
 			tableModel.addRow(row);
 		}
 
@@ -53,9 +54,10 @@ public class songTable {
 						String title = (String) tableModel.getValueAt(row, 0);
 						String artist = (String) tableModel.getValueAt(row, 1);
 						int duration = Playlist.parseDuration((String) tableModel.getValueAt(row, 2));
+						Genre genre = Genre.valueOf(tableModel.getValueAt(row, 3).toString());
 
 						
-						main.setPlayingSong(new Song(title, duration, artist));
+						main.setPlayingSong(new Song(title, duration, artist, genre));
 
 						if (main.getPlayerBar() == null) {
 							main.setPlayerBar(songBar.createPlayerBar(main.getPlayingSong()));

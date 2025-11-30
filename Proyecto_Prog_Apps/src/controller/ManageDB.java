@@ -1,0 +1,398 @@
+package controller;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
+import model.Genre;
+import model.Playlist;
+import model.Song;
+import model.User;
+import view.MainFrame;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+public class ManageDB {
+	protected static final String databaseFile = "src/resources/db/database.db";
+	private final String driverName = "org.sqlite.JDBC";
+	private final String connectionString = "jdbc:sqlite:" + databaseFile;
+	private static ManageDB instance = new ManageDB();
+
+	private ManageDB() {
+		try {
+			Class.forName(driverName);
+		} catch (ClassNotFoundException e) {
+			System.out.println("Error loading driver: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	public void crearBBDD() {
+		String dropSong = "DROP TABLE songs;";
+		String dropUser = "DROP TABLE user;";
+		String dropPlaylist = "DROP TABLE playlist;";
+		String dropPlaylistSong = "DROP TABLE playlist_songs;";
+		
+		String sqlSong = "CREATE TABLE IF NOT EXISTS songs (" + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+				+ "name TEXT NOT NULL," + "band TEXT NOT NULL," + "duration INTEGER NOT NULL," + "genre TEXT NOT NULL"
+				+ ");";
+
+		String sqlUsuario = "CREATE TABLE IF NOT EXISTS user (" + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+				+ "name TEXT NOT NULL," + "email TEXT NOT NULL UNIQUE," + "password TEXT NOT NULL" + ");";
+
+		String sqlPlaylist = "CREATE TABLE IF NOT EXISTS playlist (" + "cod INTEGER PRIMARY KEY AUTOINCREMENT,"
+				+ "name TEXT NOT NULL," + "user_id INTEGER NOT NULL,"
+				+ "FOREIGN KEY(user_id) REFERENCES user(id) ON DELETE CASCADE" + ");";
+
+		String sqlPlaylistSongs = "CREATE TABLE IF NOT EXISTS playlist_songs ("
+				+ "id INTEGER PRIMARY KEY AUTOINCREMENT," + "playlist_cod INTEGER NOT NULL,"
+				+ "song_id INTEGER NOT NULL," + "FOREIGN KEY(playlist_cod) REFERENCES playlist(cod) ON DELETE CASCADE,"
+				+ "FOREIGN KEY(song_id) REFERENCES songs(id) ON DELETE CASCADE" + ");";
+
+		try (Connection con = DriverManager.getConnection(connectionString);
+				PreparedStatement psDropSong = con.prepareStatement(dropSong);
+				PreparedStatement psDropUser = con.prepareStatement(dropUser);
+				PreparedStatement psDropPlaylist = con.prepareStatement(dropPlaylist);
+				PreparedStatement psDropPlaylistSong = con.prepareStatement(dropPlaylistSong);
+				
+				PreparedStatement psSong = con.prepareStatement(sqlSong);
+				PreparedStatement psUsuario = con.prepareStatement(sqlUsuario);
+				PreparedStatement psPlaylist = con.prepareStatement(sqlPlaylist);
+				PreparedStatement psPlaylistSongs = con.prepareStatement(sqlPlaylistSongs);) {
+
+			psDropSong.execute();
+			psDropUser.execute();
+			psDropPlaylist.execute();
+			psDropPlaylistSong.execute();
+			
+			psSong.execute();
+			psUsuario.execute();
+			psPlaylist.execute();
+			psPlaylistSongs.execute();
+
+			System.out.println("Tables created succesfully.");
+		} catch (Exception e) {
+			System.out.println("Error creating tables: " + e.getMessage());
+		}
+	}
+
+	public void insertSong(Song... songs) {
+		String sql = "INSERT INTO songs (name, band, duration, genre) VALUES (?, ?, ?, ?);";
+
+		try (Connection con = DriverManager.getConnection(connectionString);
+				PreparedStatement ps = con.prepareStatement(sql)) {
+
+			for (Song s : songs) {
+				ps.setString(1, s.getTitle());
+				ps.setString(2, s.getBand());
+				ps.setInt(3, s.getDuration());
+				ps.setString(4, s.getGenre().toString());
+
+				int affected = ps.executeUpdate();
+				if (affected == 1) {
+					System.out.println("Song inserted: " + s.getTitle());
+				} else {
+					System.out.println("Couldn't insert song: " + s.getTitle());
+				}
+			}
+
+		} catch (Exception e) {
+			System.out.println("Error inserting song: " + e.getMessage());
+		}
+	}
+
+	public void insertUser(User... users) {
+		String sql = "INSERT INTO user (name, email, password) VALUES (?, ?, ?);";
+
+		try (Connection con = DriverManager.getConnection(connectionString);
+				PreparedStatement ps = con.prepareStatement(sql)) {
+
+			for (User u : users) {
+				ps.setString(1, u.getName());
+				ps.setString(2, u.getMail());
+				ps.setString(3, u.getPassword());
+
+				int affected = ps.executeUpdate();
+				if (affected == 1) {
+					System.out.println("User inserted: " + u.getName());
+				} else {
+					System.out.println("Couldn't insert user: " + u.getName());
+				}
+			}
+
+		} catch (Exception e) {
+			System.out.println("Error inserting user: " + e.getMessage());
+		}
+	}
+
+	public void insertPlaylist(Playlist... playlists) {
+		String sql = "INSERT INTO playlist (name, user_id) VALUES (?, ?);";
+
+		try (Connection con = DriverManager.getConnection(connectionString);
+				PreparedStatement ps = con.prepareStatement(sql)) {
+
+			for (Playlist p : playlists) {
+				ps.setString(1, p.getName());
+				ps.setInt(2, p.getUser_id());
+
+				int affected = ps.executeUpdate();
+				if (affected == 1) {
+					System.out.println("Playlist inserted: " + p.getName());
+				} else {
+					System.out.println("Couldn't inser playlist: " + p.getName());
+				}
+			}
+
+		} catch (Exception e) {
+			System.out.println("Error inserting playlist: " + e.getMessage());
+		}
+	}
+	
+	public void deletePlaylist(int id) {
+		String sql = "DELETE FROM playlist WHERE cod = ?;";
+
+		try (Connection con = DriverManager.getConnection(connectionString);
+				PreparedStatement ps = con.prepareStatement(sql)) {
+
+			ps.setInt(1, id);
+
+			int affected = ps.executeUpdate();
+			if (affected == 1) {
+				System.out.println("Playlist deleted, id=" + id);
+			} else {
+				System.out.println("Couldn't find playlist with id=" + id);
+			}
+
+		} catch (Exception e) {
+			System.out.println("Error deleting playlist: " + e.getMessage());
+		}
+	}
+	
+	public void deleteUser(int id) {
+		String sql = "DELETE FROM user WHERE id = ?;";
+
+		try (Connection con = DriverManager.getConnection(connectionString);
+				PreparedStatement ps = con.prepareStatement(sql)) {
+
+			ps.setInt(1, id);
+
+			int affected = ps.executeUpdate();
+			if (affected == 1) {
+				System.out.println("User deleted, id=" + id);
+			} else {
+				System.out.println("Couldn't find user with id=" + id);
+			}
+
+		} catch (Exception e) {
+			System.out.println("Error deleting user: " + e.getMessage());
+		}
+	}
+
+	public void deleteSong(int id) {
+		String sql = "DELETE FROM songs WHERE id = ?;";
+
+		try (Connection con = DriverManager.getConnection(connectionString);
+				PreparedStatement ps = con.prepareStatement(sql)) {
+
+			ps.setInt(1, id);
+
+			int affected = ps.executeUpdate();
+			if (affected == 1) {
+				System.out.println("Song deleted, id=" + id);
+			} else {
+				System.out.println("Couldn't find song with id=" + id);
+			}
+
+		} catch (Exception e) {
+			System.out.println("Error deleting song: " + e.getMessage());
+		}
+	}
+
+//	public ArrayList<Song> getSongs() {
+//		ArrayList<Song> list = new ArrayList<>();
+//		String sql = "SELECT id, name, band, duration, genre FROM songs;";
+//		
+//		try (Connection con = DriverManager.getConnection(connectionString);
+//				PreparedStatement ps = con.prepareStatement(sql);
+//				ResultSet rs = ps.executeQuery()) {
+//
+//			while (rs.next()) {
+//				Song s = new Song(rs.getString("name"), rs.getInt("duration"), rs.getString("band"),
+//						Genre.valueOf(rs.getString("genre").toString().toUpperCase()));
+//				list.add(s);
+//			}
+//
+//		} catch (Exception e) {
+//			System.out.println("Error getting songs: " + e.getMessage());
+//		}
+//
+//		return list;
+//	}
+
+	// MAAAL
+//	public ArrayList<User> getUsers() {
+//		ArrayList<User> list = new ArrayList<>();
+//		String sql = "SELECT id, mail, passwd, username FROM user;";
+//
+//		try (Connection con = DriverManager.getConnection(connectionString);
+//				PreparedStatement ps = con.prepareStatement(sql);
+//				ResultSet rs = ps.executeQuery()) {
+//
+//			while (rs.next()) {
+//				User u = new User(rs.getString("mail"), rs.getString("passwd"), rs.getString("username"));
+//				list.add(u);
+//			}
+//
+//		} catch (Exception e) {
+//			System.out.println("Error getting users: " + e.getMessage());
+//		}
+//		return list;
+//	}
+	
+	public int getSongCount() {
+	    String sql = "SELECT COUNT(*) AS total FROM songs;";
+	    int total = 0;
+
+	    try (Connection con = DriverManager.getConnection(connectionString);
+	         PreparedStatement ps = con.prepareStatement(sql);
+	         ResultSet rs = ps.executeQuery()) {
+
+	        if (rs.next()) {
+	            total = rs.getInt("total");
+	        }
+
+	    } catch (Exception e) {
+	        System.out.println("Error counting songs: " + e.getMessage());
+	    }
+
+	    return total;
+	}
+
+
+	public Song getSongById(int id) {
+		String sql = "SELECT name, band, duration, genre FROM songs WHERE id = ?;";
+		Song song = null;
+
+		try (Connection con = DriverManager.getConnection(connectionString);
+				PreparedStatement ps = con.prepareStatement(sql)) {
+
+			ps.setInt(1, id);
+
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					song = new Song(rs.getString("name"), rs.getInt("duration"), rs.getString("band"),
+							Genre.valueOf(rs.getString("genre")));
+				}
+			}
+
+		} catch (Exception e) {
+			System.out.println("Error getting song: " + e.getMessage());
+		}
+
+		return song; // Retorna null si no se encontró
+	}
+
+	public static ManageDB getInstance() {
+		if (instance == null) {
+			instance = new ManageDB();
+		}
+		return instance;
+	}
+	
+	public void loadUsersFromCSV(String csvPath) {
+	    String sql = "INSERT INTO user (name, email, password) VALUES (?, ?, ?);";
+	    
+	    try (Connection con = DriverManager.getConnection(connectionString);
+	         PreparedStatement ps = con.prepareStatement(sql);
+	         BufferedReader br = new BufferedReader(new FileReader(csvPath))) {
+	        
+	        String line = br.readLine();
+	        while ((line = br.readLine()) != null) {
+	            String[] parts = line.split(",");
+	            if (parts.length < 3) continue;
+	            
+	            ps.setString(1, parts[0].trim());
+	            ps.setString(2, parts[1].trim());
+	            ps.setString(3, parts[2].trim());
+	            ps.executeUpdate();
+	        }
+	        System.out.println("Users loaded from CSV.");
+	    } catch (Exception e) {
+	        System.out.println("Error loading users: " + e.getMessage());
+	    }
+	}
+	
+	public void loadSongsFromCSV(String csvPath) {
+	    String sql = "INSERT INTO songs (name, band, duration, genre) VALUES (?, ?, ?, ?);";
+
+	    try (Connection con = DriverManager.getConnection(connectionString);
+	         PreparedStatement ps = con.prepareStatement(sql);
+	         BufferedReader br = new BufferedReader(new FileReader(csvPath))) {
+
+	        String line = br.readLine(); // Leer encabezado
+	        while ((line = br.readLine()) != null) {
+	            String[] parts = line.split(",");
+	            if (parts.length < 4) continue;
+
+	            ps.setString(1, parts[0].trim());
+	            ps.setString(2, parts[1].trim());
+	            ps.setInt(3, Integer.parseInt(parts[2].trim()));
+	            ps.setString(4, parts[3].trim());
+	            ps.executeUpdate();
+	        }
+	        System.out.println("Songs loaded from CSV.");
+	    } catch (Exception e) {
+	        System.out.println("Error loading songs: " + e.getMessage());
+	    }
+	}
+
+	public void loadPlaylistsFromCSV(String csvPath) {
+	    String sql = "INSERT INTO playlist (name, user_id) VALUES (?, ?);";
+
+	    try (Connection con = DriverManager.getConnection(connectionString);
+	         PreparedStatement ps = con.prepareStatement(sql);
+	         BufferedReader br = new BufferedReader(new FileReader(csvPath))) {
+
+	        String line = br.readLine(); // Leer encabezado
+	        while ((line = br.readLine()) != null) {
+	            String[] parts = line.split(",");
+	            if (parts.length < 2) continue;
+
+	            ps.setString(1, parts[0].trim());
+	            ps.setInt(2, Integer.parseInt(parts[1].trim()));
+	            ps.executeUpdate();
+	        }
+	        System.out.println("Playlists loaded from CSV.");
+	    } catch (Exception e) {
+	        System.out.println("Error loading playlists: " + e.getMessage());
+	    }
+	}
+	
+	public void loadPlaylistSongsFromCSV(String csvPath) {
+	    String sql = "INSERT INTO playlist_songs (playlist_cod, song_id) VALUES (?, ?);";
+
+	    try (Connection con = DriverManager.getConnection(connectionString);
+	         PreparedStatement ps = con.prepareStatement(sql);
+	         BufferedReader br = new BufferedReader(new FileReader(csvPath))) {
+
+	        String line = br.readLine(); // Leer encabezado
+	        while ((line = br.readLine()) != null) {
+	            String[] parts = line.split(",");
+	            if (parts.length < 2) continue;
+
+	            ps.setInt(1, Integer.parseInt(parts[0].trim()));
+	            ps.setInt(2, Integer.parseInt(parts[1].trim()));
+	            ps.executeUpdate();
+	        }
+	        System.out.println("Playlist songs loaded from CSV.");
+	    } catch (Exception e) {
+	        System.out.println("Error loading playlist songs: " + e.getMessage());
+	    }
+	}
+
+
+}
