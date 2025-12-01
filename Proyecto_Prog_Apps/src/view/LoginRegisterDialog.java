@@ -126,26 +126,46 @@ public class LoginRegisterDialog extends JFrame {
 			main.setVisible(true);
 			dispose();
 		}
-		
-		for (User user : Utils.users) {
-			if (user.getMail().equals(email) && user.getPassword().equals(password)) {
-				found = true;
-				main = MainFrame.getInstance();
-				main.setCurrentUser(user);
-				main.getCardPanel().add(UserPanel.PanelUsuario(), "AccountPanel");
-				main.setVisible(true);
-				dispose();
-				break;
-			}
-		}
+
+		//ANTES DE IMPLEMENTAR DB:
+//		for (User user : Utils.users) {
+//			if (user.getMail().equals(email) && user.getPassword().equals(password)) {
+//				found = true;
+//				main = MainFrame.getInstance();
+//				main.setCurrentUser(user);
+//				main.getCardPanel().add(UserPanel.PanelUsuario(), "AccountPanel");
+//				main.setVisible(true);
+//				dispose();
+//				break;
+//			}
+//		}
 
 		if (!found) {
-			JOptionPane.showMessageDialog(this, "Email and password don't match", "Login failed",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Email and password don't match", "Login failed", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
 	private void handleRegister() {
-		// TODO
+		String email = emailField.getText();
+		String password = new String(passwordField.getPassword());
+		
+		if (managedb.isEmailInDB(email)) {
+			JOptionPane.showMessageDialog(null, "That email already has an account", "ERROR", JOptionPane.WARNING_MESSAGE);
+		} else {
+			boolean newUsername = false;
+			String username = "";
+			while(!newUsername ) {
+				username = JOptionPane.showInputDialog(this, "Username for your new account: ");
+				if (!managedb.isUsernameInDB(username)) {
+					newUsername = true;
+				} else {
+					JOptionPane.showMessageDialog(null, "Username already exists", "ERROR", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+			managedb.insertUser(new User(username, email, password));
+			
+			
+		}
+		
 	}
 }

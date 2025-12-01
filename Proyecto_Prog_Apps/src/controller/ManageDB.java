@@ -106,7 +106,7 @@ public class ManageDB {
 	}
 
 	public void insertUser(User... users) {
-		String sql = "INSERT INTO user (name, email, password) VALUES (?, ?, ?);";
+		String sql = "INSERT INTO \"user\" (name, email, password) VALUES (?, ?, ?);";
 
 		try (Connection con = DriverManager.getConnection(connectionString);
 				PreparedStatement ps = con.prepareStatement(sql)) {
@@ -401,6 +401,27 @@ public class ManageDB {
 				PreparedStatement ps = con.prepareStatement(sql)) {
 
 			ps.setString(1, email);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				return true;
+			} else {
+				return false;
+			}
+			
+		} catch (Exception e) {
+			System.out.println("Error searching for user: " + e.getMessage());
+			return false;
+		}
+		
+	}
+	
+	public boolean isUsernameInDB(String username) {
+		String sql = "SELECT * FROM user WHERE name=?;";
+		
+		try (Connection con = DriverManager.getConnection(connectionString);
+				PreparedStatement ps = con.prepareStatement(sql)) {
+
+			ps.setString(1, username);
 			ResultSet rs = ps.executeQuery();
 			if(rs.next()) {
 				return true;
