@@ -128,17 +128,17 @@ public class LoginRegisterDialog extends JFrame {
 		}
 
 		//ANTES DE IMPLEMENTAR DB:
-//		for (User user : Utils.users) {
-//			if (user.getMail().equals(email) && user.getPassword().equals(password)) {
-//				found = true;
-//				main = MainFrame.getInstance();
-//				main.setCurrentUser(user);
-//				main.getCardPanel().add(UserPanel.PanelUsuario(), "AccountPanel");
-//				main.setVisible(true);
-//				dispose();
-//				break;
-//			}
-//		}
+		for (User user : Utils.users) {
+			if (user.getMail().equals(email) && user.getPassword().equals(password)) {
+				found = true;
+				main = MainFrame.getInstance();
+				main.setCurrentUser(user);
+				main.getCardPanel().add(UserPanel.PanelUsuario(), "AccountPanel");
+				main.setVisible(true);
+				dispose();
+				break;
+			}
+		}
 
 		if (!found) {
 			JOptionPane.showMessageDialog(this, "Email and password don't match", "Login failed", JOptionPane.ERROR_MESSAGE);
