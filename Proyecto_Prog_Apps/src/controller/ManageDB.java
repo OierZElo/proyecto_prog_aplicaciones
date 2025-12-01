@@ -20,7 +20,7 @@ public class ManageDB {
 	protected static final String databaseFile = "src/resources/db/database.db";
 	private final String driverName = "org.sqlite.JDBC";
 	private final String connectionString = "jdbc:sqlite:" + databaseFile;
-	private static ManageDB instance = new ManageDB();
+	private static ManageDB instance = null;
 
 	private ManageDB() {
 		try {
@@ -409,10 +409,26 @@ public class ManageDB {
 			}
 			
 		} catch (Exception e) {
-			System.out.println("Error deleting song: " + e.getMessage());
+			System.out.println("Error searching for user: " + e.getMessage());
 			return false;
 		}
 		
+	}
+	
+	public User getUserFromEmail(String email) {
+		String sql = "SELECT * FROM user WHERE email = ?;";
+		
+		try (Connection con = DriverManager.getConnection(connectionString);
+				PreparedStatement ps = con.prepareStatement(sql)) {
+			
+			ps.setString(1,email);
+			ResultSet rs = ps.executeQuery();
+			return new User(rs.getString("name"), rs.getString("email"), rs.getString("password"));
+			
+		} catch (Exception e) {
+			System.out.println("Error getting user: "+e.getMessage());
+			return null;
+		}
 	}
 
 }

@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import model.User;
+import controller.ManageDB;
 
 public class LoginRegisterDialog extends JFrame {
 
@@ -16,8 +17,10 @@ public class LoginRegisterDialog extends JFrame {
 	private JButton loginButton, registerButton, seePasswordButton;
 	private boolean found = false;
 	private MainFrame main;
+	private ManageDB managedb;
 
 	public LoginRegisterDialog() {
+		managedb = ManageDB.getInstance();
 		setTitle("Login");
 		setSize(300, 225);
 		setLocationRelativeTo(null);
@@ -25,7 +28,8 @@ public class LoginRegisterDialog extends JFrame {
 		JPanel mainPanel = new JPanel(new GridLayout(0, 1, 0, 10));
 		mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
 		mainPanel.setBackground(MainFrame.BackgroundColor);
-
+		
+	
 		JLabel emailLabel = new JLabel("Email", SwingConstants.CENTER);
 		emailLabel.setForeground(MainFrame.TextColor);
 		mainPanel.add(emailLabel);
@@ -114,7 +118,14 @@ public class LoginRegisterDialog extends JFrame {
 		String email = emailField.getText();
 		String password = new String(passwordField.getPassword());
 
-		
+		if (managedb.isEmailInDB(email)) {
+			found = true;
+			main = MainFrame.getInstance();
+			main.setCurrentUser(managedb.getUserFromEmail(email));
+			main.getCardPanel().add(UserPanel.PanelUsuario(), "AccountPanel");
+			main.setVisible(true);
+			dispose();
+		}
 		
 		for (User user : Utils.users) {
 			if (user.getMail().equals(email) && user.getPassword().equals(password)) {
