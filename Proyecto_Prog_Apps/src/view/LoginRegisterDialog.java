@@ -119,12 +119,14 @@ public class LoginRegisterDialog extends JFrame {
 		String password = new String(passwordField.getPassword());
 
 		if (managedb.isEmailInDB(email)) {
-			found = true;
-			main = MainFrame.getInstance();
-			main.setCurrentUser(managedb.getUserFromEmail(email));
-			main.getCardPanel().add(UserPanel.PanelUsuario(), "AccountPanel");
-			main.setVisible(true);
-			dispose();
+			if(managedb.getPasswordFromEmail(email).equals(password)) {
+				found = true;
+				main = MainFrame.getInstance();
+				main.setCurrentUser(managedb.getUserFromEmail(email));
+				main.getCardPanel().add(UserPanel.PanelUsuario(), "AccountPanel");
+				main.setVisible(true);
+				dispose();
+			}
 		}
 
 		//ANTES DE IMPLEMENTAR DB:

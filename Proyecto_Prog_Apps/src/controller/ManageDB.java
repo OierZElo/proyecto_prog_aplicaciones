@@ -451,5 +451,19 @@ public class ManageDB {
 			return null;
 		}
 	}
+	
+	public String getPasswordFromEmail(String email) {
+		String sql = "SELECT password FROM user WHERE email=?;";
+		try (Connection con = DriverManager.getConnection(connectionString);
+				PreparedStatement ps = con.prepareStatement(sql)) {
+			ps.setString(1, email);
+			ResultSet rs = ps.executeQuery();
+			return rs.getString("password");
+			
+		} catch (Exception e) {
+			System.out.println("Error getting password: " + e.getMessage());
+			return null;
+		}
+	} 
 
 }
