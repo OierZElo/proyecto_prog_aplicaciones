@@ -394,13 +394,13 @@ public class ManageDB {
 	    }
 	}
 
-	public boolean isUsernameInDB(String username) {
-		String sql = "SELECT * FROM user WHERE name=?;";
+	public boolean isEmailInDB(String email) {
+		String sql = "SELECT * FROM user WHERE email=?;";
 		
 		try (Connection con = DriverManager.getConnection(connectionString);
 				PreparedStatement ps = con.prepareStatement(sql)) {
 
-			ps.setString(1, username);
+			ps.setString(1, email);
 			ResultSet rs = ps.executeQuery();
 			if(rs.next()) {
 				return true;

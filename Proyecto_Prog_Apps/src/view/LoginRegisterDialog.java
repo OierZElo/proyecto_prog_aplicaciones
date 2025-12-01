@@ -114,6 +114,8 @@ public class LoginRegisterDialog extends JFrame {
 		String email = emailField.getText();
 		String password = new String(passwordField.getPassword());
 
+		
+		
 		for (User user : Utils.users) {
 			if (user.getMail().equals(email) && user.getPassword().equals(password)) {
 				found = true;
