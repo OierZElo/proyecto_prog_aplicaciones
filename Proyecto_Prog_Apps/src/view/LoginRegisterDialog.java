@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import model.User;
+import controller.ManageDB;
 
 public class LoginRegisterDialog extends JFrame {
 
@@ -16,8 +17,12 @@ public class LoginRegisterDialog extends JFrame {
 	private JButton loginButton, registerButton, seePasswordButton;
 	private boolean found = false;
 	private MainFrame main;
+	private ManageDB managedb;
 
 	public LoginRegisterDialog() {
+		managedb = ManageDB.getInstance();
+		managedb.crearBBDD();
+		ConfigManager.loadProperties();
 		setTitle("Login");
 		setSize(300, 225);
 		setLocationRelativeTo(null);
@@ -25,7 +30,8 @@ public class LoginRegisterDialog extends JFrame {
 		JPanel mainPanel = new JPanel(new GridLayout(0, 1, 0, 10));
 		mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
 		mainPanel.setBackground(MainFrame.BackgroundColor);
-
+		
+	
 		JLabel emailLabel = new JLabel("Email", SwingConstants.CENTER);
 		emailLabel.setForeground(MainFrame.TextColor);
 		mainPanel.add(emailLabel);
@@ -97,7 +103,6 @@ public class LoginRegisterDialog extends JFrame {
 		loginButton.setBackground(MainFrame.BorderColor);
 		loginButton.setFocusPainted(false);
 
-		Utils.generateUsers();
 		loginButton.addActionListener(e -> handleLogin());
 
 		registerButton.addActionListener(e -> handleRegister());
@@ -114,25 +119,43 @@ public class LoginRegisterDialog extends JFrame {
 		String email = emailField.getText();
 		String password = new String(passwordField.getPassword());
 
-		for (User user : Utils.users) {
-			if (user.getMail().equals(email) && user.getPassword().equals(password)) {
+		if (managedb.isEmailInDB(email)) {
+			if(managedb.getPasswordFromEmail(email).equals(password)) {
 				found = true;
 				main = MainFrame.getInstance();
-				main.setCurrentUser(user);
+				main.setCurrentUser(managedb.getUserFromEmail(email));
 				main.getCardPanel().add(UserPanel.PanelUsuario(), "AccountPanel");
 				main.setVisible(true);
 				dispose();
-				break;
 			}
 		}
 
 		if (!found) {
-			JOptionPane.showMessageDialog(this, "Email and password don't match", "Login failed",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Email and password don't match", "Login failed", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
 	private void handleRegister() {
-		// TODO
+		String email = emailField.getText();
+		String password = new String(passwordField.getPassword());
+		
+		if (managedb.isEmailInDB(email)) {
+			JOptionPane.showMessageDialog(null, "That email already has an account", "ERROR", JOptionPane.WARNING_MESSAGE);
+		} else {
+			boolean newUsername = false;
+			String username = "";
+			while(!newUsername ) {
+				username = JOptionPane.showInputDialog(this, "Username for your new account: ");
+				if (!managedb.isUsernameInDB(username)) {
+					newUsername = true;
+				} else {
+					JOptionPane.showMessageDialog(null, "Username already exists", "ERROR", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+			managedb.insertUser(new User(email, password, username));
+			
+			
+		}
+		
 	}
 }
