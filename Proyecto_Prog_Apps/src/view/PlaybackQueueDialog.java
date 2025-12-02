@@ -143,10 +143,12 @@ import model.Genre;
 								main.setPlayerBar(songBar.createPlayerBar(main.getPlayingSong()));
 								MainFrame.getInstance().mainPanel.add(main.getPlayerBar(), BorderLayout.SOUTH);
 							}
-							songBar.updateSongLabel(main.getPlayingSong());						
+							songBar.updateSongLabel(main.getPlayingSong());
+							songBar.startProgressThread(main.getPlayingSong());
 							main.updateSongIcon(main.getPlayingSong());
 							mainPanel.revalidate();
 							mainPanel.repaint();
+							
 						}
 					}
 				}

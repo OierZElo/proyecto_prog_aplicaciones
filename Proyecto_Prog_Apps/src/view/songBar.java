@@ -25,6 +25,9 @@ public class songBar {
 	static ArrayList<JButton> buttonList = new ArrayList<JButton>();
 	static JLabel songLabel = new JLabel();
 	static JSlider progressBar = new JSlider();
+	public static Thread cancionProgreso;
+	private static int time;
+	static volatile boolean playing = true;
 
 	public static JPanel createPlayerBar(Song s) {
 		// ProgressBar, buttons
@@ -46,7 +49,7 @@ public class songBar {
 
 		JPanel buttonsPanel = new JPanel(buttonLayout);
 		buttonsPanel.setBackground(MainFrame.BackgroundColor);
-		String[] songButtons = { "🔀", "⏮", "▶", "⏭", "🔁" };
+		String[] songButtons = { "🔀", "⏮", "⏸", "⏭", "🔁" };
 		for (int i = 0; i < songButtons.length; i++) {
 			JButton b = new JButton(songButtons[i]);
 			buttonList.add(b);
@@ -86,21 +89,28 @@ public class songBar {
 			public void mousePressed(java.awt.event.MouseEvent e) {
 				int newValue = (int) ((double) e.getX() / (double) progressBar.getWidth() * progressBar.getMaximum());
 				progressBar.setValue(newValue);
+				time = progressBar.getValue();
 			}
 		});
 
+		
 		buttonList.get(2).addActionListener(e -> changePlayPause());
 
 		playerBar.add(buttonsPanel, BorderLayout.SOUTH);
 
 		return playerBar;
 	}
+	
+
 
 	private static void changePlayPause() {
 		if (buttonList.get(2).getText().equals("▶")) {
 			buttonList.get(2).setText("⏸");
+			playing = true;
+			
 		} else {
 			buttonList.get(2).setText("▶");
+			playing = false;
 		}
 	}
 
@@ -108,5 +118,40 @@ public class songBar {
 		songLabel.setText(s.getTitle() + " - " + s.getBand());
 		progressBar.setMaximum(s.getDuration());
 	}
+	
+	public static void startProgressThread(Song s) {
+		if (cancionProgreso != null && cancionProgreso.isAlive()) {
+			cancionProgreso.interrupt();
+		}
+		cancionProgreso = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				progressBar.setMaximum(s.getDuration());
+				time = 0;
+				progressBar.setValue(time);
+				
+				while(time<progressBar.getMaximum()) {
+					while(!playing) {
+						try {
+							Thread.sleep(200);
+						} catch (InterruptedException e) {
+							return;
+						}
+					}
+					try {
+						Thread.sleep(1000);
+						time++;
+						 javax.swing.SwingUtilities.invokeLater(() -> {
+				                progressBar.setValue(time);
+				          });
+					} catch (InterruptedException e) {
+						return;
+					}
+				}
+			}
+		});
+		cancionProgreso.start();
+	}
+	
 
 }
