@@ -164,7 +164,7 @@ public class LoginRegisterDialog extends JFrame {
 					JOptionPane.showMessageDialog(null, "Username already exists", "ERROR", JOptionPane.WARNING_MESSAGE);
 				}
 			}
-			managedb.insertUser(new User(username, email, password));
+			managedb.insertUser(new User(email, password, username));
 			
 			
 		}
