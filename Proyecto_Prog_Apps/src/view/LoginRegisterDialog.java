@@ -101,7 +101,6 @@ public class LoginRegisterDialog extends JFrame {
 		loginButton.setBackground(MainFrame.BorderColor);
 		loginButton.setFocusPainted(false);
 
-		Utils.generateUsers();
 		loginButton.addActionListener(e -> handleLogin());
 
 		registerButton.addActionListener(e -> handleRegister());
@@ -126,19 +125,6 @@ public class LoginRegisterDialog extends JFrame {
 				main.getCardPanel().add(UserPanel.PanelUsuario(), "AccountPanel");
 				main.setVisible(true);
 				dispose();
-			}
-		}
-
-		//ANTES DE IMPLEMENTAR DB:
-		for (User user : Utils.users) {
-			if (user.getMail().equals(email) && user.getPassword().equals(password)) {
-				found = true;
-				main = MainFrame.getInstance();
-				main.setCurrentUser(user);
-				main.getCardPanel().add(UserPanel.PanelUsuario(), "AccountPanel");
-				main.setVisible(true);
-				dispose();
-				break;
 			}
 		}
 
