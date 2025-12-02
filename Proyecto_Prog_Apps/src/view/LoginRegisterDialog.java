@@ -21,6 +21,8 @@ public class LoginRegisterDialog extends JFrame {
 
 	public LoginRegisterDialog() {
 		managedb = ManageDB.getInstance();
+		managedb.crearBBDD();
+		ConfigManager.loadProperties();
 		setTitle("Login");
 		setSize(300, 225);
 		setLocationRelativeTo(null);

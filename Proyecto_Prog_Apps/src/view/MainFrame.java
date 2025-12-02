@@ -86,8 +86,6 @@ public class MainFrame extends JFrame {
 
 	private MainFrame() {
 		instance = this;
-		managedb.crearBBDD();
-		ConfigManager.loadProperties();;
 //		Utils.generateUsers();
 //		songs = managedb.getSongs();
 //		users = managedb.getUsers();
