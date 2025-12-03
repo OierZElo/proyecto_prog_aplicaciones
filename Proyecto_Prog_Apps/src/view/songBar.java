@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.SwingUtilities;
 import javax.swing.border.MatteBorder;
 import view.MainFrame;
 
@@ -168,7 +169,10 @@ public class songBar {
 						return;
 					}
 				}
-				buttonList.get(3).doClick();
+				SwingUtilities.invokeLater(() -> {
+					buttonList.get(3).doClick();
+				});
+				
 			}
 		});
 		cancionProgreso.start();
