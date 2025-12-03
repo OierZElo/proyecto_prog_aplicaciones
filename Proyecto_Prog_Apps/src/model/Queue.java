@@ -9,6 +9,7 @@ public class Queue {
 
 	public Queue() {
 		queue = new ArrayList<>();
+		
 	}
 
 	public void enqueue(Song song) {

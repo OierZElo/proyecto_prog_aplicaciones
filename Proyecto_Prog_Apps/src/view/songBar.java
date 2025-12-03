@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -26,10 +27,13 @@ public class songBar {
 	static JLabel songLabel = new JLabel();
 	static JSlider progressBar = new JSlider();
 	public static Thread cancionProgreso;
-	private static int time;
+	private static double time;
 	static volatile boolean playing = true;
 
 	public static JPanel createPlayerBar(Song s) {
+		
+		MainFrame main = MainFrame.getInstance();
+		
 		// ProgressBar, buttons
 		BorderLayout songBarLayout = new BorderLayout();
 		FlowLayout buttonLayout = new FlowLayout();
@@ -95,6 +99,22 @@ public class songBar {
 
 		
 		buttonList.get(2).addActionListener(e -> changePlayPause());
+		
+		buttonList.get(1).addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				time = 0;	
+			}
+		});
+		
+		buttonList.get(3).addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				PlaybackQueueDialog.playNextSong(main.getPlayingSong(), main);
+			}
+		});
 
 		playerBar.add(buttonsPanel, BorderLayout.SOUTH);
 
@@ -126,9 +146,9 @@ public class songBar {
 		cancionProgreso = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				progressBar.setMaximum(s.getDuration());
+				progressBar.setMaximum(s.getDuration()*10);
 				time = 0;
-				progressBar.setValue(time);
+				progressBar.setValue((int)time);
 				
 				while(time<progressBar.getMaximum()) {
 					while(!playing) {
@@ -139,10 +159,10 @@ public class songBar {
 						}
 					}
 					try {
-						Thread.sleep(1000);
+						Thread.sleep(100);
 						time++;
 						 javax.swing.SwingUtilities.invokeLater(() -> {
-				                progressBar.setValue(time);
+				                progressBar.setValue((int)time);
 				          });
 					} catch (InterruptedException e) {
 						return;
