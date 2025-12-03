@@ -168,6 +168,7 @@ public class songBar {
 						return;
 					}
 				}
+				buttonList.get(3).doClick();
 			}
 		});
 		cancionProgreso.start();
