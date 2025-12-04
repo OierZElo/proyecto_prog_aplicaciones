@@ -32,9 +32,6 @@ public class Song {
 	}
 
 	// getters and setters
-	public int getId() {
-		return counter;
-	}
 
 	public void setId(int cod) {
 		this.cod = cod;

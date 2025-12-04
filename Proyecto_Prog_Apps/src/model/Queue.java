@@ -9,6 +9,7 @@ public class Queue {
 
 	public Queue() {
 		queue = new ArrayList<>();
+		
 	}
 
 	public void enqueue(Song song) {
@@ -33,6 +34,16 @@ public class Queue {
 
 	public static void remove(int index) {
 		queue.remove(index);
+	}
+	
+	public boolean contains(Song s) {
+		boolean exists = false;
+		for(Song song: queue) {
+			if(song.getCod()==s.getCod()) {
+				exists = true;
+			}
+		}
+		return exists;
 	}
 
 }

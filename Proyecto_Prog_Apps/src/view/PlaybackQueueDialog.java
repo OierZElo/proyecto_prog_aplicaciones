@@ -41,6 +41,8 @@ import model.Genre;
 		static ArrayList<JButton> buttonList = new ArrayList<JButton>();
 	
 		private static final long serialVersionUID = 1L;
+		static Queue queue = new Queue();
+		private static JTable songTable;
 	
 		public static JPanel QueuePanel() {
 			
@@ -48,7 +50,7 @@ import model.Genre;
 			
 			ManageDB managedb = ManageDB.getInstance();
 			
-			Queue queue = new Queue();
+			
 			String[] columns = { "Title", "Artist", "Duration" };
 			String[] buttonIcons = { "  ⬆️", "  ⬇️", "🗑️" };
 			JPanel mainPanel = new JPanel(new BorderLayout());
@@ -76,7 +78,7 @@ import model.Genre;
 				}
 			};
 	
-			JTable songTable = new StyledTable(tableModel);
+			songTable = new StyledTable(tableModel);
 	
 			for (int i = 0; i < buttonIcons.length; i++) {
 				JButton b = new JButton(buttonIcons[i]);
@@ -118,10 +120,20 @@ import model.Genre;
 	
 			}
 			
-			for (int i = 0; i < 30; i++) {
-				int r = ThreadLocalRandom.current().nextInt(1, managedb.getSongCount());
-				queue.enqueue(managedb.getSongById(r));
+			while (queue.getQueue().size() < 30) {
+
+			    int r = ThreadLocalRandom.current().nextInt(1, managedb.getSongCount());
+			    Song s = managedb.getSongById(r);
+
+			    if (s == null) {
+			        continue; // repetir el intento
+			    }
+
+			    if (!queue.contains(s)) {
+			        queue.enqueue(s);
+			    }
 			}
+
 	
 			for (Song s : queue.getQueue()) {
 				Object[] row = { s.getTitle(), s.getBand(), model.Playlist.getDurationFormat(s.getDuration()) };
@@ -133,20 +145,22 @@ import model.Genre;
 					if (e.getClickCount() == 2) {
 						int row = songTable.getSelectedRow();
 						if (row >= 0) {
-							String title = (String) tableModel.getValueAt(row, 0);
-							String artist = (String) tableModel.getValueAt(row, 1);
-							int duration = Playlist.parseDuration((String) tableModel.getValueAt(row, 2));
-	
-							main.setPlayingSong(new Song(title, duration, artist));
+//							String title = (String) tableModel.getValueAt(row, 0);
+//							String artist = (String) tableModel.getValueAt(row, 1);
+//							int duration = Playlist.parseDuration((String) tableModel.getValueAt(row, 2));
+							Song current = queue.getQueue().get(row);
+							main.setPlayingSong(current);
 	
 							if (main.getPlayerBar() == null) {
 								main.setPlayerBar(songBar.createPlayerBar(main.getPlayingSong()));
 								MainFrame.getInstance().mainPanel.add(main.getPlayerBar(), BorderLayout.SOUTH);
 							}
-							songBar.updateSongLabel(main.getPlayingSong());						
+							songBar.updateSongLabel(main.getPlayingSong());
+							songBar.startProgressThread(main.getPlayingSong(), main);
 							main.updateSongIcon(main.getPlayingSong());
 							mainPanel.revalidate();
 							mainPanel.repaint();
+							
 						}
 					}
 				}
@@ -169,6 +183,100 @@ import model.Genre;
 			mainPanel.add(buttonEastPanel, BorderLayout.EAST);
 	
 			return mainPanel;
+		}
+		
+		public static void playNextSong(Song actual, MainFrame main, boolean loop, boolean random, boolean end) {
+			ArrayList<Song> listSongs = queue.getQueue();
+			
+			Song nextSong = null;
+			
+			if(loop==false) {
+				if(random==false) {
+					int index = listSongs.indexOf(actual);
+					if (index == -1) {
+						return;
+					}
+					if (index >= listSongs.size()-1) {
+						return;
+					}
+					
+					nextSong = listSongs.get(index +1);
+							
+					songTable.setRowSelectionInterval(index+ 1, index + 1);
+					songTable.scrollRectToVisible(songTable.getCellRect(index + 1, 0, true));
+				} else { 
+					int index = (int)(Math.random() * listSongs.size());
+					
+					nextSong = listSongs.get(index);
+					
+					songTable.setRowSelectionInterval(index, index);
+					songTable.scrollRectToVisible(songTable.getCellRect(index, 0, true));
+					
+				}
+			} else {
+				if (end==true) {
+					nextSong = actual;
+				} else {
+					if(random==false) {
+						int index = listSongs.indexOf(actual);
+						if (index == -1) {
+							return;
+						}
+						if (index >= listSongs.size()-1) {
+							return;
+						}
+						
+						nextSong = listSongs.get(index +1);
+								
+						songTable.setRowSelectionInterval(index+ 1, index + 1);
+						songTable.scrollRectToVisible(songTable.getCellRect(index + 1, 0, true));
+					} else { 
+						int index = (int)(Math.random() * listSongs.size());
+						
+						nextSong = listSongs.get(index);
+						
+						songTable.setRowSelectionInterval(index, index);
+						songTable.scrollRectToVisible(songTable.getCellRect(index, 0, true));
+
+					}
+				}
+			
+			}
+			
+			
+			main.setPlayingSong(nextSong);
+			songBar.updateSongLabel(main.getPlayingSong());
+			songBar.startProgressThread(main.getPlayingSong(), main);
+			main.updateSongIcon(main.getPlayingSong());
+			
+			
+	
+		}
+		
+		public static void playPrevSong(Song actual, MainFrame main) {
+			ArrayList<Song> listSongs = queue.getQueue();
+			
+			int index = listSongs.indexOf(actual);
+			if (index == -1) {
+				return;
+			}
+			if (index == 0) {
+				return;
+			}
+			
+			Song prevSong = listSongs.get(index -1);
+					
+			songTable.setRowSelectionInterval(index- 1, index- 1);
+			songTable.scrollRectToVisible(songTable.getCellRect(index - 1, 0, true));
+
+			
+			main.setPlayingSong(prevSong);
+			songBar.updateSongLabel(main.getPlayingSong());
+			songBar.startProgressThread(main.getPlayingSong(), main);
+			main.updateSongIcon(main.getPlayingSong());
+			
+			
+	
 		}
 	
 	}
