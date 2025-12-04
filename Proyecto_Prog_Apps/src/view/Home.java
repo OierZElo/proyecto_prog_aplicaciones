@@ -181,9 +181,7 @@ public class Home {
 			});
 		}
 		
-		// panel para random Picks 
-//		Utils.generateRandomPlaylist(Utils.playlist1, main.getSongs());
-		try {
+			try {
 			ArrayList<Song> songs =  ConfigManager.managedb.getRandomSongs();
 			
 			quickPicks.add(songTable.createSongTableArrayList(songs), BorderLayout.CENTER);
@@ -195,7 +193,7 @@ public class Home {
 			quickPicks.add(x, BorderLayout.NORTH);
 
 		} catch(Exception e) {
-			JLabel x = new JLabel("No se ha podido quickPicks, intentelo más tarde");
+			JLabel x = new JLabel("Imposible to load quickpicks from database, try later");
 			quickPicks.add(x, BorderLayout.CENTER);
 
 		}

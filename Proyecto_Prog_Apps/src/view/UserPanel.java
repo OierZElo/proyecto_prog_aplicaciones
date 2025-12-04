@@ -31,6 +31,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import app.Main;
+import controller.ManageDB;
 import model.User;
 import utils.Utils;
 
@@ -75,7 +76,7 @@ public class UserPanel {
 		 JPanel lsl = new JPanel(); 
 		 lsl.setLayout(new BorderLayout(10, 10));
 		 lsl.setBackground(MainFrame.BackgroundColor);
-
+// esto 100% hay que cambiarlo por otra cosa
 		 JLabel title = new JLabel("LAST 10 SONGS LISTENED"); 
 		 title.setHorizontalAlignment(JLabel.CENTER);
 		 title.setBackground(MainFrame.BackgroundColor);
@@ -284,7 +285,10 @@ public class UserPanel {
 							JOptionPane.ERROR_MESSAGE);
 
 				} else {
+					MainFrame main = MainFrame.getInstance();
 					usuario.setPassword(new String(newpass.getPassword()));
+					// actualizamos la contraseña del usuario en la base de datos.
+					ConfigManager.managedb.updatePassword(main.getCurrentUser().getMail(), new String(newpass.getPassword()));
 					newpass.setText("");
 					newpass2.setText("");
 					r.dispose();

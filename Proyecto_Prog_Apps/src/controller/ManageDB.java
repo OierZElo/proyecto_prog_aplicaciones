@@ -507,5 +507,26 @@ public class ManageDB {
 				return null;
 			}
 	}
+	
+	// luego mirar como hacer para que funcione con el PK id
+	public void updatePassword(String email, String password) {
+		String sql = "UPDATE user SET password = ? where id = ?";
+		try (Connection con = DriverManager.getConnection(connectionString);
+				PreparedStatement ps = con.prepareStatement(sql) ) {
+				ps.setString(1, password);  // we replace the first ? with the new password of the user
+				ps.setString(2, email); // we replace the second ? with the id of the user
+				int affectedRows  = ps.executeUpdate(); 
+				if (affectedRows > 0) {
+		            System.out.println("se ha actualizado correctamente el usuario de email: " + email);
+
+		        } else {
+		            System.out.println("No username found with email " + email);
+		        }
+			
+		} catch (Exception e) {
+			System.out.println("Error updating password: " + e.getMessage());
+		}
+		
+	}
 
 }
