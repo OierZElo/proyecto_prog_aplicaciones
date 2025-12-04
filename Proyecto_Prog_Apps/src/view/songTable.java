@@ -86,4 +86,63 @@ public class songTable {
 
 		return mainPanel;
 	}
+	
+	public static JPanel createSongTableArrayList(ArrayList<Song> songs) {
+		MainFrame main = MainFrame.getInstance();
+
+		String[] columns = { "Title", "Artist", "Duration", "Genre" };
+		JPanel mainPanel = new JPanel(new BorderLayout());
+
+		DefaultTableModel tableModel = new DefaultTableModel(columns, 0) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+
+		for (Song s : songs) {
+			Object[] row = { s.getTitle(), s.getBand(), model.Playlist.getDurationFormat(s.getDuration()), s.getGenre() };
+			tableModel.addRow(row);
+		}
+
+		JTable songTable = new StyledTable(tableModel);
+
+		songTable.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					int row = songTable.getSelectedRow();
+					if (row >= 0) {
+						String title = (String) tableModel.getValueAt(row, 0);
+						String artist = (String) tableModel.getValueAt(row, 1);
+						int duration = Playlist.parseDuration((String) tableModel.getValueAt(row, 2));
+						Genre genre = Genre.valueOf(tableModel.getValueAt(row, 3).toString());
+						main.setPlayingSong(new Song(title, duration, artist, genre));
+
+						if (main.getPlayerBar() == null) {
+							main.setPlayerBar(songBar.createPlayerBar(main.getPlayingSong()));
+							main.mainPanel.add(main.getPlayerBar(), BorderLayout.SOUTH);
+						}
+						songBar.updateSongLabel(main.getPlayingSong());						
+						main.updateSongIcon(main.getPlayingSong());
+						mainPanel.revalidate();
+						mainPanel.repaint();
+					}
+				}
+			}
+		});
+
+		// JScrollPane
+		JScrollPane scrollPane = new JScrollPane(songTable);
+		scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+			@Override
+			protected void configureScrollBarColors() {
+				this.thumbColor = MainFrame.TextColor;
+				this.trackColor = MainFrame.BackgroundColor;
+			}
+		});
+
+		mainPanel.add(scrollPane, BorderLayout.CENTER);
+
+		return mainPanel;
+	}
 }

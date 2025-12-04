@@ -14,10 +14,10 @@ import javax.swing.SwingConstants;
 
 import model.Genre;
 import model.Playlist;
+import model.Song;
 import utils.Utils;
 
 public class Home {
-		private static ArrayList<JButton> buttonList = new ArrayList<JButton>(); 
 
 	public static JPanel HomePanel() {
         MainFrame main = MainFrame.getInstance();
@@ -43,6 +43,7 @@ public class Home {
 		colores.add(new Color(139, 69, 19)); // Marrón
 		colores.add(Color.GRAY);
 		colores.add(new Color(64, 224, 208)); // Turquesa
+		// Canciones por genero: 
 		
 		// organización del display de generos 
 		for (int i = 0; i < Genre.values().length; i++) {
@@ -65,73 +66,124 @@ public class Home {
 					String name = "";
 					switch(index) {
 					case 0:
-//						 panel = songTable.createSongTablePlaylist(Utils.rock);
+						try {
+						 ArrayList<Song> song = ConfigManager.managedb.getSongsPerGenre(Genre.ROCK);
+						 panel = songTable.createSongTableArrayList(song); } 
+						catch (Exception e2) {
+							
+						}
 						 name = "Rock";
 						 break;
 					case 1:
-//						 panel = songTable.createSongTablePlaylist(Utils.pop);
-						 name = "Pop";
+						try {
+							 ArrayList<Song> song = ConfigManager.managedb.getSongsPerGenre(Genre.POP);
+							 panel = songTable.createSongTableArrayList(song); } 
+							catch (Exception e2) {
+								
+							}						 name = "Pop";
 
 						 break;
 
 					case 2:
-//						 panel = songTable.createSongTablePlaylist(Utils.jazz);
-						 name = "Jazz";
+						try {
+							 ArrayList<Song> song = ConfigManager.managedb.getSongsPerGenre(Genre.JAZZ);
+							 panel = songTable.createSongTableArrayList(song); } 
+							catch (Exception e2) {
+								
+							}						
+						name = "Jazz";
 
 						 break;
 
 					case 3:
-//						 panel = songTable.createSongTablePlaylist(Utils.clasica);
-						 name = "Clasica";
+						try {
+							 ArrayList<Song> song = ConfigManager.managedb.getSongsPerGenre(Genre.CLASICA);
+							 panel = songTable.createSongTableArrayList(song); } 
+							catch (Exception e2) {
+								
+							}											 
+						name = "Clasica";
 
 						 break;
 
 					case 4: 
-//						 panel = songTable.createSongTablePlaylist(Utils.hip_hop);
-						 name = "HipHop";
+						try {
+							 ArrayList<Song> song = ConfigManager.managedb.getSongsPerGenre(Genre.HIPHOP);
+							 panel = songTable.createSongTableArrayList(song); } 
+							catch (Exception e2) {
+								
+							}											 
+						name = "HipHop";
 
 						 break;
 
 					case 5:
-//						 panel = songTable.createSongTablePlaylist(Utils.reggae);
-						 name = "Reggae";
+						try {
+							 ArrayList<Song> song = ConfigManager.managedb.getSongsPerGenre(Genre.REGGAE);
+							 panel = songTable.createSongTableArrayList(song); } 
+							catch (Exception e2) {
+								
+							}					
+						name = "Reggae";
 
 						 break;
 
 					case 6:
-//						 panel = songTable.createSongTablePlaylist(Utils.electronica);
-						 name = "Electronica";
+						try {
+							 ArrayList<Song> song = ConfigManager.managedb.getSongsPerGenre(Genre.ELECTRONICA);
+							 panel = songTable.createSongTableArrayList(song); } 
+							catch (Exception e2) {
+								
+							}					
+						name = "Electronica";
 
 						 break;
 
 					case 7:
-//						 panel = songTable.createSongTablePlaylist(Utils.blues);
-						 name = "Blues";
+						try {
+							 ArrayList<Song> song = ConfigManager.managedb.getSongsPerGenre(Genre.BLUES);
+							 panel = songTable.createSongTableArrayList(song); } 
+							catch (Exception e2) {
+								
+							}					
+						name = "Blues";
 
 						 break;
 
 					case 8:
-//						 panel = songTable.createSongTablePlaylist(Utils.country);
-						 name = "Country";
+
+						try {
+							 ArrayList<Song> song = ConfigManager.managedb.getSongsPerGenre(Genre.COUNTRY);
+							 panel = songTable.createSongTableArrayList(song); } 
+							catch (Exception e2) {
+								
+							}					
+						name = "Country";
 
 						 break;
 
 					case 9:
-//						 panel =  songTable.createSongTablePlaylist(Utils.metal);
-						 name = "Metal";
+						try {
+							 ArrayList<Song> song = ConfigManager.managedb.getSongsPerGenre(Genre.METAL);
+							 panel = songTable.createSongTableArrayList(song); } 
+							catch (Exception e2) {
+								
+							}					
+						name = "Metal";
 
 						 break;
 					}
 
-//			        result.add(panel, BorderLayout.CENTER);
-//		            main.getCardPanel().add(panel, name);
-//		            main.getCardLayout().show(main.getCardPanel(), name);
+			        result.add(panel, BorderLayout.CENTER);
+		            main.getCardPanel().add(panel, name);
+		            main.getCardLayout().show(main.getCardPanel(), name);
 				}
 			});
 		}
 		
 		// panel para random Picks 
 //		Utils.generateRandomPlaylist(Utils.playlist1, main.getSongs());
+		
 		quickPicks.add(songTable.createSongTablePlaylist(Utils.playlist1), BorderLayout.CENTER);
 
 		result.add(quickPicks, BorderLayout.CENTER);

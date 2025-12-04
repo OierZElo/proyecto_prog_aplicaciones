@@ -465,5 +465,47 @@ public class ManageDB {
 			return null;
 		}
 	} 
+	
+		
+	public ArrayList<Song> getSongsPerGenre(Genre genre) {
+	    String sql = "SELECT * FROM songs WHERE genre = ? ORDER BY name LIMIT 10;";
+		try (Connection con = DriverManager.getConnection(connectionString);
+				PreparedStatement ps = con.prepareStatement(sql)) {
+				ps.setString(1, genre.name());  // pasar el valor del enum como string
+
+				ArrayList<Song> songs = new ArrayList<Song>();
+				ResultSet rs = ps.executeQuery();
+				while (rs.next()) {
+					Song s = new Song(rs.getString("name"), rs.getInt("duration"), rs.getString("band"), Genre.valueOf(rs.getString("genre")));
+					s.setId(rs.getInt("id"));
+					songs.add(s);
+				}
+				return songs;
+			
+		} catch (Exception e) {
+			System.out.println("Error getting songs " + e.getMessage());
+			return null;
+		}
+	
+	}
+	
+	public ArrayList<Song> getRandomSongs() {
+		 String sql = "SELECT * FROM songs  ORDER BY random() LIMIT 10;";
+			try (Connection con = DriverManager.getConnection(connectionString);
+					PreparedStatement ps = con.prepareStatement(sql) ) {
+					ArrayList<Song> songs = new ArrayList<Song>();
+					ResultSet rs = ps.executeQuery();
+					while (rs.next()) {
+						Song s = new Song(rs.getString("name"), rs.getInt("duration"), rs.getString("band"), Genre.valueOf(rs.getString("genre")));
+						s.setId(rs.getInt("id"));
+						songs.add(s);
+					}
+					return songs;
+				
+			} catch (Exception e) {
+				System.out.println("Error getting password: " + e.getMessage());
+				return null;
+			}
+	}
 
 }
