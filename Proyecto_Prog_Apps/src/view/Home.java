@@ -183,16 +183,23 @@ public class Home {
 		
 		// panel para random Picks 
 //		Utils.generateRandomPlaylist(Utils.playlist1, main.getSongs());
-		
-		quickPicks.add(songTable.createSongTablePlaylist(Utils.playlist1), BorderLayout.CENTER);
+		try {
+			ArrayList<Song> songs =  ConfigManager.managedb.getRandomSongs();
+			
+			quickPicks.add(songTable.createSongTableArrayList(songs), BorderLayout.CENTER);
+			result.add(quickPicks, BorderLayout.CENTER);
+			JLabel x = new JLabel("QUICK PICKS");
+			x.setFont(new Font("Arial", Font.PLAIN, 24));
+			x.setHorizontalAlignment(JLabel.CENTER);
+			x.setForeground(MainFrame.TextColor);
+			quickPicks.add(x, BorderLayout.NORTH);
 
-		result.add(quickPicks, BorderLayout.CENTER);
-		JLabel x = new JLabel("QUICK PICKS");
-		x.setFont(new Font("Arial", Font.PLAIN, 24));
-		x.setHorizontalAlignment(JLabel.CENTER);
-		x.setForeground(MainFrame.TextColor);
-		quickPicks.add(x, BorderLayout.NORTH);
-	
+		} catch(Exception e) {
+			JLabel x = new JLabel("No se ha podido quickPicks, intentelo más tarde");
+			quickPicks.add(x, BorderLayout.CENTER);
+
+		}
+			
 		return result;
 
 	}

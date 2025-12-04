@@ -503,7 +503,7 @@ public class ManageDB {
 					return songs;
 				
 			} catch (Exception e) {
-				System.out.println("Error getting password: " + e.getMessage());
+				System.out.println("Error getting random songs: " + e.getMessage());
 				return null;
 			}
 	}
