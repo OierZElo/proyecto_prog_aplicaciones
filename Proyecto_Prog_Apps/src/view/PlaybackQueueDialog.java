@@ -181,21 +181,62 @@ import model.Genre;
 			return mainPanel;
 		}
 		
-		public static void playNextSong(Song actual, MainFrame main) {
+		public static void playNextSong(Song actual, MainFrame main, boolean loop, boolean random) {
 			ArrayList<Song> listSongs = queue.getQueue();
 			
-			int index = listSongs.indexOf(actual);
-			if (index == -1) {
-				return;
-			}
-			if (index >= listSongs.size()-1) {
-				return;
+			Song nextSong = null;
+			
+			if(loop==false) {
+				if(random==false) {
+					int index = listSongs.indexOf(actual);
+					if (index == -1) {
+						return;
+					}
+					if (index >= listSongs.size()-1) {
+						return;
+					}
+					
+					nextSong = listSongs.get(index +1);
+							
+					songTable.setRowSelectionInterval(index+ 1, index + 1);
+					songTable.scrollRectToVisible(songTable.getCellRect(index + 1, 0, true));
+				} else { //loop false and random true
+					int index = (int)(Math.random() * listSongs.size());
+					
+					nextSong = listSongs.get(index);
+					
+					songTable.setRowSelectionInterval(index, index);
+					songTable.scrollRectToVisible(songTable.getCellRect(index, 0, true));
+					
+				}
+			} else {
+				//TODO
+				if(random==false) {
+					int index = listSongs.indexOf(actual);
+					if (index == -1) {
+						return;
+					}
+					if (index >= listSongs.size()-1) {
+						return;
+					}
+					
+					nextSong = listSongs.get(index +1);
+							
+					songTable.setRowSelectionInterval(index+ 1, index + 1);
+					songTable.scrollRectToVisible(songTable.getCellRect(index + 1, 0, true));
+				} else { //loop false and random true
+					int index = (int)(Math.random() * listSongs.size());
+					
+					nextSong = listSongs.get(index);
+					
+					songTable.setRowSelectionInterval(index, index);
+					songTable.scrollRectToVisible(songTable.getCellRect(index, 0, true));
+					
+				}
 			}
 			
-			Song nextSong = listSongs.get(index +1);
-					
-			songTable.setRowSelectionInterval(index+ 1, index + 1);
-			songTable.scrollRectToVisible(songTable.getCellRect(index + 1, 0, true));
+			
+			
 
 			
 			main.setPlayingSong(nextSong);
@@ -204,7 +245,33 @@ import model.Genre;
 			main.updateSongIcon(main.getPlayingSong());
 			
 			
+	
+		}
+		
+		public static void playPrevSong(Song actual, MainFrame main, boolean loop, boolean random) {
+			ArrayList<Song> listSongs = queue.getQueue();
 			
+			int index = listSongs.indexOf(actual);
+			if (index == -1) {
+				return;
+			}
+			if (index == 0) {
+				return;
+			}
+			
+			Song prevSong = listSongs.get(index -1);
+					
+			songTable.setRowSelectionInterval(index- 1, index- 1);
+			songTable.scrollRectToVisible(songTable.getCellRect(index - 1, 0, true));
+
+			
+			main.setPlayingSong(prevSong);
+			songBar.updateSongLabel(main.getPlayingSong());
+			songBar.startProgressThread(main.getPlayingSong());
+			main.updateSongIcon(main.getPlayingSong());
+			
+			
+	
 		}
 	
 	}

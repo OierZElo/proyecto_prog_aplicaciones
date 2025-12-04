@@ -25,12 +25,17 @@ import model.Song;
 
 public class songBar {
 	static ArrayList<JButton> buttonList = new ArrayList<JButton>();
+	
 	static JLabel songLabel = new JLabel();
 	static JSlider progressBar = new JSlider();
+	
 	public static Thread cancionProgreso;
 	private static double time;
 	static volatile boolean playing = true;
-
+	
+	static boolean random = false;
+	static boolean loop = false;
+	
 	public static JPanel createPlayerBar(Song s) {
 		
 		MainFrame main = MainFrame.getInstance();
@@ -66,6 +71,7 @@ public class songBar {
 			b.setBorder(BorderFactory.createEmptyBorder());
 			b.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 26));
 			buttonsPanel.add(b);
+			b.setOpaque(true);
 		}
 		// activamos el foco para que se puedan implmentar acciones de teclado 
 		// 
@@ -99,21 +105,56 @@ public class songBar {
 		});
 
 		
-		buttonList.get(2).addActionListener(e -> changePlayPause());
+		buttonList.get(0).addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (random == false) {
+					random = true;
+					buttonList.get(0).setForeground(MainFrame.BackgroundColor);
+					buttonList.get(0).setBackground(MainFrame.TextColor);
+				} else {
+					random = false;
+					buttonList.get(0).setForeground(MainFrame.TextColor);
+					buttonList.get(0).setBackground(MainFrame.BackgroundColor);
+				}
+			}
+		});
 		
 		buttonList.get(1).addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if (time<20) {
+					PlaybackQueueDialog.playPrevSong(main.getPlayingSong(), main, loop, random);
+				}
 				time = 0;	
 			}
 		});
+		
+		buttonList.get(2).addActionListener(e -> changePlayPause());
 		
 		buttonList.get(3).addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				PlaybackQueueDialog.playNextSong(main.getPlayingSong(), main);
+				PlaybackQueueDialog.playNextSong(main.getPlayingSong(), main, loop, random);
+			}
+		});
+		
+		
+		buttonList.get(4).addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (loop == false) {
+					loop = true;
+					buttonList.get(4).setForeground(MainFrame.BackgroundColor);
+					buttonList.get(4).setBackground(MainFrame.TextColor);
+				} else {
+					loop = false;
+					buttonList.get(4).setForeground(MainFrame.TextColor);
+					buttonList.get(4).setBackground(MainFrame.BackgroundColor);
+				}
 			}
 		});
 
