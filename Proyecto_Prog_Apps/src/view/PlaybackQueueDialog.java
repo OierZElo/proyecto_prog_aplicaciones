@@ -120,16 +120,20 @@ import model.Genre;
 	
 			}
 			
-			for (int i = 0; i < 30; i++) {
-				int r = ThreadLocalRandom.current().nextInt(1, managedb.getSongCount());
-				Song s = managedb.getSongById(r);
-				
-			   if (s != null) {
+			while (queue.getQueue().size() < 30) {
+
+			    int r = ThreadLocalRandom.current().nextInt(1, managedb.getSongCount());
+			    Song s = managedb.getSongById(r);
+
+			    if (s == null) {
+			        continue; // repetir el intento
+			    }
+
+			    if (!queue.contains(s)) {
 			        queue.enqueue(s);
-			    } else {
-			        i--;
 			    }
 			}
+
 	
 			for (Song s : queue.getQueue()) {
 				Object[] row = { s.getTitle(), s.getBand(), model.Playlist.getDurationFormat(s.getDuration()) };
@@ -152,7 +156,7 @@ import model.Genre;
 								MainFrame.getInstance().mainPanel.add(main.getPlayerBar(), BorderLayout.SOUTH);
 							}
 							songBar.updateSongLabel(main.getPlayingSong());
-							songBar.startProgressThread(main.getPlayingSong());
+							songBar.startProgressThread(main.getPlayingSong(), main);
 							main.updateSongIcon(main.getPlayingSong());
 							mainPanel.revalidate();
 							mainPanel.repaint();
@@ -181,7 +185,7 @@ import model.Genre;
 			return mainPanel;
 		}
 		
-		public static void playNextSong(Song actual, MainFrame main, boolean loop, boolean random) {
+		public static void playNextSong(Song actual, MainFrame main, boolean loop, boolean random, boolean end) {
 			ArrayList<Song> listSongs = queue.getQueue();
 			
 			Song nextSong = null;
@@ -200,7 +204,7 @@ import model.Genre;
 							
 					songTable.setRowSelectionInterval(index+ 1, index + 1);
 					songTable.scrollRectToVisible(songTable.getCellRect(index + 1, 0, true));
-				} else { //loop false and random true
+				} else { 
 					int index = (int)(Math.random() * listSongs.size());
 					
 					nextSong = listSongs.get(index);
@@ -210,45 +214,46 @@ import model.Genre;
 					
 				}
 			} else {
-				//TODO
-				if(random==false) {
-					int index = listSongs.indexOf(actual);
-					if (index == -1) {
-						return;
+				if (end==true) {
+					nextSong = actual;
+				} else {
+					if(random==false) {
+						int index = listSongs.indexOf(actual);
+						if (index == -1) {
+							return;
+						}
+						if (index >= listSongs.size()-1) {
+							return;
+						}
+						
+						nextSong = listSongs.get(index +1);
+								
+						songTable.setRowSelectionInterval(index+ 1, index + 1);
+						songTable.scrollRectToVisible(songTable.getCellRect(index + 1, 0, true));
+					} else { 
+						int index = (int)(Math.random() * listSongs.size());
+						
+						nextSong = listSongs.get(index);
+						
+						songTable.setRowSelectionInterval(index, index);
+						songTable.scrollRectToVisible(songTable.getCellRect(index, 0, true));
+
 					}
-					if (index >= listSongs.size()-1) {
-						return;
-					}
-					
-					nextSong = listSongs.get(index +1);
-							
-					songTable.setRowSelectionInterval(index+ 1, index + 1);
-					songTable.scrollRectToVisible(songTable.getCellRect(index + 1, 0, true));
-				} else { //loop false and random true
-					int index = (int)(Math.random() * listSongs.size());
-					
-					nextSong = listSongs.get(index);
-					
-					songTable.setRowSelectionInterval(index, index);
-					songTable.scrollRectToVisible(songTable.getCellRect(index, 0, true));
-					
 				}
+			
 			}
 			
 			
-			
-
-			
 			main.setPlayingSong(nextSong);
 			songBar.updateSongLabel(main.getPlayingSong());
-			songBar.startProgressThread(main.getPlayingSong());
+			songBar.startProgressThread(main.getPlayingSong(), main);
 			main.updateSongIcon(main.getPlayingSong());
 			
 			
 	
 		}
 		
-		public static void playPrevSong(Song actual, MainFrame main, boolean loop, boolean random) {
+		public static void playPrevSong(Song actual, MainFrame main) {
 			ArrayList<Song> listSongs = queue.getQueue();
 			
 			int index = listSongs.indexOf(actual);
@@ -267,7 +272,7 @@ import model.Genre;
 			
 			main.setPlayingSong(prevSong);
 			songBar.updateSongLabel(main.getPlayingSong());
-			songBar.startProgressThread(main.getPlayingSong());
+			songBar.startProgressThread(main.getPlayingSong(), main);
 			main.updateSongIcon(main.getPlayingSong());
 			
 			

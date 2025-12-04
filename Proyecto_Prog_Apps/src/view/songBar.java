@@ -126,7 +126,7 @@ public class songBar {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (time<20) {
-					PlaybackQueueDialog.playPrevSong(main.getPlayingSong(), main, loop, random);
+					PlaybackQueueDialog.playPrevSong(main.getPlayingSong(), main);
 				}
 				time = 0;	
 			}
@@ -138,7 +138,7 @@ public class songBar {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				PlaybackQueueDialog.playNextSong(main.getPlayingSong(), main, loop, random);
+				PlaybackQueueDialog.playNextSong(main.getPlayingSong(), main, loop, random, false);
 			}
 		});
 		
@@ -181,7 +181,7 @@ public class songBar {
 		progressBar.setMaximum(s.getDuration());
 	}
 	
-	public static void startProgressThread(Song s) {
+	public static void startProgressThread(Song s, MainFrame main) {
 		if (cancionProgreso != null && cancionProgreso.isAlive()) {
 			cancionProgreso.interrupt();
 		}
@@ -211,7 +211,7 @@ public class songBar {
 					}
 				}
 				SwingUtilities.invokeLater(() -> {
-					buttonList.get(3).doClick();
+					PlaybackQueueDialog.playNextSong(main.getPlayingSong(), main, loop, random, true);
 				});
 				
 			}
