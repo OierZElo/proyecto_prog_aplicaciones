@@ -4,6 +4,7 @@ import javax.swing.ImageIcon;
 
 public class User {
 	private static int counter = 0;
+	private int id;
 	private int cod;
 	private String mail;
 	private String password;
@@ -60,6 +61,13 @@ public class User {
 		this.username = name;
 	}
 	
+	public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
 };
 

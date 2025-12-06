@@ -1,7 +1,5 @@
 package view;
 
-import utils.Utils;
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -153,8 +151,6 @@ public class LoginRegisterDialog extends JFrame {
 				}
 			}
 			managedb.insertUser(new User(email, password, username));
-			
-			
 		}
 		
 	}

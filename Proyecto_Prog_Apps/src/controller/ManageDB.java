@@ -3,14 +3,10 @@ package controller;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.List;
-
 import model.Genre;
 import model.Playlist;
 import model.Song;
 import model.User;
-import view.MainFrame;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.sql.Connection;
@@ -441,15 +437,20 @@ public class ManageDB {
 		
 		try (Connection con = DriverManager.getConnection(connectionString);
 				PreparedStatement ps = con.prepareStatement(sql)) {
-			
+
 			ps.setString(1,email);
 			ResultSet rs = ps.executeQuery();
-			return new User(rs.getString("name"), rs.getString("email"), rs.getString("password"));
+            
+            if (rs.next()) {
+                User u = new User(rs.getString("name"), rs.getString("email"), rs.getString("password"));
+                u.setId(rs.getInt("id")); 
+                return u;
+            }
 			
 		} catch (Exception e) {
 			System.out.println("Error getting user: "+e.getMessage());
-			return null;
 		}
+        return null;	
 	}
 	
 	public String getPasswordFromEmail(String email) {
@@ -528,5 +529,94 @@ public class ManageDB {
 		}
 		
 	}
+	
+	public ArrayList<Playlist> getUserPlaylists(int userId) {
+	    ArrayList<Playlist> playlists = new ArrayList<>();
+	    String sql = "SELECT cod, name FROM playlist WHERE user_id = ?;";
 
+	    try (Connection con = DriverManager.getConnection(connectionString);
+	         PreparedStatement ps = con.prepareStatement(sql)) {
+
+	        ps.setInt(1, userId);
+	        ResultSet rs = ps.executeQuery();
+
+	        while (rs.next()) {
+	            Playlist p = new Playlist(rs.getString("name"), userId);
+	            p.setCod(rs.getInt("cod")); 
+	            ArrayList<Song> songs = getSongsByPlaylistId(rs.getInt("cod"));
+	            for(Song s : songs) {
+	                p.addSong(s); 
+	            }
+	            
+	            playlists.add(p);
+	        }
+
+	    } catch (Exception e) {
+	        System.out.println("Error getting user playlists: " + e.getMessage());
+	    }
+	    return playlists;
+	}
+
+    private ArrayList<Song> getSongsByPlaylistId(int playlistCod) {
+        ArrayList<Song> songs = new ArrayList<>();
+        String sql = "SELECT s.id, s.name, s.band, s.duration, s.genre " +
+                     "FROM songs s " +
+                     "JOIN playlist_songs ps ON s.id = ps.song_id " +
+                     "WHERE ps.playlist_cod = ?;";
+
+        try (Connection con = DriverManager.getConnection(connectionString);
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, playlistCod);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Song s = new Song(
+                    rs.getString("name"), 
+                    rs.getInt("duration"), 
+                    rs.getString("band"), 
+                    Genre.valueOf(rs.getString("genre"))
+                );
+                s.setId(rs.getInt("id"));
+                songs.add(s);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error getting playlist songs: " + e.getMessage());
+        }
+        return songs;
+    }
+    
+ // Método para inicializar datos de prueba si no existen
+ 	public void initData() {
+
+ 		String testName = "1";
+ 		String testEmail = "1"; 
+ 		String testPass = "1";
+ 		if (!isEmailInDB(testEmail)) {
+ 			insertUser(new User(testName, testEmail, testPass));
+ 			System.out.println("INIT: Usuario de prueba creado.");
+ 		}
+ 		
+ 		User u = getUserFromEmail(testEmail);
+ 		if (u != null) {
+ 			int userId = u.getId();
+ 			ArrayList<Playlist> currentPlaylists = getUserPlaylists(userId);
+ 			
+ 			if (currentPlaylists.isEmpty()) {
+ 				System.out.println("INIT: Insertando playlists de prueba...");
+ 				
+ 				Playlist p1 = new Playlist("Rock Clásico", userId);
+ 				Playlist p2 = new Playlist("Gym Motivation", userId);
+ 				Playlist p3 = new Playlist("Viaje en Coche", userId);
+ 				Playlist p4 = new Playlist("Estudiar Lo-Fi", userId);
+ 				Playlist p5 = new Playlist("Fiesta 2024", userId);
+ 				
+ 				insertPlaylist(p1, p2, p3, p4, p5);
+ 				System.out.println("INIT: Playlists insertadas correctamente.");
+ 			} else {
+ 				System.out.println("INIT: El usuario ya tiene playlists.");
+ 			}
+ 		}
+ 	}
 }

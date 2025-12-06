@@ -48,6 +48,10 @@ public class Playlist {
 	public int getUser_id() {
 		return user_id;
 	}
+	
+	public void setCod(int cod) {
+		this.cod = cod;
+	}
 
 	public int getDuration() {
 		return duration;

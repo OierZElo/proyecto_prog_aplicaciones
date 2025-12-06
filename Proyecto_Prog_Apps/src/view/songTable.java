@@ -1,90 +1,22 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSlider;
 import javax.swing.JTable;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.table.DefaultTableModel;
-
-import model.Genre;
 import model.Playlist;
 import model.Song;
 import model.StyledTable;
-import utils.Utils;
 
 public class songTable {
 	
-	
 	public static JPanel createSongTablePlaylist(Playlist playlist) {
-		MainFrame main = MainFrame.getInstance();
-
-		String[] columns = { "Title", "Artist", "Duration", "Genre" };
-		JPanel mainPanel = new JPanel(new BorderLayout());
-
-		DefaultTableModel tableModel = new DefaultTableModel(columns, 0) {
-			@Override
-			public boolean isCellEditable(int row, int column) {
-				return false;
-			}
-		};
-
-		for (Song s : playlist.getL_songs()) {
-			Object[] row = { s.getTitle(), s.getBand(), model.Playlist.getDurationFormat(s.getDuration()), s.getGenre() };
-			tableModel.addRow(row);
-		}
-
-		JTable songTable = new StyledTable(tableModel);
-
-		songTable.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2) {
-					int row = songTable.getSelectedRow();
-					if (row >= 0) {
-						String title = (String) tableModel.getValueAt(row, 0);
-						String artist = (String) tableModel.getValueAt(row, 1);
-						int duration = Playlist.parseDuration((String) tableModel.getValueAt(row, 2));
-						Genre genre = Genre.valueOf(tableModel.getValueAt(row, 3).toString());
-
-						
-						main.setPlayingSong(new Song(title, duration, artist, genre));
-
-						if (main.getPlayerBar() == null) {
-							main.setPlayerBar(songBar.createPlayerBar(main.getPlayingSong()));
-							main.mainPanel.add(main.getPlayerBar(), BorderLayout.SOUTH);
-						}
-						songBar.updateSongLabel(main.getPlayingSong());						
-						main.updateSongIcon(main.getPlayingSong());
-						mainPanel.revalidate();
-						mainPanel.repaint();
-					}
-				}
-			}
-		});
-
-		// JScrollPane
-		JScrollPane scrollPane = new JScrollPane(songTable);
-		scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
-			@Override
-			protected void configureScrollBarColors() {
-				this.thumbColor = MainFrame.TextColor;
-				this.trackColor = MainFrame.BackgroundColor;
-			}
-		});
-
-		mainPanel.add(scrollPane, BorderLayout.CENTER);
-
-		return mainPanel;
+		return createSongTableArrayList((ArrayList<Song>) playlist.getL_songs());
 	}
 	
 	public static JPanel createSongTableArrayList(ArrayList<Song> songs) {
@@ -101,7 +33,7 @@ public class songTable {
 		};
 
 		for (Song s : songs) {
-			Object[] row = { s.getTitle(), s.getBand(), model.Playlist.getDurationFormat(s.getDuration()), s.getGenre() };
+			Object[] row = { s.getTitle(), s.getBand(), Playlist.getDurationFormat(s.getDuration()), s.getGenre() };
 			tableModel.addRow(row);
 		}
 
@@ -112,18 +44,20 @@ public class songTable {
 				if (e.getClickCount() == 2) {
 					int row = songTable.getSelectedRow();
 					if (row >= 0) {
-						String title = (String) tableModel.getValueAt(row, 0);
-						String artist = (String) tableModel.getValueAt(row, 1);
-						int duration = Playlist.parseDuration((String) tableModel.getValueAt(row, 2));
-						Genre genre = Genre.valueOf(tableModel.getValueAt(row, 3).toString());
-						main.setPlayingSong(new Song(title, duration, artist, genre));
+						Song currentSong = songs.get(row);
+						PlaybackQueueDialog.queue.getQueue().clear();
+						PlaybackQueueDialog.queue.getQueue().addAll(songs);
+						PlaybackQueueDialog.activeTable = songTable;
+						main.setPlayingSong(currentSong);
 
 						if (main.getPlayerBar() == null) {
 							main.setPlayerBar(songBar.createPlayerBar(main.getPlayingSong()));
 							main.mainPanel.add(main.getPlayerBar(), BorderLayout.SOUTH);
 						}
+						
 						songBar.updateSongLabel(main.getPlayingSong());						
 						main.updateSongIcon(main.getPlayingSong());
+						songBar.startProgressThread(main.getPlayingSong(), main);
 						mainPanel.revalidate();
 						mainPanel.repaint();
 					}
@@ -142,7 +76,6 @@ public class songTable {
 		});
 
 		mainPanel.add(scrollPane, BorderLayout.CENTER);
-
 		return mainPanel;
 	}
 }

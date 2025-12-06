@@ -6,42 +6,24 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-
 import javax.swing.Timer;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 import java.util.concurrent.ThreadLocalRandom;
-
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
 import javax.swing.border.MatteBorder;
-
 import controller.ManageDB;
-import view.PlayingSong;
-import view.songBar;
-import java.awt.event.ComponentEvent;
-
-import model.Playlist;
 import model.Song;
 import model.User;
-import utils.Utils;
 
 public class MainFrame extends JFrame {
 
@@ -171,20 +153,27 @@ public class MainFrame extends JFrame {
 					}
 					break;
 				case 2:
-					cardLayout.show(cardPanel, "PlaylistManagerDialog");
-					if (playingSong != null) {
-						updateSongIcon(playingSong);
-						currentPanel = "PlaylistManagerDialog";
-					}
-
-					break;
+				    JPanel playlistPanelActualizado = PlaylistManagerDialog.PlaylistManagerDialogPanel();
+				    cardPanel.add(playlistPanelActualizado, "PlaylistManagerDialog");
+				    cardLayout.show(cardPanel, "PlaylistManagerDialog");
+				    
+				    if (playingSong != null) {
+				        updateSongIcon(playingSong);
+				        currentPanel = "PlaylistManagerDialog";
+				    }
+				    break;
 				case 3:
-					cardLayout.show(cardPanel, "Queue");
-					if (playingSong != null) {
-						updateSongIcon(playingSong);
-						currentPanel = "Queue";
-					}
-					break;
+				    if (!currentPanel.equals("Queue")) {
+				        JPanel queuePanelActualizado = PlaybackQueueDialog.QueuePanel();
+				        cardPanel.add(queuePanelActualizado, "Queue");
+				        cardLayout.show(cardPanel, "Queue");
+				        currentPanel = "Queue";
+				    }
+
+				    if (playingSong != null) {
+				        updateSongIcon(playingSong);
+				    }
+				    break;
 				case 4:
 					cardLayout.show(cardPanel, "Config");
 					updateSongIcon(playingSong);

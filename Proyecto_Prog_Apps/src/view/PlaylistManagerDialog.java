@@ -14,7 +14,7 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 import java.awt.event.*;
 import model.Playlist;
-import utils.Utils;
+import model.User;
 
 public class PlaylistManagerDialog extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -22,8 +22,25 @@ public class PlaylistManagerDialog extends JFrame {
 	public static JPanel PlaylistManagerDialogPanel() {
 		MainFrame main = MainFrame.getInstance();
 		JPanel mainPanel = new JPanel(new BorderLayout());
-	    mainPanel.setBackground(MainFrame.BackgroundColor);
+		mainPanel.setBackground(MainFrame.BackgroundColor);
 		
+		// 1. OBTENER USUARIO
+		int currentUserId = -1;
+		User user = main.getCurrentUser();
+		
+		// 2. CARGAR PLAYLISTS DE LA BD
+		java.util.List<Playlist> tempPlaylists = new java.util.ArrayList<>();
+
+		if (user != null) {
+			currentUserId = user.getId();
+			tempPlaylists = controller.ManageDB.getInstance().getUserPlaylists(currentUserId);
+			System.out.println("Playlists encontradas: " + tempPlaylists.size()); // DEBUG
+		} else {
+		    System.out.println("El usuario es NULL en PlaylistManagerDialog"); // DEBUG
+		}
+		
+		final java.util.List<Playlist> dbPlaylists = tempPlaylists;
+
 	    JTextField buscador = new JTextField("🔍 Buscar playlist");
 	    buscador.setOpaque(true);
 	    buscador.setBackground(Color.WHITE);
@@ -32,7 +49,8 @@ public class PlaylistManagerDialog extends JFrame {
 	    buscador.setHorizontalAlignment(JTextField.CENTER);
 	    
 	    JPanel listPanel = new JPanel(); 
-		buscador.addFocusListener(new FocusAdapter() {
+		
+	    buscador.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
 				if (buscador.getText().equals("🔍 Buscar playlist")) {
@@ -44,7 +62,9 @@ public class PlaylistManagerDialog extends JFrame {
 		    public void focusLost(FocusEvent e) {
 		        buscador.setText("🔍 Buscar playlist");
 		        listPanel.removeAll();
-		        for (Playlist p : Utils.playlists) {
+		        
+		        // CAMBIO 1: Usamos dbPlaylists en vez de Utils.playlists
+		        for (Playlist p : dbPlaylists) {
 		            addPlaylistButton(listPanel, p, "");
 		        }
 		        listPanel.revalidate();
@@ -54,11 +74,10 @@ public class PlaylistManagerDialog extends JFrame {
 		
 	    mainPanel.add(buscador, BorderLayout.NORTH);
 	    
-	    
 	    listPanel.setBackground(MainFrame.BackgroundColor);
 	    listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
 
-	    for (Playlist p: Utils.playlists) {
+	    for (Playlist p: dbPlaylists) {
 	        addPlaylistButton(listPanel, p, "");
 	    }
 
@@ -68,7 +87,7 @@ public class PlaylistManagerDialog extends JFrame {
 	            String texto = buscador.getText().toLowerCase();
 	            listPanel.removeAll();
 
-	            for (Playlist p : Utils.playlists) {
+	            for (Playlist p : dbPlaylists) {
 	                if (p.getName().toLowerCase().contains(texto)) {
 	                    addPlaylistButton(listPanel, p, texto);
 	                }
@@ -118,6 +137,7 @@ public class PlaylistManagerDialog extends JFrame {
 	    buttonPlaylist.setHorizontalAlignment(SwingConstants.LEFT);
 
 	    buttonPlaylist.addActionListener(evt -> {
+
 	        JPanel playListSongs = songTable.createSongTablePlaylist(p);
 	        MainFrame main = MainFrame.getInstance();
 	        main.getCardPanel().add(playListSongs, "PlaylistSongsTable");
