@@ -176,12 +176,14 @@ public class MainFrame extends JFrame {
 				    break;
 				case 4:
 					cardLayout.show(cardPanel, "Config");
-					updateSongIcon(playingSong);
+					if (playingSong != null) {
+				        updateSongIcon(playingSong); }					
 					currentPanel = "SettingsPanel";
 					break;
 				case 5:
 					cardLayout.show(cardPanel, "AccountPanel");
-					updateSongIcon(playingSong);
+					if (playingSong != null) {
+				        updateSongIcon(playingSong);}				
 					currentPanel = "AccountPanel";
 					break;
 				}
@@ -248,16 +250,27 @@ public class MainFrame extends JFrame {
 
 	public void updateSongIcon(Song s) {
 		if (desplegado) {
-			String path = "src/resources/icons/" + s.getTitle() + ".png";
+			
+			try {
+			String path = "src/resources/icons/" + s.getTitle() + ".png"; 
 			File file = new File(path);
-			if (!file.exists()) {
+			if (!file.exists() || s.getTitle() == null) {
 				path = "src/resources/icons/SongIcon.png";
-			}
-
+			} 
 			ImageIcon imageIcon = new ImageIcon(path);
 			Image img = imageIcon.getImage();
 			Image newImg = img.getScaledInstance(199, 205, Image.SCALE_SMOOTH);
 			setSongIcon(new ImageIcon(newImg));
+			} 
+			catch(NullPointerException e) {
+				System.out.println("s is null");
+			}	
+			String path = "src/resources/icons/SongIcon.png";
+			ImageIcon imageIcon = new ImageIcon(path);
+			Image img = imageIcon.getImage();
+			Image newImg = img.getScaledInstance(199, 205, Image.SCALE_SMOOTH);
+			setSongIcon(new ImageIcon(newImg));
+				
 		}
 	}
 

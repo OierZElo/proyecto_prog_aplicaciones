@@ -3,6 +3,9 @@ package controller;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+
+import org.sqlite.core.CoreResultSet;
+
 import model.Genre;
 import model.Playlist;
 import model.Song;
@@ -28,13 +31,13 @@ public class ManageDB {
 	}
 
 	public void crearBBDD() {
-		String dropSong = "DROP TABLE songs;";
-		String dropUser = "DROP TABLE user;";
-		String dropPlaylist = "DROP TABLE playlist;";
-		String dropPlaylistSong = "DROP TABLE playlist_songs;";
+//		String dropSong = "DROP TABLE songs;";
+//		String dropUser = "DROP TABLE user;";
+//		String dropPlaylist = "DROP TABLE playlist;";
+//		String dropPlaylistSong = "DROP TABLE playlist_songs;";
 		
 		String sqlSong = "CREATE TABLE IF NOT EXISTS songs (" + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-				+ "name TEXT NOT NULL," + "band TEXT NOT NULL," + "duration INTEGER NOT NULL," + "genre TEXT NOT NULL"
+				+ "name TEXT NOT NULL UNIQUE," + "band TEXT NOT NULL," + "duration INTEGER NOT NULL," + "genre TEXT NOT NULL"
 				+ ");";
 
 		String sqlUsuario = "CREATE TABLE IF NOT EXISTS user (" + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -50,21 +53,21 @@ public class ManageDB {
 				+ "FOREIGN KEY(song_id) REFERENCES songs(id) ON DELETE CASCADE" + ");";
 
 		try (Connection con = DriverManager.getConnection(connectionString);
-				PreparedStatement psDropSong = con.prepareStatement(dropSong);
-				PreparedStatement psDropUser = con.prepareStatement(dropUser);
-				PreparedStatement psDropPlaylist = con.prepareStatement(dropPlaylist);
-				PreparedStatement psDropPlaylistSong = con.prepareStatement(dropPlaylistSong);
+//				PreparedStatement psDropSong = con.prepareStatement(dropSong);
+//				PreparedStatement psDropUser = con.prepareStatement(dropUser);
+//				PreparedStatement psDropPlaylist = con.prepareStatement(dropPlaylist);
+//				PreparedStatement psDropPlaylistSong = con.prepareStatement(dropPlaylistSong);
 				
 				PreparedStatement psSong = con.prepareStatement(sqlSong);
 				PreparedStatement psUsuario = con.prepareStatement(sqlUsuario);
 				PreparedStatement psPlaylist = con.prepareStatement(sqlPlaylist);
 				PreparedStatement psPlaylistSongs = con.prepareStatement(sqlPlaylistSongs);) {
-
-			psDropSong.execute();
-			psDropUser.execute();
-			psDropPlaylist.execute();
-			psDropPlaylistSong.execute();
-			
+//
+//			psDropSong.execute();
+//			psDropUser.execute();
+//			psDropPlaylist.execute();
+//			psDropPlaylistSong.execute();
+//			
 			psSong.execute();
 			psUsuario.execute();
 			psPlaylist.execute();
@@ -108,6 +111,8 @@ public class ManageDB {
 				PreparedStatement ps = con.prepareStatement(sql)) {
 
 			for (User u : users) {
+				
+				if (!ContainsUser(u)) {
 				ps.setString(1, u.getName());
 				ps.setString(2, u.getMail());
 				ps.setString(3, u.getPassword());
@@ -119,10 +124,30 @@ public class ManageDB {
 					System.out.println("Couldn't insert user: " + u.getName());
 				}
 			}
+				
+			}
 
 		} catch (Exception e) {
 			System.out.println("Error inserting user: " + e.getMessage());
 		}
+	}
+	public boolean ContainsUser(User user) {
+		System.out.println("checking if this username is being added");
+		String sql =  "SELECT ID FROM USER WHERE ID = ?;";
+		try (Connection con = DriverManager.getConnection(connectionString);
+			PreparedStatement ps = con.prepareStatement(sql)) {
+			ps.setInt(1, user.getId()); // sustituimos ? por el id que buscamos
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+	            System.out.println("The user IS in the database");
+	            return true;
+	        } else {
+	            System.out.println("The user is NOT in the database");
+	            return false;
+	        }
+		} catch(Exception e) {
+		   System.out.println("Error checking user: " + e.getMessage());
+	        return false; }
 	}
 
 	public void insertPlaylist(Playlist... playlists) {
