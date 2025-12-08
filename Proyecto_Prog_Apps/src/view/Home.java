@@ -61,123 +61,26 @@ public class Home {
 			boton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					JPanel panel = new JPanel();; 
-					String name = "";
-					switch(index) {
-					case 0:
-						try {
-						 ArrayList<Song> song = ConfigManager.managedb.getSongsPerGenre(Genre.ROCK);
-						 panel = songTable.createSongTableArrayList(song); } 
-						catch (Exception e2) {
-							
-						}
-						 name = "Rock";
-						 break;
-					case 1:
-						try {
-							 ArrayList<Song> song = ConfigManager.managedb.getSongsPerGenre(Genre.POP);
-							 panel = songTable.createSongTableArrayList(song); } 
-							catch (Exception e2) {
-								
-							}						 name = "Pop";
 
-						 break;
+				    JPanel panel = new JPanel();
+				    String name = "";
 
-					case 2:
-						try {
-							 ArrayList<Song> song = ConfigManager.managedb.getSongsPerGenre(Genre.JAZZ);
-							 panel = songTable.createSongTableArrayList(song); } 
-							catch (Exception e2) {
-								
-							}						
-						name = "Jazz";
+				    Genre genre = Genre.values()[index];
 
-						 break;
+				    try {
+				        ArrayList<Song> song = ConfigManager.managedb.getSongsPerGenre(genre);
+				        panel = songTable.createSongTableArrayList(song);
+				    } catch (Exception e2) {
+				       
+				    }
 
-					case 3:
-						try {
-							 ArrayList<Song> song = ConfigManager.managedb.getSongsPerGenre(Genre.CLASICA);
-							 panel = songTable.createSongTableArrayList(song); } 
-							catch (Exception e2) {
-								
-							}											 
-						name = "Clasica";
+				    name = genre.getDisplayName();
 
-						 break;
-
-					case 4: 
-						try {
-							 ArrayList<Song> song = ConfigManager.managedb.getSongsPerGenre(Genre.HIPHOP);
-							 panel = songTable.createSongTableArrayList(song); } 
-							catch (Exception e2) {
-								
-							}											 
-						name = "HipHop";
-
-						 break;
-
-					case 5:
-						try {
-							 ArrayList<Song> song = ConfigManager.managedb.getSongsPerGenre(Genre.REGGAE);
-							 panel = songTable.createSongTableArrayList(song); } 
-							catch (Exception e2) {
-								
-							}					
-						name = "Reggae";
-
-						 break;
-
-					case 6:
-						try {
-							 ArrayList<Song> song = ConfigManager.managedb.getSongsPerGenre(Genre.ELECTRONICA);
-							 panel = songTable.createSongTableArrayList(song); } 
-							catch (Exception e2) {
-								
-							}					
-						name = "Electronica";
-
-						 break;
-
-					case 7:
-						try {
-							 ArrayList<Song> song = ConfigManager.managedb.getSongsPerGenre(Genre.BLUES);
-							 panel = songTable.createSongTableArrayList(song); } 
-							catch (Exception e2) {
-								
-							}					
-						name = "Blues";
-
-						 break;
-
-					case 8:
-
-						try {
-							 ArrayList<Song> song = ConfigManager.managedb.getSongsPerGenre(Genre.COUNTRY);
-							 panel = songTable.createSongTableArrayList(song); } 
-							catch (Exception e2) {
-								
-							}					
-						name = "Country";
-
-						 break;
-
-					case 9:
-						try {
-							 ArrayList<Song> song = ConfigManager.managedb.getSongsPerGenre(Genre.METAL);
-							 panel = songTable.createSongTableArrayList(song); } 
-							catch (Exception e2) {
-								
-							}					
-						name = "Metal";
-
-						 break;
-					}
-
-			        result.add(panel, BorderLayout.CENTER);
-		            main.getCardPanel().add(panel, name);
-		            main.getCardLayout().show(main.getCardPanel(), name);
+				    result.add(panel, BorderLayout.CENTER);
+				    main.getCardPanel().add(panel, name);
+				    main.getCardLayout().show(main.getCardPanel(), name);
 				}
+
 			});
 		}
 		
