@@ -467,7 +467,7 @@ public class ManageDB {
 			ResultSet rs = ps.executeQuery();
             
             if (rs.next()) {
-                User u = new User(rs.getString("name"), rs.getString("email"), rs.getString("password"));
+                User u = new User(rs.getString("email"), rs.getString("password"), rs.getString("name"));
                 u.setId(rs.getInt("id")); 
                 return u;
             }
