@@ -86,9 +86,6 @@ public class MainFrame extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 		
-		
-		 
-
 		mainPanel = new JPanel(new BorderLayout());
 		setContentPane(mainPanel);
 
@@ -100,14 +97,12 @@ public class MainFrame extends JFrame {
 
 		// HOME
 		cardPanel.add(Home.HomePanel(), "HomePanel");
-		// cardLayout.show(cardPanel, "HomePanel");
 
 		// PLAYING SONG
 		cardPanel.add(PlayingSong.PlayingSongPanel(playingSong), "PlayingSong");
 
 		// PLAYLIST MANAGER DIALOG
 		cardPanel.add(PlaylistManagerDialog.PlaylistManagerDialogPanel(), "PlaylistManagerDialog");
-		// cardLayout.show(cardPanel, "PlaylistManagerDialog");
 
 		// QUEUE
 		cardPanel.add(PlaybackQueueDialog.QueuePanel(), "Queue");
@@ -124,7 +119,6 @@ public class MainFrame extends JFrame {
 		indexPanel = new JPanel(flowLayout);
 		indexPanel.setBackground(BackgroundColor);
 		indexPanel.setBorder(new MatteBorder(0, 0, 0, 1, BorderColor));
-//        indexPanel.setPreferredSize(new Dimension((int)(this.getWidth()*0.2222), 0));
 		indexPanel.setPreferredSize(new Dimension(200, 0));
 		mainPanel.add(indexPanel, BorderLayout.WEST);
 
@@ -142,55 +136,59 @@ public class MainFrame extends JFrame {
 			final int index = i;
 			button.addActionListener(e -> {
 				switch (index) {
-				case 0:
+				case 0: // TOGGLE SIDEBAR
 					toggleSidebar();
 					break;
-				case 1:
+					
+				case 1: // HOME
 					cardLayout.show(cardPanel, "HomePanel");
+					currentPanel = "HomePanel";
 					if (playingSong != null) {
 						updateSongIcon(playingSong);
-						currentPanel = "HomePanel";
 					}
 					break;
-				case 2:
+					
+				case 2: // PLAYLISTS
 				    JPanel playlistPanelActualizado = PlaylistManagerDialog.PlaylistManagerDialogPanel();
 				    cardPanel.add(playlistPanelActualizado, "PlaylistManagerDialog");
 				    cardLayout.show(cardPanel, "PlaylistManagerDialog");
+				    currentPanel = "PlaylistManagerDialog"; 
 				    
 				    if (playingSong != null) {
 				        updateSongIcon(playingSong);
-				        currentPanel = "PlaylistManagerDialog";
 				    }
 				    break;
-				case 3:
-				    if (!currentPanel.equals("Queue")) {
-				        JPanel queuePanelActualizado = PlaybackQueueDialog.QueuePanel();
-				        cardPanel.add(queuePanelActualizado, "Queue");
-				        cardLayout.show(cardPanel, "Queue");
-				        currentPanel = "Queue";
-				    }
+				    
+				case 3: // QUEUE
+			        JPanel queuePanelActualizado = PlaybackQueueDialog.QueuePanel();
+			        cardPanel.add(queuePanelActualizado, "Queue");
+			        cardLayout.show(cardPanel, "Queue");
+			        currentPanel = "Queue";
 
 				    if (playingSong != null) {
 				        updateSongIcon(playingSong);
 				    }
 				    break;
-				case 4:
+				    
+				case 4: // SETTINGS
 					cardLayout.show(cardPanel, "Config");
-					if (playingSong != null) {
-				        updateSongIcon(playingSong); }					
 					currentPanel = "SettingsPanel";
-					break;
-				case 5:
-					cardLayout.show(cardPanel, "AccountPanel");
 					if (playingSong != null) {
-				        updateSongIcon(playingSong);}				
+				        updateSongIcon(playingSong); 
+				    }					
+					break;
+					
+				case 5: // ACCOUNT
+					cardLayout.show(cardPanel, "AccountPanel");
 					currentPanel = "AccountPanel";
+					if (playingSong != null) {
+				        updateSongIcon(playingSong);
+				    }				
 					break;
 				}
 			});
 		}
 
-		// PLAYING SONG
 		iconLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -204,9 +202,7 @@ public class MainFrame extends JFrame {
 			}
 		});
 		indexPanel.add(iconLabel);
-
 	}
-
 	private void actualizarTitulo() {
 		String titulo = new String();
 		for (int i = 0; i < 63; i++) {

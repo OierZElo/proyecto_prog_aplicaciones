@@ -582,7 +582,7 @@ public class ManageDB {
 	    return playlists;
 	}
 
-    private ArrayList<Song> getSongsByPlaylistId(int playlistCod) {
+    public ArrayList<Song> getSongsByPlaylistId(int playlistCod) {
         ArrayList<Song> songs = new ArrayList<>();
         String sql = "SELECT s.id, s.name, s.band, s.duration, s.genre " +
                      "FROM songs s " +
@@ -612,7 +612,7 @@ public class ManageDB {
         return songs;
     }
     
- // Método para inicializar datos de prueba si no existen
+ // Datos de prueba si son necesarios
  	public void initData() {
 
  		String testName = "1";
@@ -644,4 +644,95 @@ public class ManageDB {
  			}
  		}
  	}
+ 	
+    public java.util.List<Song> getAllSongs() {
+        java.util.List<Song> list = new ArrayList<>();
+        String sql = "SELECT * FROM songs ORDER BY name;";
+        
+        try (Connection con = DriverManager.getConnection(connectionString);
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Song s = new Song(rs.getString("name"), rs.getInt("duration"), rs.getString("band"), Genre.valueOf(rs.getString("genre")));
+                s.setId(rs.getInt("id"));
+                list.add(s);
+            }
+        } catch (Exception e) {
+            System.out.println("Error getting all songs: " + e.getMessage());
+        }
+        return list;
+    }
+
+    public void addSongToPlaylist(int playlistId, int songId) {
+        String sql = "INSERT INTO playlist_songs (playlist_cod, song_id) VALUES (?, ?);";
+        
+        try (Connection con = DriverManager.getConnection(connectionString);
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            
+            ps.setInt(1, playlistId);
+            ps.setInt(2, songId);
+            
+            int affected = ps.executeUpdate();
+            if (affected > 0) {
+                System.out.println("Song " + songId + " added to playlist " + playlistId);
+            }
+        } catch (Exception e) {
+            System.out.println("Error adding song to playlist: " + e.getMessage());
+        }
+    }
+    
+ 	public boolean isPlaylistNameExists(String name, int userId) {
+ 		String sql = "SELECT cod FROM playlist WHERE name = ? AND user_id = ?;";
+ 		try (Connection con = DriverManager.getConnection(connectionString);
+ 			 PreparedStatement ps = con.prepareStatement(sql)) {
+ 			ps.setString(1, name);
+ 			ps.setInt(2, userId);
+ 			ResultSet rs = ps.executeQuery();
+ 			return rs.next();
+ 		} catch (Exception e) {
+ 			System.out.println("Error checking playlist name: " + e.getMessage());
+ 			return false;
+ 		}
+ 	}
+
+ 	public boolean isSongInPlaylist(int playlistId, int songId) {
+ 		String sql = "SELECT id FROM playlist_songs WHERE playlist_cod = ? AND song_id = ?;";
+ 		try (Connection con = DriverManager.getConnection(connectionString);
+ 			 PreparedStatement ps = con.prepareStatement(sql)) {
+ 			ps.setInt(1, playlistId);
+ 			ps.setInt(2, songId);
+ 			ResultSet rs = ps.executeQuery();
+ 			return rs.next();
+ 		} catch (Exception e) {
+ 			System.out.println("Error checking song in playlist: " + e.getMessage());
+ 			return false;
+ 		}
+ 	}
+
+ 	public void deleteSongFromPlaylist(int playlistId, int songId) {
+ 		String sql = "DELETE FROM playlist_songs WHERE playlist_cod = ? AND song_id = ?;";
+ 		try (Connection con = DriverManager.getConnection(connectionString);
+ 			 PreparedStatement ps = con.prepareStatement(sql)) {
+ 			ps.setInt(1, playlistId);
+ 			ps.setInt(2, songId);
+ 			ps.executeUpdate();
+ 			System.out.println("Song removed from playlist.");
+ 		} catch (Exception e) {
+ 			System.out.println("Error removing song from playlist: " + e.getMessage());
+ 		}
+ 	}
+ 	
+ 	public void updatePlaylistName(int playlistId, String newName) {
+		String sql = "UPDATE playlist SET name = ? WHERE cod = ?;";
+		try (java.sql.Connection con = java.sql.DriverManager.getConnection(connectionString);
+			 java.sql.PreparedStatement ps = con.prepareStatement(sql)) {
+			ps.setString(1, newName);
+			ps.setInt(2, playlistId);
+			ps.executeUpdate();
+			System.out.println("Playlist renamed to: " + newName);
+		} catch (Exception e) {
+			System.out.println("Error renaming playlist: " + e.getMessage());
+		}
+	}
 }
