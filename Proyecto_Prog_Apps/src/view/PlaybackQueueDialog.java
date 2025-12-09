@@ -61,6 +61,7 @@ public class PlaybackQueueDialog extends JFrame {
 //				return false;
 //			}
 //		};
+		
 		DataModel tableModel = new DataModel(queue.getQueue());
 
 		JTable localSongTable = new StyledTable(tableModel);
@@ -85,8 +86,9 @@ public class PlaybackQueueDialog extends JFrame {
 				switch (index) {
 				case 0:
 					if (selectedRow < queue.getQueue().size() && selectedRow > 0) {
-						queue.moveUp(selectedRow);
+						//queue.moveUp(selectedRow);
 						tableModel.moveRow(selectedRow, selectedRow, selectedRow - 1);
+
 						localSongTable.setRowSelectionInterval(selectedRow - 1, selectedRow - 1);
 					}
 					break;
@@ -94,6 +96,7 @@ public class PlaybackQueueDialog extends JFrame {
 					if (selectedRow >= 0 && selectedRow < queue.getQueue().size() - 1) {
 						queue.moveDown(selectedRow);
 						tableModel.moveRow(selectedRow, selectedRow, selectedRow + 1);
+
 						localSongTable.setRowSelectionInterval(selectedRow + 1, selectedRow + 1);
 					}
 					;
