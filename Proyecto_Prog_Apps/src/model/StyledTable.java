@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -62,7 +63,12 @@ public class StyledTable extends JTable {
 					Song song = (Song) value; 
 					result.setText(song.getTitle());
 		            if (row == hoverRow && column == hoverColumn ) {
-		            	ImageIcon icon = song.getImage();
+		            	String path = "src/resources/icons/" + song.getTitle() + ".png"; 
+		        		File file = new File(path);
+	        		    ImageIcon icon = new ImageIcon("src/resources/icons/SongIcon.png");
+		        		if(file.exists()){
+		        		    icon = new ImageIcon(path);
+		        		} 
 		                int height = table.getRowHeight(row);
 		                Image scaled = icon.getImage().getScaledInstance(height - 10, height - 10, Image.SCALE_SMOOTH);
 		            	result.setIcon(new ImageIcon(scaled));    // icono de la canción
