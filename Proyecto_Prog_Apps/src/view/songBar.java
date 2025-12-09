@@ -212,4 +212,25 @@ public class songBar {
 		});
 		cancionProgreso.start();
 	}
+	
+	public static void reset() {
+		if (cancionProgreso != null && cancionProgreso.isAlive()) {
+			cancionProgreso.interrupt();
+			try {
+				cancionProgreso.join(200);
+			} catch (InterruptedException e) {}
+			cancionProgreso = null;
+			
+		}
+		
+		buttonList.clear();
+		
+		songLabel = new JLabel();
+		progressBar= new JSlider();
+		time = 0;
+		playing = true;
+		random = false;
+		loop = false;
+		
+	}
 }
