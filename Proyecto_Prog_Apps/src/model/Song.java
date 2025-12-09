@@ -1,6 +1,7 @@
 package model;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -12,6 +13,7 @@ public class Song {
 	private int duration;
 	private String band;
 	private Genre genre;
+	private ImageIcon image; 
 
 	// constructor
 	public Song(String title, int duration, String band, Genre genre) {
@@ -21,6 +23,16 @@ public class Song {
 		this.duration = duration;
 		this.band = band;
 		this.genre = genre;
+		String path = "src/resources/icons/" + title + ".png"; 
+		File file = new File(path);
+
+		if(file.exists()){
+		    this.image = new ImageIcon(path);
+		} else {
+		    System.out.println("Song Image file not found: " + path);
+		    this.image = new ImageIcon("src/resources/icons/SongIcon.png");
+		}
+		
 	}
 	
 	public Song(String title, int duration, String band) {
@@ -29,14 +41,34 @@ public class Song {
 		this.title = title;
 		this.duration = duration;
 		this.band = band;
+		
+		String path = "src/resources/icons/" + title + ".png"; 
+		File file = new File(path);
+
+		if(file.exists()){
+		    this.image = new ImageIcon(path);
+		} else {
+		    System.out.println("Song Image file not found: " + path);
+		    this.image = new ImageIcon("src/resources/icons/SongIcon.png");
+		}
+		
 	}
 
 	// getters and setters
+	
 
 	public void setId(int cod) {
 		this.cod = cod;
 	}
 	
+	public ImageIcon getImage() {
+		return image;
+	}
+
+	public void setImage(ImageIcon image) {
+		this.image = image;
+	}
+
 	public String getTitle() {
 		return title;
 	}
