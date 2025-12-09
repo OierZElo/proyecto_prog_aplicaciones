@@ -342,6 +342,9 @@ public class UserPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				result.dispose();
+				
+				songBar.reset();
+				
 				MainFrame.getInstance().dispose();
 				new LoginRegisterDialog().setVisible(true); //hacer singletone
 			}
