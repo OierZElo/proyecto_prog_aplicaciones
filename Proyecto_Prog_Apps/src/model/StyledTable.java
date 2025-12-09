@@ -56,7 +56,7 @@ public class StyledTable extends JTable {
 	            result.setForeground(MainFrame.TextColor);
 	            result.setHorizontalAlignment(JLabel.CENTER);
 			  //  result.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-			    result.setBackground(MainFrame.BackgroundColor);
+			    result.setBackground(bg);
 			   
 				
 				if (column == 0 && value instanceof Song ) {
