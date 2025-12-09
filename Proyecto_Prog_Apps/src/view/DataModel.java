@@ -96,6 +96,9 @@ public class DataModel extends AbstractTableModel{
 
 	    fireTableDataChanged();
 	}
+	
+	
+
 
 
 

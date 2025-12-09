@@ -53,6 +53,7 @@ public class songTable {
 //			tableModel.addRow(row);
 //		}
 
+		
 		JTable songTable = new StyledTable(tableModel);
 		
 		songTable.addMouseListener(new MouseAdapter() {
@@ -143,9 +144,11 @@ public class songTable {
 //				
 //			}
 //		});
+		
 		// JScrollPane
 		JScrollPane scrollPane = new JScrollPane(songTable);
 		scrollPane.setColumnHeaderView(null);
+
 		scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
 			@Override
 			protected void configureScrollBarColors() {
