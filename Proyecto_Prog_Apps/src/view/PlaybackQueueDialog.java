@@ -55,12 +55,13 @@ public class PlaybackQueueDialog extends JFrame {
 			volumeLabel.setText(value + "%");
 		});
 
-		DefaultTableModel tableModel = new DefaultTableModel(columns, 0) {
-			@Override
-			public boolean isCellEditable(int row, int column) {
-				return false;
-			}
-		};
+//		DefaultTableModel tableModel = new DefaultTableModel(columns, 0) {
+//			@Override
+//			public boolean isCellEditable(int row, int column) {
+//				return false;
+//			}
+//		};
+		DataModel tableModel = new DataModel(queue.getQueue());
 
 		JTable localSongTable = new StyledTable(tableModel);
 		
@@ -113,10 +114,10 @@ public class PlaybackQueueDialog extends JFrame {
 		    if (!queue.contains(s)) queue.enqueue(s);
 		}
 
-		for (Song s : queue.getQueue()) {
-			Object[] row = { s.getTitle(), s.getBand(), model.Playlist.getDurationFormat(s.getDuration()) };
-			tableModel.addRow(row);
+		for (Song s : new ArrayList<>(queue.getQueue())) {
+		    tableModel.addRow(s);
 		}
+
 
 		localSongTable.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent e) {
