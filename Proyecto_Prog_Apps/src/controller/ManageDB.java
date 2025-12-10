@@ -149,6 +149,27 @@ public class ManageDB {
 		   System.out.println("Error checking user: " + e.getMessage());
 	        return false; }
 	}
+	
+	public boolean ContainsPlaylist(Playlist playlist) {
+		System.out.println("checking if this playlist is being added");
+		String sql = "SELECT ID FROM PLAYLISY WHERE cod = ?;";
+		
+		try (Connection con = DriverManager.getConnection(connectionString);
+				PreparedStatement ps = con.prepareStatement(sql)) {
+				ps.setInt(1, playlist.getCod()); // sustituimos ? por el id que buscamos
+				ResultSet rs = ps.executeQuery();
+				if (rs.next()) {
+		            System.out.println("The playlist IS in the database");
+		            return true;
+		        } else {
+		            System.out.println("The playlist is NOT in the database");
+		            return false;
+		        }
+			} catch(Exception e) {
+			   System.out.println("Error checking playlist: " + e.getMessage());
+		        return false; }
+		
+	}
 
 	public void insertPlaylist(Playlist... playlists) {
 		String sql = "INSERT INTO playlist (name, user_id) VALUES (?, ?);";
@@ -157,6 +178,7 @@ public class ManageDB {
 				PreparedStatement ps = con.prepareStatement(sql)) {
 
 			for (Playlist p : playlists) {
+				if (!ContainsPlaylist(p)) {
 				ps.setString(1, p.getName());
 				ps.setInt(2, p.getUser_id());
 
@@ -165,6 +187,7 @@ public class ManageDB {
 					System.out.println("Playlist inserted: " + p.getName());
 				} else {
 					System.out.println("Couldn't inser playlist: " + p.getName());
+				}
 				}
 			}
 
