@@ -61,7 +61,7 @@ public class MainFrame extends JFrame {
 	private ImageIcon icon;
 	private JLabel iconLabel = new JLabel();
 
-	ManageDB managedb = ManageDB.getInstance();
+	private ManageDB managedb = ManageDB.getInstance();
 	private ArrayList<Song> songs;
 	private ArrayList<User> users;
 

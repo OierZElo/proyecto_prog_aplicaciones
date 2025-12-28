@@ -20,6 +20,20 @@ public class Playlist {
 		this.user_id = user_id;
 		this.l_songs = new ArrayList<Song>();
 	}
+	
+	public Playlist(String name, int user_id, ArrayList<Song> l_songs) {
+		super();
+		this.cod = counter;
+		counter += 1;
+		this.name = name;
+		this.user_id = user_id;
+		this.l_songs = l_songs;
+	}
+
+	@Override
+	public String toString() {
+		return "Playlist [name=" + name + ", l_songs=" + l_songs + "]";
+	}
 
 	public List<Song> getSongs() {
 		return l_songs;

@@ -2,11 +2,12 @@ package model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Objects;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-public class Song {
+public class Song implements Comparable<Song> {
 	private static int counter = 0;
 	private int cod;
 	private String title;
@@ -81,5 +82,37 @@ public class Song {
 	public void setGenre(Genre genre) {
 		this.genre = genre;
 	}
+
+	@Override
+	public int compareTo(Song o) {
+        return this.title.compareToIgnoreCase(o.title);
+	}
+
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(band, duration, genre, title);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Song other = (Song) obj;
+		return Objects.equals(band, other.band) && duration == other.duration && genre == other.genre
+				&& Objects.equals(title, other.title);
+	}
+
+	@Override
+	public String toString() {
+		return "Song [cod=" + cod + ", title=" + title + "]";
+	}
+
+	
 
 }

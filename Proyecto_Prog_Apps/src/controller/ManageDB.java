@@ -3,6 +3,7 @@ package controller;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.sqlite.core.CoreResultSet;
 
@@ -537,6 +538,42 @@ public class ManageDB {
 		}
 	
 	}
+	
+	public ArrayList<Song> getSongsPerGenreList(ArrayList<Genre> genres) {
+	    if (genres == null || genres.isEmpty()) return new ArrayList<>();
+
+	    String placeholders = String.join(",", Collections.nCopies(genres.size(), "?"));
+	    String sql = "SELECT * FROM songs WHERE genre IN (" + placeholders + ") ORDER BY name LIMIT 10;";
+
+	    ArrayList<Song> songs = new ArrayList<>();
+
+	    try (Connection con = DriverManager.getConnection(connectionString);
+	         PreparedStatement ps = con.prepareStatement(sql)) {
+
+	        for (int i = 0; i < genres.size(); i++) {
+	            ps.setString(i + 1, genres.get(i).name());
+	        }
+
+	        try (ResultSet rs = ps.executeQuery()) {
+	            while (rs.next()) {
+	                Song s = new Song(
+	                    rs.getString("name"),
+	                    rs.getInt("duration"),
+	                    rs.getString("band"),
+	                    Genre.valueOf(rs.getString("genre"))
+	                );
+	                s.setId(rs.getInt("id"));
+	                songs.add(s);
+	            }
+	        }
+	        return songs;
+
+	    } catch (Exception e) {
+	        System.out.println("Error getting songs " + e.getMessage());
+	        return null;
+	    }
+	}
+
 	
 	public ArrayList<Song> getRandomSongs() {
 		 String sql = "SELECT * FROM songs  ORDER BY random() LIMIT 10;";
