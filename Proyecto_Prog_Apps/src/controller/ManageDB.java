@@ -32,10 +32,10 @@ public class ManageDB {
 	}
 
 	public void crearBBDD() {
-//		String dropSong = "DROP TABLE songs;";
-//		String dropUser = "DROP TABLE user;";
-//		String dropPlaylist = "DROP TABLE playlist;";
-//		String dropPlaylistSong = "DROP TABLE playlist_songs;";
+		String dropSong = "DROP TABLE songs;";
+		String dropUser = "DROP TABLE user;";
+		String dropPlaylist = "DROP TABLE playlist;";
+		String dropPlaylistSong = "DROP TABLE playlist_songs;";
 		
 		String sqlSong = "CREATE TABLE IF NOT EXISTS songs (" + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
 				+ "name TEXT NOT NULL UNIQUE," + "band TEXT NOT NULL," + "duration INTEGER NOT NULL," + "genre TEXT NOT NULL"
@@ -54,10 +54,10 @@ public class ManageDB {
 				+ "FOREIGN KEY(song_id) REFERENCES songs(id) ON DELETE CASCADE" + ");";
 
 		try (Connection con = DriverManager.getConnection(connectionString);
-//				PreparedStatement psDropSong = con.prepareStatement(dropSong);
-//				PreparedStatement psDropUser = con.prepareStatement(dropUser);
-//				PreparedStatement psDropPlaylist = con.prepareStatement(dropPlaylist);
-//				PreparedStatement psDropPlaylistSong = con.prepareStatement(dropPlaylistSong);
+				PreparedStatement psDropSong = con.prepareStatement(dropSong);
+				PreparedStatement psDropUser = con.prepareStatement(dropUser);
+				PreparedStatement psDropPlaylist = con.prepareStatement(dropPlaylist);
+				PreparedStatement psDropPlaylistSong = con.prepareStatement(dropPlaylistSong);
 				
 				PreparedStatement psSong = con.prepareStatement(sqlSong);
 				PreparedStatement psUsuario = con.prepareStatement(sqlUsuario);
@@ -68,7 +68,7 @@ public class ManageDB {
 //			psDropUser.execute();
 //			psDropPlaylist.execute();
 //			psDropPlaylistSong.execute();
-//			
+			
 			psSong.execute();
 			psUsuario.execute();
 			psPlaylist.execute();
@@ -350,20 +350,32 @@ public class ManageDB {
 	
 	public void loadUsersFromCSV(String csvPath) {
 	    String sql = "INSERT INTO user (name, email, password) VALUES (?, ?, ?);";
+	    String sqlCheck = "SELECT * FROM user WHERE email = ?";
 	    
 	    try (Connection con = DriverManager.getConnection(connectionString);
-	         PreparedStatement ps = con.prepareStatement(sql);
-	         BufferedReader br = new BufferedReader(new FileReader(csvPath))) {
+	    	PreparedStatement ps = con.prepareStatement(sql);
+	    	PreparedStatement psCheck = con.prepareStatement(sqlCheck);
+	        BufferedReader br = new BufferedReader(new FileReader(csvPath))) {
 	        
 	        String line = br.readLine();
 	        while ((line = br.readLine()) != null) {
 	            String[] parts = line.split(",");
 	            if (parts.length < 3) continue;
 	            
-	            ps.setString(1, parts[0].trim());
-	            ps.setString(2, parts[1].trim());
-	            ps.setString(3, parts[2].trim());
-	            ps.executeUpdate();
+	            String name = parts[0].trim();
+	            String email = parts[1].trim();
+	            String password = parts[2].trim();
+	            
+	            psCheck.setString(1, email);
+	            ResultSet rs = psCheck.executeQuery();
+	            
+	            if (!rs.next()) {
+	            	ps.setString(1, name);
+	            	ps.setString(2, email);
+	            	ps.setString(3, password);
+	            	ps.executeUpdate();
+	            }
+	            rs.close();
 	        }
 	        System.out.println("Users loaded from CSV.");
 	    } catch (Exception e) {
@@ -373,21 +385,36 @@ public class ManageDB {
 	
 	public void loadSongsFromCSV(String csvPath) {
 	    String sql = "INSERT INTO songs (name, band, duration, genre) VALUES (?, ?, ?, ?);";
+	    String sqlCheck = "SELECT * FROM songs WHERE name = ? AND band = ?";
 
 	    try (Connection con = DriverManager.getConnection(connectionString);
-	         PreparedStatement ps = con.prepareStatement(sql);
-	         BufferedReader br = new BufferedReader(new FileReader(csvPath))) {
+	        PreparedStatement ps = con.prepareStatement(sql);
+	    	PreparedStatement psCheck = con.prepareStatement(sqlCheck);
+	        BufferedReader br = new BufferedReader(new FileReader(csvPath))) {
 
 	        String line = br.readLine(); // Leer encabezado
 	        while ((line = br.readLine()) != null) {
 	            String[] parts = line.split(",");
 	            if (parts.length < 4) continue;
 
-	            ps.setString(1, parts[0].trim());
-	            ps.setString(2, parts[1].trim());
-	            ps.setInt(3, Integer.parseInt(parts[2].trim()));
-	            ps.setString(4, parts[3].trim());
-	            ps.executeUpdate();
+	            String name = parts[0].trim();
+	            String band = parts[1].trim();
+	            int duration = Integer.parseInt(parts[2].trim());
+	            String genre = parts[3].trim();
+	            
+	            psCheck.setString(1, name);
+	            psCheck.setString(2, band);
+	            ResultSet rs = psCheck.executeQuery();
+	            
+	            if (!rs.next()) {
+	            	ps.setString(1, name);
+	            	ps.setString(2, band);
+	            	ps.setInt(3, duration);
+	            	ps.setString(4, genre);
+	            	ps.executeUpdate();
+	            }
+	            rs.close();
+	     
 	        }
 	        System.out.println("Songs loaded from CSV.");
 	    } catch (Exception e) {
@@ -397,19 +424,31 @@ public class ManageDB {
 
 	public void loadPlaylistsFromCSV(String csvPath) {
 	    String sql = "INSERT INTO playlist (name, user_id) VALUES (?, ?);";
+	    String sqlCheck = "SELECT * FROM playlist WHERE name = ? AND user_id = ?";
 
 	    try (Connection con = DriverManager.getConnection(connectionString);
-	         PreparedStatement ps = con.prepareStatement(sql);
-	         BufferedReader br = new BufferedReader(new FileReader(csvPath))) {
+	        PreparedStatement ps = con.prepareStatement(sql);
+	    	PreparedStatement psCheck = con.prepareStatement(sqlCheck);
+	        BufferedReader br = new BufferedReader(new FileReader(csvPath))) {
 
 	        String line = br.readLine(); // Leer encabezado
 	        while ((line = br.readLine()) != null) {
 	            String[] parts = line.split(",");
 	            if (parts.length < 2) continue;
-
-	            ps.setString(1, parts[0].trim());
-	            ps.setInt(2, Integer.parseInt(parts[1].trim()));
-	            ps.executeUpdate();
+	            
+	            String name = parts[0].trim();
+	            int user_id = Integer.parseInt(parts[1].trim());
+	            
+	            psCheck.setString(1, name);
+	            psCheck.setInt(2, user_id);
+	            ResultSet rs = psCheck.executeQuery();
+	            
+	            if (!rs.next()) {
+	            	ps.setString(1, name);
+	            	ps.setInt(2, user_id);
+	            	ps.executeUpdate();
+	            }
+	            rs.close();
 	        }
 	        System.out.println("Playlists loaded from CSV.");
 	    } catch (Exception e) {
@@ -419,19 +458,31 @@ public class ManageDB {
 	
 	public void loadPlaylistSongsFromCSV(String csvPath) {
 	    String sql = "INSERT INTO playlist_songs (playlist_cod, song_id) VALUES (?, ?);";
+	    String sqlCheck = "SELECT * FROM playlist_songs WHERE playlist_cod = ? AND song_id = ?";
 
 	    try (Connection con = DriverManager.getConnection(connectionString);
-	         PreparedStatement ps = con.prepareStatement(sql);
-	         BufferedReader br = new BufferedReader(new FileReader(csvPath))) {
+	        PreparedStatement ps = con.prepareStatement(sql);
+	    	PreparedStatement psCheck = con.prepareStatement(sqlCheck);
+	        BufferedReader br = new BufferedReader(new FileReader(csvPath))) {
 
 	        String line = br.readLine(); // Leer encabezado
 	        while ((line = br.readLine()) != null) {
 	            String[] parts = line.split(",");
 	            if (parts.length < 2) continue;
 
-	            ps.setInt(1, Integer.parseInt(parts[0].trim()));
-	            ps.setInt(2, Integer.parseInt(parts[1].trim()));
-	            ps.executeUpdate();
+	            int playlist_cod = Integer.parseInt(parts[0].trim());
+	            int song_id = Integer.parseInt(parts[1].trim());
+	            
+	            psCheck.setInt(1, playlist_cod);
+	            psCheck.setInt(2, song_id);
+	            ResultSet rs = psCheck.executeQuery();
+	            
+	            if(!rs.next()) {
+	            	ps.setInt(1, playlist_cod);
+	            	ps.setInt(2, song_id);
+	            	ps.executeUpdate();
+	            }
+	            rs.close();
 	        }
 	        System.out.println("Playlist songs loaded from CSV.");
 	    } catch (Exception e) {
@@ -673,37 +724,37 @@ public class ManageDB {
     }
     
  // Datos de prueba si son necesarios
- 	public void initData() {
-
- 		String testName = "1";
- 		String testEmail = "1"; 
- 		String testPass = "1";
- 		if (!isEmailInDB(testEmail)) {
- 			insertUser(new User(testName, testEmail, testPass));
- 			System.out.println("INIT: Usuario de prueba creado.");
- 		}
- 		
- 		User u = getUserFromEmail(testEmail);
- 		if (u != null) {
- 			int userId = u.getId();
- 			ArrayList<Playlist> currentPlaylists = getUserPlaylists(userId);
- 			
- 			if (currentPlaylists.isEmpty()) {
- 				System.out.println("INIT: Insertando playlists de prueba...");
- 				
- 				Playlist p1 = new Playlist("Rock Clásico", userId);
- 				Playlist p2 = new Playlist("Gym Motivation", userId);
- 				Playlist p3 = new Playlist("Viaje en Coche", userId);
- 				Playlist p4 = new Playlist("Estudiar Lo-Fi", userId);
- 				Playlist p5 = new Playlist("Fiesta 2024", userId);
- 				
- 				insertPlaylist(p1, p2, p3, p4, p5);
- 				System.out.println("INIT: Playlists insertadas correctamente.");
- 			} else {
- 				System.out.println("INIT: El usuario ya tiene playlists.");
- 			}
- 		}
- 	}
+// 	public void initData() {
+//
+// 		String testName = "1";
+// 		String testEmail = "1"; 
+// 		String testPass = "1";
+// 		if (!isEmailInDB(testEmail)) {
+// 			insertUser(new User(testName, testEmail, testPass));
+// 			System.out.println("INIT: Usuario de prueba creado.");
+// 		}
+// 		
+// 		User u = getUserFromEmail(testEmail);
+// 		if (u != null) {
+// 			int userId = u.getId();
+// 			ArrayList<Playlist> currentPlaylists = getUserPlaylists(userId);
+// 			
+// 			if (currentPlaylists.isEmpty()) {
+// 				System.out.println("INIT: Insertando playlists de prueba...");
+// 				
+// 				Playlist p1 = new Playlist("Rock Clásico", userId);
+// 				Playlist p2 = new Playlist("Gym Motivation", userId);
+// 				Playlist p3 = new Playlist("Viaje en Coche", userId);
+// 				Playlist p4 = new Playlist("Estudiar Lo-Fi", userId);
+// 				Playlist p5 = new Playlist("Fiesta 2024", userId);
+// 				
+// 				insertPlaylist(p1, p2, p3, p4, p5);
+// 				System.out.println("INIT: Playlists insertadas correctamente.");
+// 			} else {
+// 				System.out.println("INIT: El usuario ya tiene playlists.");
+// 			}
+// 		}
+// 	}
  	
     public java.util.List<Song> getAllSongs() {
         java.util.List<Song> list = new ArrayList<>();
