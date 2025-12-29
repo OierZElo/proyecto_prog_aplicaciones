@@ -32,10 +32,10 @@ public class ManageDB {
 	}
 
 	public void crearBBDD() {
-		String dropSong = "DROP TABLE songs;";
-		String dropUser = "DROP TABLE user;";
-		String dropPlaylist = "DROP TABLE playlist;";
-		String dropPlaylistSong = "DROP TABLE playlist_songs;";
+//		String dropSong = "DROP TABLE songs;";
+//		String dropUser = "DROP TABLE user;";
+//		String dropPlaylist = "DROP TABLE playlist;";
+//		String dropPlaylistSong = "DROP TABLE playlist_songs;";
 		
 		String sqlSong = "CREATE TABLE IF NOT EXISTS songs (" + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
 				+ "name TEXT NOT NULL UNIQUE," + "band TEXT NOT NULL," + "duration INTEGER NOT NULL," + "genre TEXT NOT NULL"
@@ -54,10 +54,10 @@ public class ManageDB {
 				+ "FOREIGN KEY(song_id) REFERENCES songs(id) ON DELETE CASCADE" + ");";
 
 		try (Connection con = DriverManager.getConnection(connectionString);
-				PreparedStatement psDropSong = con.prepareStatement(dropSong);
-				PreparedStatement psDropUser = con.prepareStatement(dropUser);
-				PreparedStatement psDropPlaylist = con.prepareStatement(dropPlaylist);
-				PreparedStatement psDropPlaylistSong = con.prepareStatement(dropPlaylistSong);
+//				PreparedStatement psDropSong = con.prepareStatement(dropSong);
+//				PreparedStatement psDropUser = con.prepareStatement(dropUser);
+//				PreparedStatement psDropPlaylist = con.prepareStatement(dropPlaylist);
+//				PreparedStatement psDropPlaylistSong = con.prepareStatement(dropPlaylistSong);
 				
 				PreparedStatement psSong = con.prepareStatement(sqlSong);
 				PreparedStatement psUsuario = con.prepareStatement(sqlUsuario);
