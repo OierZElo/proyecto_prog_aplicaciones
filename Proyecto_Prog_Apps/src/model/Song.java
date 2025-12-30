@@ -110,8 +110,9 @@ public class Song implements Comparable<Song> {
 
 	@Override
 	public String toString() {
-		return "Song [cod=" + cod + ", title=" + title + "]";
+		return title +" - "+ band;
 	}
+
 
 	
 

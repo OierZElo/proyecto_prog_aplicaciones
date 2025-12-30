@@ -44,7 +44,7 @@ public class PlaylistManagerDialog extends JFrame {
 		btnNewPlaylist.setBackground(MainFrame.BorderColor);
 		btnNewPlaylist.setForeground(Color.WHITE);
 		btnNewPlaylist.setFocusPainted(false);
-		btnNewPlaylist.setFont(new Font("Arial", Font.BOLD, 14));
+		btnNewPlaylist.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 18));
 		btnNewPlaylist.addActionListener(e -> {
 			String name = JOptionPane.showInputDialog(mainPanel, "Enter name for new playlist:");
 			if (name != null && !name.trim().isEmpty()) {
@@ -165,6 +165,7 @@ public class PlaylistManagerDialog extends JFrame {
 		buttonPlaylist.addActionListener(evt -> openPlaylistView(p));
 		
 		JButton btnDelete = new JButton("🗑️");
+		btnDelete.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 18));
 		btnDelete.setBackground(new Color(150, 50, 50));
 		btnDelete.setForeground(Color.WHITE);
 		btnDelete.setFocusPainted(false);
@@ -246,6 +247,7 @@ public class PlaylistManagerDialog extends JFrame {
 		});
 		
 		JButton btnRemoveSong = new JButton("🗑️ Delete Song");
+		btnRemoveSong.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 18));
 		btnRemoveSong.setBackground(new Color(150, 50, 50));
 		btnRemoveSong.setForeground(Color.WHITE);
 		btnRemoveSong.setFocusPainted(false);
