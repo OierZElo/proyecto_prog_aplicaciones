@@ -4,10 +4,15 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Flow;
+
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import controller.ManageDB;
+import model.Genre;
 import model.Playlist;
 import model.Song;
 import model.User;
@@ -17,6 +22,11 @@ public class PlaylistManagerDialog extends JFrame {
 	private JPanel listPanelContainer;
 	private User currentUser;
 	private JTextField buscador;
+	private int minCanciones = 0; 
+	private int MaxCanciones = 30; 
+	ArrayList<Genre> obtainedgenre;
+	
+
 
 	public static JPanel PlaylistManagerDialogPanel() {
 		PlaylistManagerDialog instance = new PlaylistManagerDialog();
@@ -27,20 +37,8 @@ public class PlaylistManagerDialog extends JFrame {
 	private JPanel createContentPanel() {
 		MainFrame main = MainFrame.getInstance();
 		JPanel mainPanel = new JPanel(new BorderLayout());
-		
-// no se puede resolver con listeners ya que los JPanels no tienen el focus nunca y aunque lo forcemos no es muy efectivo
-//		mainPanel.addKeyListener(new KeyAdapter() {
-//			@Override
-//			public void keyPressed(KeyEvent e) {
-//				// TODO Auto-generated method stub
-//				// si ctrl + r presionados
-//				if (e.getKeyCode() == KeyEvent.VK_R && e.isControlDown() ) {
-//					// JDialog  pide cuantas playlists crear,  lista de generos, numero de canciones maximas o duracion maxima por playlist
-//					//JDialog d = new JDialog(); 
-//					System.out.println("teclas presionadas");
-//				}
-//			}
-//		});
+
+// implementamos el short cut a traves de Key binding, mucho mas apropiado y funcional que con listeners
 		
 // creamos short cut para abrir ventana y crear una playlist mediante metodo recursivo
 		// creamos un objeto que representa la combinacion de teclas con la uqe queremos activar el metodo recursivo
@@ -52,14 +50,98 @@ public class PlaylistManagerDialog extends JFrame {
 		mainPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(ctrlR, "CNTRL_R_ACTION");;
 		
 		// obtenemos el actionMap que relaciona el nombre logico anterior con la accion deseada
-		mainPanel.getActionMap().put("CNTRL_R_ACTION", new AbstractAction() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("teclas presionadas");
-			}
+		mainPanel.getActionMap().put( "CNTRL_R_ACTION", new AbstractAction() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        JDialog datosPlaylist = new JDialog(main, "Required Information for Playlist", true);
+		        datosPlaylist.setSize(500, 500);
+		        datosPlaylist.setLocationRelativeTo(main);
+
+		        // Panel principal con GridLayout
+		        JPanel control = new JPanel(new GridLayout(5, 1, 10, 10));
+		        control.setBackground(MainFrame.BackgroundColor);
+
+		        // JList de géneros
+		        JList<Genre> selectedGenre = new JList<>(Genre.values());
+		        selectedGenre.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		        selectedGenre.setBackground(MainFrame.BackgroundColor.brighter());
+		        selectedGenre.setForeground(MainFrame.TextColor);
+		        JScrollPane scrollpane = new JScrollPane(selectedGenre);
+
+		        // Sliders y Labels
+		        JSlider maxCanciones = new JSlider(minCanciones, MaxCanciones);
+		        JLabel ncanciones = new JLabel("Nº songs: " + maxCanciones.getValue(), JLabel.CENTER);
+		        ncanciones.setForeground(MainFrame.TextColor);
+		        maxCanciones.setBackground(MainFrame.BackgroundColor);
+		        maxCanciones.addChangeListener(evt -> ncanciones.setText("Nº songs: " + maxCanciones.getValue()));
+
+		        JSlider maxDuracion = new JSlider(0, 300);
+		        JLabel nduracion = new JLabel("Playlist Duration: " + maxDuracion.getValue(), JLabel.CENTER);
+		        nduracion.setForeground(MainFrame.TextColor);
+		        maxDuracion.setBackground(MainFrame.BackgroundColor);
+		        maxDuracion.addChangeListener(evt -> nduracion.setText("Playlist Duration: " + maxDuracion.getValue()));
+
+		        JSlider playListn = new JSlider(0, 1000);
+		        JLabel nplayList = new JLabel("Nº of playlist: " + playListn.getValue(), JLabel.CENTER);
+		        nplayList.setForeground(MainFrame.TextColor);
+		        playListn.setBackground(MainFrame.BackgroundColor);
+		        playListn.addChangeListener(evt -> nplayList.setText("Nº of playlist: " + playListn.getValue()));
+
+		        // Paneles para sliders y labels
+		        JPanel songs = new JPanel(new BorderLayout(10, 10));
+		        songs.setBackground(MainFrame.BackgroundColor);
+		        songs.add(maxCanciones, BorderLayout.CENTER);
+		        songs.add(ncanciones, BorderLayout.SOUTH);
+
+		        JPanel tiempo = new JPanel(new BorderLayout(10, 10));
+		        tiempo.setBackground(MainFrame.BackgroundColor);
+		        tiempo.add(maxDuracion, BorderLayout.CENTER);
+		        tiempo.add(nduracion, BorderLayout.SOUTH);
+
+		        JPanel playlist = new JPanel(new BorderLayout(10, 10));
+		        playlist.setBackground(MainFrame.BackgroundColor);
+		        playlist.add(playListn, BorderLayout.CENTER);
+		        playlist.add(nplayList, BorderLayout.SOUTH);
+
+		        // Botones
+		        JButton accept = new JButton("Accept");
+		        JButton cancel = new JButton("Cancel");
+		        accept.setBackground(MainFrame.BorderColor);
+		        accept.setForeground(MainFrame.TextColor);
+		        cancel.setBackground(MainFrame.BorderColor);
+		        cancel.setForeground(MainFrame.TextColor);
+
+		        JPanel buttonControl = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+		        buttonControl.setBackground(MainFrame.BackgroundColor);
+		        buttonControl.add(accept);
+		        buttonControl.add(cancel);
+
+		        // Añadir todo al panel control
+		        control.add(scrollpane);
+		        control.add(songs);
+		        control.add(tiempo);
+		        control.add(playlist);
+		        control.add(buttonControl);
+
+		        datosPlaylist.add(control);
+
+		        // Acciones de botones
+		        accept.addActionListener(evt -> {
+		            List<Genre> obtainedGenres = new ArrayList<>(selectedGenre.getSelectedValuesList());
+		            datosPlaylist.dispose();
+		            Recursivity.generatePlayLists(new ArrayList<>(obtainedGenres),
+		                    maxDuracion.getValue(), maxCanciones.getValue(), playListn.getValue());
+		        });
+
+		        cancel.addActionListener(evt -> datosPlaylist.dispose());
+
+		        // Mostrar dialog
+		        datosPlaylist.setVisible(true);
+		    }
 		});
+		
+
+		
 
 		mainPanel.setBackground(MainFrame.BackgroundColor);
 		currentUser = main.getCurrentUser();
