@@ -20,12 +20,47 @@ public class PlaylistManagerDialog extends JFrame {
 
 	public static JPanel PlaylistManagerDialogPanel() {
 		PlaylistManagerDialog instance = new PlaylistManagerDialog();
-		return instance.createContentPanel();
+		// adicion de KeyListener que invoca metodo recursivo
+						return instance.createContentPanel();
 	}
 
 	private JPanel createContentPanel() {
 		MainFrame main = MainFrame.getInstance();
 		JPanel mainPanel = new JPanel(new BorderLayout());
+		
+// no se puede resolver con listeners ya que los JPanels no tienen el focus nunca y aunque lo forcemos no es muy efectivo
+//		mainPanel.addKeyListener(new KeyAdapter() {
+//			@Override
+//			public void keyPressed(KeyEvent e) {
+//				// TODO Auto-generated method stub
+//				// si ctrl + r presionados
+//				if (e.getKeyCode() == KeyEvent.VK_R && e.isControlDown() ) {
+//					// JDialog  pide cuantas playlists crear,  lista de generos, numero de canciones maximas o duracion maxima por playlist
+//					//JDialog d = new JDialog(); 
+//					System.out.println("teclas presionadas");
+//				}
+//			}
+//		});
+		
+// creamos short cut para abrir ventana y crear una playlist mediante metodo recursivo
+		// creamos un objeto que representa la combinacion de teclas con la uqe queremos activar el metodo recursivo
+		KeyStroke ctrlR = KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK);
+		
+		// obtenemmos el inputMap cuando el foco este en la ventana que contiene el panel
+		//e introducimos el comando ctrlR como clave asociado a una accion con nombre lógico "CNTRL_R_ACTION"
+
+		mainPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(ctrlR, "CNTRL_R_ACTION");;
+		
+		// obtenemos el actionMap que relaciona el nombre logico anterior con la accion deseada
+		mainPanel.getActionMap().put("CNTRL_R_ACTION", new AbstractAction() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("teclas presionadas");
+			}
+		});
+
 		mainPanel.setBackground(MainFrame.BackgroundColor);
 		currentUser = main.getCurrentUser();
 		
@@ -62,6 +97,8 @@ public class PlaylistManagerDialog extends JFrame {
 		topPanel.add(buscador, BorderLayout.CENTER);
 		topPanel.add(btnNewPlaylist, BorderLayout.EAST);
 		mainPanel.add(topPanel, BorderLayout.NORTH);
+		 
+		
 		
 		listPanelContainer = new JPanel();
 		listPanelContainer.setBackground(MainFrame.BackgroundColor);
@@ -289,9 +326,11 @@ public class PlaylistManagerDialog extends JFrame {
 			main.getCardLayout().show(main.getCardPanel(), "PlaylistManagerDialog");
 		});
 		container.add(backBtn, BorderLayout.SOUTH);
+		
 		main.getCardPanel().add(container, "PlaylistSongsTable");
 		main.getCardLayout().show(main.getCardPanel(), "PlaylistSongsTable");
 		main.setCurrenPanel("PlaylistSongsTable");
+		
 	}
 	
 	private void updatePlaylistModel(Playlist p) {

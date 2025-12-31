@@ -91,7 +91,7 @@ public class UserPanel {
 // here we add the created JPanels into the result JPanel
 		result.add(userdata);
 		result.add(lsl);
-
+		
 		
 		return result;
 	} 
