@@ -248,7 +248,7 @@ public class MainFrame extends JFrame {
 		if (desplegado) {
 			
 			try {
-			String path = "src/resources/icons/" + s.getTitle() + ".png"; 
+			String path = "src/resources/icons/" + s.getCod() + ".png"; 
 			File file = new File(path);
 			if (!file.exists() || s.getTitle() == null) {
 				path = "src/resources/icons/SongIcon.png";
@@ -259,14 +259,8 @@ public class MainFrame extends JFrame {
 			setSongIcon(new ImageIcon(newImg));
 			} 
 			catch(NullPointerException e) {
-				System.out.println("s is null");
+				System.out.println("song is null");
 			}	
-			String path = "src/resources/icons/SongIcon.png";
-			ImageIcon imageIcon = new ImageIcon(path);
-			Image img = imageIcon.getImage();
-			Image newImg = img.getScaledInstance(199, 205, Image.SCALE_SMOOTH);
-			setSongIcon(new ImageIcon(newImg));
-				
 		}
 	}
 
