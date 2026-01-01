@@ -23,7 +23,7 @@ public class PlaylistManagerDialog extends JFrame {
 	private User currentUser;
 	private JTextField buscador;
 	private int minCanciones = 0; 
-	private int MaxCanciones = 30; 
+	private int MaxCanciones = 10; 
 	ArrayList<Genre> obtainedgenre;
 	
 
@@ -127,9 +127,14 @@ public class PlaylistManagerDialog extends JFrame {
 
 		        // Acciones de botones
 		        accept.addActionListener(evt -> {
-		            List<Genre> obtainedGenres = new ArrayList<>(selectedGenre.getSelectedValuesList());
+		            ArrayList<Genre> obtainedGenres = new ArrayList<>(selectedGenre.getSelectedValuesList());
 		            datosPlaylist.dispose();
-		            Recursivity.generatePlayLists(new ArrayList<>(obtainedGenres),
+		            System.out.println(obtainedGenres);
+		            System.out.println(maxDuracion.getValue());
+		            System.out.println(maxCanciones.getValue());
+		            System.out.println(playListn.getValue());
+
+		            Recursivity.generatePlayLists(obtainedGenres,
 		                    maxDuracion.getValue(), maxCanciones.getValue(), playListn.getValue());
 		        });
 
