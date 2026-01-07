@@ -84,7 +84,7 @@ public class PlaylistManagerDialog extends JFrame {
 		        maxCanciones.setBackground(MainFrame.BackgroundColor);
 		        maxCanciones.addChangeListener(evt -> ncanciones.setText("Nº songs: " + maxCanciones.getValue()));
 
-		        JSlider maxDuracion = new JSlider(0, 2000);
+		        JSlider maxDuracion = new JSlider(0, 100);
 		        JLabel nduracion = new JLabel("Playlist Duration: " + maxDuracion.getValue(), JLabel.CENTER);
 		        nduracion.setForeground(MainFrame.TextColor);
 		        maxDuracion.setBackground(MainFrame.BackgroundColor);
@@ -146,7 +146,7 @@ public class PlaylistManagerDialog extends JFrame {
 		            System.out.println(playListn.getValue());
 
 		            Recursivity.generatePlayLists(obtainedGenres,
-		                    						maxDuracion.getValue(),
+		                    						maxDuracion.getValue()*60,
 		                    						(Integer) maxCanciones.getValue(), 
 		                    						(Integer) playListn.getValue(),
 		            								() -> reloadPlaylists(getCurrentFilter() ));
@@ -256,7 +256,6 @@ public class PlaylistManagerDialog extends JFrame {
 		
 		listPanelContainer.removeAll();
 		List<Playlist> freshPlaylists = ManageDB.getInstance().getUserPlaylists(currentUser.getId());
-		
 		String filtroLimpio = filtro == null ? "" : filtro.toLowerCase().trim();
 
 		for (Playlist p : freshPlaylists) {

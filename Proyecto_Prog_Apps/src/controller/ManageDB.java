@@ -85,9 +85,8 @@ public class ManageDB {
 
 	public void insertSong(Song... songs) {
 		String sql = "INSERT INTO songs (name, band, duration, genre) VALUES (?, ?, ?, ?);";
-
 		try (Connection con = DriverManager.getConnection(connectionString);
-				PreparedStatement ps = con.prepareStatement(sql)) {
+				PreparedStatement ps = con.prepareStatement(sql); ) {
 
 			for (Song s : songs) {
 				ps.setString(1, s.getTitle());
@@ -177,9 +176,11 @@ public class ManageDB {
 
 	public void insertPlaylist(Playlist... playlists) {
 		String sql = "INSERT INTO playlist (name, user_id) VALUES (?, ?);";
+		String sql2 = "INSERT INTO playlist_songs (playlist_cod,song_id) VALUES (?,?)";
 
 		try (Connection con = DriverManager.getConnection(connectionString);
-				PreparedStatement ps = con.prepareStatement(sql)) {
+				PreparedStatement ps = con.prepareStatement(sql);
+				PreparedStatement ps2 = con.prepareStatement(sql2)) {
 
 			for (Playlist p : playlists) {
 				if (!ContainsPlaylist(p)) {
@@ -189,6 +190,25 @@ public class ManageDB {
 				int affected = ps.executeUpdate();
 				if (affected == 1) {
 					System.out.println("Playlist inserted: " + p.getName());
+					
+					try (ResultSet rs = ps.getGeneratedKeys()) {
+						if (rs.next()) {
+							int playListId = rs.getInt(1);
+
+							for (Song s : p.getL_songs()) {
+								ps2.setInt(1, playListId);
+								ps2.setInt(2, s.getCod());
+								if (ps2.executeUpdate() == 1) {
+									System.out.println(String.format("Song %s inserted into playlist %s", s.getTitle(), p.getName()));
+
+								} else {							
+									System.out.println(String.format("Could not insert song %s into playlist %s", s.getTitle(), p.getName()));
+		}
+							}
+						}
+						
+						
+					}
 				} else {
 					System.out.println("Couldn't inser playlist: " + p.getName());
 				}

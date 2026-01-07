@@ -27,7 +27,7 @@ public class Playlist {
 		counter += 1;
 		this.name = name;
 		this.user_id = user_id;
-		this.l_songs = l_songs;
+		this.l_songs = new ArrayList<>(l_songs);;
 	}
 
 	@Override
