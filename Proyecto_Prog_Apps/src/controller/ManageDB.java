@@ -156,7 +156,7 @@ public class ManageDB {
 	
 	public boolean ContainsPlaylist(Playlist playlist) {
 		System.out.println("checking if this playlist is being added");
-		String sql = "SELECT ID FROM PLAYLISY WHERE cod = ?;";
+		String sql = "SELECT user_id FROM PLAYLIST WHERE cod = ?;";
 		
 		try (Connection con = DriverManager.getConnection(connectionString);
 				PreparedStatement ps = con.prepareStatement(sql)) {

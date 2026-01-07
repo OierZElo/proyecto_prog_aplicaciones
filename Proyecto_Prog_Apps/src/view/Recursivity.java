@@ -11,21 +11,29 @@ import model.User;
 
 import java.util.List;
 
+import javax.swing.SwingUtilities;
+
 public class Recursivity {
 	private static ManageDB managedb = ManageDB.getInstance();
 	private static MainFrame main = MainFrame.getInstance();
 	static User test = new User("test@gmail.com", "qwerty", "test");
 
 
-	public static void generatePlayLists(ArrayList<Genre> genres, int duration, int maxSongNumber, int playListNumber) {
+	public static void generatePlayLists(ArrayList<Genre> genres, int duration, int maxSongNumber, int playListNumber, Runnable onFinish) {
 		System.out.println("Generando combinaciones...");
 		ArrayList<Song> filteredSongs = managedb.getSongsPerGenreList(genres);
 		ArrayList<ArrayList<Song>> result = new ArrayList<ArrayList<Song>>();
 
 		generateCombinations(result, filteredSongs, maxSongNumber, duration, playListNumber, new ArrayList<Song>());
+		
 		for (ArrayList<Song> p : result) {
-			System.out.println(p);
+			Playlist newP = new Playlist(main.getCurrentUser().getName(), main.getCurrentUser().getId(), p);
+			ManageDB.getInstance().insertPlaylist(newP);
 		}
+		if (onFinish != null) {
+	        SwingUtilities.invokeLater(onFinish);
+	    }
+
 	}
 
 	public static void generateCombinations(ArrayList<ArrayList<Song>> result, ArrayList<Song> songs, int maxSongNumber,

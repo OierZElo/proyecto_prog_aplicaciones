@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.concurrent.Flow;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -63,45 +64,55 @@ public class PlaylistManagerDialog extends JFrame {
 
 		        // JList de géneros
 		        JList<Genre> selectedGenre = new JList<>(Genre.values());
+		        selectedGenre.setBorder(new LineBorder(main.getForeground(), 2));
+		        selectedGenre.setFont(main.getFont());
 		        selectedGenre.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		        selectedGenre.setBackground(MainFrame.BackgroundColor.brighter());
 		        selectedGenre.setForeground(MainFrame.TextColor);
-		        JScrollPane scrollpane = new JScrollPane(selectedGenre);
+		        selectedGenre.setLayoutOrientation(JList.VERTICAL_WRAP);
+		        selectedGenre.setFixedCellWidth(100);
+		        selectedGenre.setVisibleRowCount((Genre.values().length + 1) / 4);
+		        
+		        //JScrollPane scrollpane = new JScrollPane(selectedGenre);
 
-		        // Sliders y Labels
-		        JSlider maxCanciones = new JSlider(minCanciones, MaxCanciones);
+		        // Spinners, Sliders y Labels
+		        SpinnerNumberModel SongModel = new SpinnerNumberModel(minCanciones,minCanciones, MaxCanciones, 1);
+		        JSpinner maxCanciones = new JSpinner();
+		        maxCanciones.setPreferredSize(new Dimension(50, 20));
 		        JLabel ncanciones = new JLabel("Nº songs: " + maxCanciones.getValue(), JLabel.CENTER);
 		        ncanciones.setForeground(MainFrame.TextColor);
 		        maxCanciones.setBackground(MainFrame.BackgroundColor);
 		        maxCanciones.addChangeListener(evt -> ncanciones.setText("Nº songs: " + maxCanciones.getValue()));
 
-		        JSlider maxDuracion = new JSlider(0, 300);
+		        JSlider maxDuracion = new JSlider(0, 2000);
 		        JLabel nduracion = new JLabel("Playlist Duration: " + maxDuracion.getValue(), JLabel.CENTER);
 		        nduracion.setForeground(MainFrame.TextColor);
 		        maxDuracion.setBackground(MainFrame.BackgroundColor);
 		        maxDuracion.addChangeListener(evt -> nduracion.setText("Playlist Duration: " + maxDuracion.getValue()));
 
-		        JSlider playListn = new JSlider(0, 1000);
+		        SpinnerNumberModel modelo = new SpinnerNumberModel(1, 1, 30, 1);
+		        JSpinner playListn = new JSpinner(modelo);
+		        playListn.setPreferredSize(new Dimension(50, 20));
 		        JLabel nplayList = new JLabel("Nº of playlist: " + playListn.getValue(), JLabel.CENTER);
 		        nplayList.setForeground(MainFrame.TextColor);
-		        playListn.setBackground(MainFrame.BackgroundColor);
+		        //playListn.setBackground(MainFrame.BackgroundColor);
 		        playListn.addChangeListener(evt -> nplayList.setText("Nº of playlist: " + playListn.getValue()));
 
 		        // Paneles para sliders y labels
-		        JPanel songs = new JPanel(new BorderLayout(10, 10));
+		        JPanel songs = new JPanel(new FlowLayout(FlowLayout.CENTER,10, 10));
 		        songs.setBackground(MainFrame.BackgroundColor);
-		        songs.add(maxCanciones, BorderLayout.CENTER);
-		        songs.add(ncanciones, BorderLayout.SOUTH);
+		        songs.add(maxCanciones);
+		        songs.add(ncanciones);
 
-		        JPanel tiempo = new JPanel(new BorderLayout(10, 10));
+		        JPanel tiempo = new JPanel(new FlowLayout(FlowLayout.CENTER,10, 10));
 		        tiempo.setBackground(MainFrame.BackgroundColor);
 		        tiempo.add(maxDuracion, BorderLayout.CENTER);
 		        tiempo.add(nduracion, BorderLayout.SOUTH);
 
-		        JPanel playlist = new JPanel(new BorderLayout(10, 10));
+		        JPanel playlist = new JPanel(new FlowLayout(FlowLayout.CENTER,10, 10));
 		        playlist.setBackground(MainFrame.BackgroundColor);
-		        playlist.add(playListn, BorderLayout.CENTER);
-		        playlist.add(nplayList, BorderLayout.SOUTH);
+		        playlist.add(playListn);
+		        playlist.add(nplayList);
 
 		        // Botones
 		        JButton accept = new JButton("Accept");
@@ -117,7 +128,7 @@ public class PlaylistManagerDialog extends JFrame {
 		        buttonControl.add(cancel);
 
 		        // Añadir todo al panel control
-		        control.add(scrollpane);
+		        control.add(selectedGenre);
 		        control.add(songs);
 		        control.add(tiempo);
 		        control.add(playlist);
@@ -135,8 +146,12 @@ public class PlaylistManagerDialog extends JFrame {
 		            System.out.println(playListn.getValue());
 
 		            Recursivity.generatePlayLists(obtainedGenres,
-		                    maxDuracion.getValue(), maxCanciones.getValue(), playListn.getValue());
-		        });
+		                    						maxDuracion.getValue(),
+		                    						(Integer) maxCanciones.getValue(), 
+		                    						(Integer) playListn.getValue(),
+		            								() -> reloadPlaylists(getCurrentFilter() ));
+		            								});
+
 
 		        cancel.addActionListener(evt -> datosPlaylist.dispose());
 
