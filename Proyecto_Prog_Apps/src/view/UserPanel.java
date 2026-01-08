@@ -14,6 +14,7 @@ import java.awt.Image;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.ModuleLayer.Controller;
 import java.util.concurrent.Flow;
 
 import javax.swing.BorderFactory;
@@ -32,16 +33,18 @@ import javax.swing.SwingUtilities;
 
 import app.Main;
 import controller.ManageDB;
+import controller.UserController;
 import model.User;
 import utils.Utils;
 
 public class UserPanel {
 
-	
+
 	public static JPanel PanelUsuario() {
+		 UserController userControl = new UserController(ConfigManager.managedb); // creamos un controller para conectar la parte visual con la logica de la app
 		MainFrame main = MainFrame.getInstance();
-		
-// JPanel container of all the UserPanel's window	
+
+		// JPanel container of all the UserPanel's window	
 		JPanel result = new JPanel(); 
 		result.setBorder(BorderFactory.createLineBorder(MainFrame.BackgroundColor, 10));
 
@@ -67,7 +70,7 @@ public class UserPanel {
 		 userdata.add(foto, BorderLayout.WEST);
 		 userdata.add(generarDatos(main.getCurrentUser()), BorderLayout.CENTER);
 		 //user's data controlers's display:
-		 userdata.add(botonesControl(result, main.getCurrentUser()),BorderLayout.SOUTH);
+		 userdata.add(botonesControl(result, main.getCurrentUser(), userControl),BorderLayout.SOUTH);
 
 // Windoe's center's display: 
 		 JPanel lsl = new JPanel(); 
@@ -95,7 +98,7 @@ public class UserPanel {
 		return result;
 	} 
 	
-	private static JPanel generarDatos(User usuario) {
+	private static  JPanel generarDatos(User usuario) {
 		JPanel r = new JPanel(new GridLayout(3, 0, 0, 10)); 
 		r.setBackground(MainFrame.BackgroundColor);
 		JLabel mail = new JLabel("Mail : " + usuario.getMail()); 
@@ -122,7 +125,7 @@ public class UserPanel {
 		
 		return r; }
 		
-	private static JPanel botonesControl(JPanel result, User usuario) {
+	private static  JPanel botonesControl(JPanel result, User usuario, UserController userControl) {
 		JPanel r = new JPanel(); 
 		r.setBackground(MainFrame.BackgroundColor);
 		r.setLayout(new FlowLayout(FlowLayout.CENTER, 70, 10));
@@ -136,9 +139,9 @@ public class UserPanel {
 		r.add(lg);
 		r.add(chp);
 		// JDialog change picture
-		JDialog newpic = CambioDeFoto(result, "Introduce the url of the new picture: ", usuario); 
-		JDialog newpassword = CambiarContrasena(result, "Introduce the new password", usuario);
-		JDialog logOut = cerrarSesion(result);
+		JDialog newpic = CambioDeFoto(result, "Introduce the url of the new picture: ", usuario, userControl); 
+		JDialog newpassword = CambiarContrasena(result, "Introduce the new password", usuario, userControl);
+		JDialog logOut = cerrarSesion(result, userControl);
 		chp.addActionListener(e -> newpassword.setVisible(true));
 		cp.addActionListener(e -> newpic.setVisible(true));
 		lg.addActionListener(e -> logOut.setVisible(true));
@@ -146,44 +149,45 @@ public class UserPanel {
 	}
 	
 	
-	private static JDialog CambioDeFoto(JPanel result, String texto, User usuario) {
+	private static  JDialog CambioDeFoto(JPanel result, String texto, User usuario,  UserController userControl) {
 		JDialog r = new JDialog(); 
 		r.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		r.setLayout(new BorderLayout());
+		
 		// datos de entrada del user
 		JPanel datos = new JPanel(new FlowLayout(FlowLayout.CENTER,10,10) ); 
-		datos.setBackground(MainFrame.BackgroundColor);
-		JLabel t = new JLabel(texto);
-		t.setBackground(MainFrame.BorderColor);
-		t.setOpaque(true);
-		datos.add(t); 
-		JTextField usersdata = new JTextField(20); 
-		datos.add(usersdata);
-		r.add(datos, BorderLayout.CENTER);
-		// botones de interacción 
 		JPanel control = new JPanel(new FlowLayout(FlowLayout.CENTER,10,10)); 
-		control.setBackground(MainFrame.BackgroundColor);
+		JTextField usersdata = new JTextField(20); 
+		JLabel t = new JLabel(texto);
 		JButton aceptar = new JButton("ACCEPT"); 
 	    JButton cancelar = new JButton("CANCEL"); 
+
+		datos.setBackground(MainFrame.BackgroundColor);
+		t.setBackground(MainFrame.BorderColor);
+		t.setOpaque(true);
+		
+		datos.add(t); 
+		datos.add(usersdata);
+		r.add(datos, BorderLayout.CENTER);
+		
+		// botones de interacción 
+		control.setBackground(MainFrame.BackgroundColor);
 	    aceptar.setBackground(MainFrame.BorderColor);
-	    aceptar.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-					ImageIcon foto = new ImageIcon(usersdata.getText()); 
-					if (foto.getIconWidth() == -1) {
-						JOptionPane.showMessageDialog(null, "invalid url", "ERROR", JOptionPane.ERROR_MESSAGE);
-					}
-					else { usuario.setPhoto(foto); 
-					r.dispose();
-					};	
-			}
+	    
+	    aceptar.addActionListener(e -> {
+			// intentamos actualizar contraseña
+			boolean ok = userControl.changePhoto(usuario, usersdata.getText());
+			// en caso de que no se haya podido, mostramos JOptionPane
+			if (!ok) {
+				int paneAns = JOptionPane.showConfirmDialog(r, "No se ha podido cambiar la foto", "Foto invalida", JOptionPane.ERROR_MESSAGE);
+
+			} else {r.dispose();} // si se ha podido cambiar la contraseña cerramos la ventana; 
 		});
 	    
 	    cancelar.addActionListener( e -> r.dispose());
 	    control.add(aceptar); 
 	    control.add(cancelar); 
+	    
 	    r.add(control, BorderLayout.SOUTH);
         r.setLocationRelativeTo(result);
         r.setBackground(MainFrame.BackgroundColor);
@@ -192,7 +196,7 @@ public class UserPanel {
 		
 	}
 	
-	private static JDialog CambiarContrasena(JPanel result, String texto, User usuario) {
+	private static  JDialog CambiarContrasena(JPanel result, String texto, User usuario, UserController userControl) {
 		JDialog r = new JDialog(); 
 		r.setTitle("Reset Password");
 		r.setSize(300,280);
@@ -274,26 +278,14 @@ public class UserPanel {
 	    aceptar.setFocusPainted(false);
 	    cancelar.setFocusPainted(false);
 		
-		aceptar.addActionListener(new ActionListener() {
+		aceptar.addActionListener(e -> {
+			// intentamos actualizar contraseña
+			boolean ok = userControl.changePassword(usuario, newpass.getPassword(), newpass2.getPassword());
+			// en caso de que no se haya podido, mostramos JOptionPane
+			if (!ok) {
+				int paneAns = JOptionPane.showConfirmDialog(r, "Las contraseñas no coinciden", "Contraseña(s) invalidas", JOptionPane.ERROR_MESSAGE);
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				if (!java.util.Arrays.equals(newpass.getPassword(), newpass2.getPassword())) {
-					JOptionPane.showMessageDialog(null, "The passwords don't match", "ERROR",
-							JOptionPane.ERROR_MESSAGE);
-
-				} else {
-					MainFrame main = MainFrame.getInstance();
-					usuario.setPassword(new String(newpass.getPassword()));
-					// actualizamos la contraseña del usuario en la base de datos.
-					ConfigManager.managedb.updatePassword(main.getCurrentUser().getMail(), new String(newpass.getPassword()));
-					newpass.setText("");
-					newpass2.setText("");
-					r.dispose();
-				}
-
-			}
+			} else {r.dispose();} // si se ha podido cambiar la contraseña cerramos la ventana; 
 		});
 
 		cancelar.addActionListener(e -> r.dispose());
@@ -307,7 +299,7 @@ public class UserPanel {
 
 	}
 
-	private static JDialog cerrarSesion(JPanel r) {
+	private static  JDialog cerrarSesion(JPanel r,  UserController userControl) {
 		JDialog result = new JDialog();
 		result.setSize(300, 100);
 		result.setBackground(MainFrame.BackgroundColor);
@@ -341,11 +333,8 @@ public class UserPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				result.dispose();
-				
-				songBar.reset();
-				
-				MainFrame.getInstance().dispose();
-				new LoginRegisterDialog().setVisible(true); //hacer singletone
+				userControl.logout(); 
+
 			}
 		});
 

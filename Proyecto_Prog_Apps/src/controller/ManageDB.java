@@ -53,6 +53,7 @@ public class ManageDB {
 				+ "id INTEGER PRIMARY KEY AUTOINCREMENT," + "playlist_cod INTEGER NOT NULL,"
 				+ "song_id INTEGER NOT NULL," + "FOREIGN KEY(playlist_cod) REFERENCES playlist(cod) ON DELETE CASCADE,"
 				+ "FOREIGN KEY(song_id) REFERENCES songs(id) ON DELETE CASCADE" + ");";
+		
 
 		try (Connection con = DriverManager.getConnection(connectionString);
 //				PreparedStatement psDropSong = con.prepareStatement(dropSong);
@@ -669,18 +670,18 @@ public class ManageDB {
 	}
 	
 	// luego mirar como hacer para que funcione con el PK id
-	public void updatePassword(String email, String password) {
+	public void updatePassword(User user, String password) {
 		String sql = "UPDATE user SET password = ? where id = ?";
 		try (Connection con = DriverManager.getConnection(connectionString);
 				PreparedStatement ps = con.prepareStatement(sql) ) {
 				ps.setString(1, password);  // we replace the first ? with the new password of the user
-				ps.setString(2, email); // we replace the second ? with the id of the user
+				ps.setInt(2, user.getId()); // we replace the second ? with the id of the user
 				int affectedRows  = ps.executeUpdate(); 
 				if (affectedRows > 0) {
-		            System.out.println("se ha actualizado correctamente el usuario de email: " + email);
+		            System.out.println("se ha actualizado correctamente el usuario de email: " + user.getMail());
 
 		        } else {
-		            System.out.println("No username found with email " + email);
+		            System.out.println("No username found with email " + user.getMail());
 		        }
 			
 		} catch (Exception e) {
