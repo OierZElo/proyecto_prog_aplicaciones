@@ -109,7 +109,9 @@ public class PlaybackQueueDialog extends JFrame {
 			});
 
 		}
+		queue.getQueue().clear();
 		
+
 		while (queue.getQueue().size() < 30) {
 		    int r = ThreadLocalRandom.current().nextInt(1, managedb.getSongCount());
 		    Song s = managedb.getSongById(r);

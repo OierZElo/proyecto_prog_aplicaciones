@@ -1,8 +1,11 @@
 package utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 import controller.ManageDB;
@@ -122,15 +125,35 @@ public class Utils {
 
 	}
 
-//	public static void generateRandomPlaylist(Playlist playlist, ArrayList<Song> songs) {
-//		Random random = new Random();
-//		while (playlist.getN_songs() < 30) {
-//			Song song = songs.get(ThreadLocalRandom.current().nextInt(0, songs.size()-1));
-//			if (!playlist.getL_songs().contains(song)) {
-//				playlist.addSong(song);
-//			}
-//		}
-//	}
+    public static void generateRandomPlaylist(Playlist playlist) {
+        // Limpiamos la playlist por si acaso
+        playlist.getL_songs().clear();
+
+        ManageDB managedb = ManageDB.getInstance();
+        int totalSongs = managedb.getSongCount();
+
+        if (totalSongs == 0) {
+            System.out.println("No hay canciones en la base de datos.");
+            return;
+        }
+
+        // Usamos un set para no repetir canciones
+        Set<Integer> usedIds = new HashSet<>();
+
+        int maxSongs = Math.min(10, totalSongs);
+
+        while (playlist.getN_songs() < maxSongs) {
+            int randomId = ThreadLocalRandom.current().nextInt(1, totalSongs + 1); // IDs suelen empezar en 1
+            if (usedIds.contains(randomId)) continue;
+
+            Song s = managedb.getSongById(randomId);
+            if (s == null) continue;
+
+            playlist.addSong(s);
+            usedIds.add(randomId);
+        }
+    }
+
     
     static {
     	Playlist rock = new Playlist("rock", 1);

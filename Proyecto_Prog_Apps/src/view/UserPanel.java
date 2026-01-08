@@ -40,9 +40,6 @@ public class UserPanel {
 	
 	public static JPanel PanelUsuario() {
 		MainFrame main = MainFrame.getInstance();
-
-	// de momento usaremos este user de prueba para el display 
-		
 		
 // JPanel container of all the UserPanel's window	
 		JPanel result = new JPanel(); 
@@ -77,16 +74,18 @@ public class UserPanel {
 		 lsl.setLayout(new BorderLayout(10, 10));
 		 lsl.setBackground(MainFrame.BackgroundColor);
 // esto 100% hay que cambiarlo por otra cosa
-		 JLabel title = new JLabel("LAST 10 SONGS LISTENED"); 
+		 JLabel title = new JLabel("RECOMMENDED SONGS"); 
 		 title.setHorizontalAlignment(JLabel.CENTER);
 		 title.setBackground(MainFrame.BackgroundColor);
 		 title.setForeground(MainFrame.TextColor);
 		 Font font = new Font("Arial", Font.BOLD, 24);
 		 title.setFont(font);
 		 lsl.add(title,BorderLayout.NORTH );
-//		 Utils.generateRandomPlaylist(Utils.playlist1, main.getSongs());
-		 JPanel lastsongs = songTable.createSongTablePlaylist(Utils.playlist1) ;
-		 lsl.add(lastsongs, BorderLayout.CENTER);
+		 Utils.generateRandomPlaylist(Utils.playlist1);
+		 System.out.println("Songs in playlist: " + Utils.playlist1.getL_songs().size());
+
+		 JPanel recommended = songTable.createSongTablePlaylist(Utils.playlist1) ;
+		 lsl.add(recommended, BorderLayout.CENTER);
 
 // here we add the created JPanels into the result JPanel
 		result.add(userdata);
