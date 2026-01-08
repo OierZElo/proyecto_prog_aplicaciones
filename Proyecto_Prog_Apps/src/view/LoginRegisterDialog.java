@@ -95,6 +95,8 @@ public class LoginRegisterDialog extends JFrame {
         seePasswordButton.setFocusPainted(false);
         seePasswordButton.setBorderPainted(false);
         seePasswordButton.setContentAreaFilled(false);
+        seePasswordButton.setMargin(new Insets(0, 0, 0, 0)); 
+        seePasswordButton.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 18));
         seePasswordButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         char defaultEcho = passwordField.getEchoChar();

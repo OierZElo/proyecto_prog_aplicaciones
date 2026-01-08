@@ -34,10 +34,10 @@ public class RegisterFrame extends JFrame {
         panel.add(Box.createRigidArea(new Dimension(0, 20)));
 
         // Campos
-        emailField = createStyledField("Email", panel);
-        userField = createStyledField("Username", panel);
+        emailField = createStyledField("Correo Electrónico", panel);
+        userField = createStyledField("Nombre de Usuario", panel);
         
-        JLabel passLabel = new JLabel("Password");
+        JLabel passLabel = new JLabel("Contraseña");
         passLabel.setForeground(MainFrame.TextColor);
         passLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(passLabel);
