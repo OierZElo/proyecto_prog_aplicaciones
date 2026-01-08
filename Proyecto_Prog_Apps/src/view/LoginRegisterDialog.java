@@ -3,155 +3,187 @@ package view;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import model.User;
+import javax.swing.border.EmptyBorder;
 import controller.ManageDB;
 
 public class LoginRegisterDialog extends JFrame {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private JTextField emailField;
-	private JPasswordField passwordField;
-	private JButton loginButton, registerButton, seePasswordButton;
-	private boolean found = false;
-	private MainFrame main;
-	private ManageDB managedb;
+    private JTextField emailField;
+    private JPasswordField passwordField;
+    private JButton loginButton, registerButton, seePasswordButton;
+    private ManageDB managedb;
+    private MainFrame main;
 
-	public LoginRegisterDialog() {
-		managedb = ManageDB.getInstance();
-		managedb.crearBBDD();
-		ConfigManager.loadProperties();
-		setTitle("Login");
-		setSize(300, 225);
-		setLocationRelativeTo(null);
-		setResizable(false);
-		JPanel mainPanel = new JPanel(new GridLayout(0, 1, 0, 10));
-		mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
-		mainPanel.setBackground(MainFrame.BackgroundColor);
-		
-	
-		JLabel emailLabel = new JLabel("Email", SwingConstants.CENTER);
-		emailLabel.setForeground(MainFrame.TextColor);
-		mainPanel.add(emailLabel);
+    public LoginRegisterDialog() {
+        managedb = ManageDB.getInstance();
+        managedb.crearBBDD();
+        ConfigManager.loadProperties();
 
-		emailField = new JTextField("Enter your email...");
-		emailField.setBackground(MainFrame.BorderColor);
-		emailField.setForeground(MainFrame.BackgroundColor);
-		emailField.setHorizontalAlignment(JTextField.CENTER);
-		emailField.addFocusListener(new FocusAdapter() {
+        // Configuración de la Ventana
+        setTitle("Acceso al Sistema");
+        setSize(350, 400);
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-			@Override
-			public void focusGained(FocusEvent e) {
-				if (emailField.getText().equals("Enter your email...")) {
-					emailField.setText("");
-				}
-			}
+        // Panel Principal con BoxLayout para control vertical total
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setBackground(MainFrame.BackgroundColor);
+        mainPanel.setBorder(new EmptyBorder(30, 45, 30, 45));
 
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (emailField.getText().isEmpty()) {
-					emailField.setText("Enter your email...");
-				}
-			}
-		});
-		mainPanel.add(emailField);
+        // --- SECCIÓN ENCABEZADO ---
+        JLabel titleLabel = new JLabel("LOGIN");
+        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
+        titleLabel.setForeground(MainFrame.TextColor);
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.add(titleLabel);
+        
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 30)));
 
-		JLabel passwordLabel = new JLabel("Password", SwingConstants.CENTER);
-		passwordLabel.setForeground(MainFrame.TextColor);
-		mainPanel.add(passwordLabel);
+        // --- SECCIÓN EMAIL ---
+        JLabel emailLabel = new JLabel("Correo Electrónico");
+        emailLabel.setForeground(MainFrame.TextColor);
+        emailLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.add(emailLabel);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 5)));
 
-		JPanel passwordPanel = new JPanel(new BorderLayout());
-		passwordPanel.setBackground(MainFrame.BackgroundColor);
+        emailField = new JTextField("Enter your email...");
+        styleTextField(emailField);
+        // Efecto Placeholder
+        emailField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (emailField.getText().equals("Enter your email...")) {
+                    emailField.setText("");
+                }
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (emailField.getText().isEmpty()) {
+                    emailField.setText("Enter your email...");
+                }
+            }
+        });
+        mainPanel.add(emailField);
 
-		passwordField = new JPasswordField();
-		passwordField.setBackground(MainFrame.BorderColor);
-		passwordField.setForeground(MainFrame.BackgroundColor);
-		passwordField.setHorizontalAlignment(JPasswordField.CENTER);
-		passwordPanel.add(passwordField, BorderLayout.CENTER);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 15)));
 
-		seePasswordButton = new JButton("👁️");
-		seePasswordButton.setBackground(MainFrame.BackgroundColor);
-		seePasswordButton.setForeground(MainFrame.TextColor);
-		seePasswordButton.setFocusPainted(false);
-		seePasswordButton.setBorder(BorderFactory.createEmptyBorder());
+        // --- SECCIÓN PASSWORD ---
+        JLabel passwordLabel = new JLabel("Contraseña");
+        passwordLabel.setForeground(MainFrame.TextColor);
+        passwordLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.add(passwordLabel);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 5)));
 
-		char defaultEcho = passwordField.getEchoChar();
+        // Panel contenedor para el campo de password + botón de ojo
+        JPanel passWrapper = new JPanel(new BorderLayout());
+        passWrapper.setMaximumSize(new Dimension(Integer.MAX_VALUE, 35));
+        passWrapper.setBackground(MainFrame.BorderColor);
+        passWrapper.setBorder(BorderFactory.createLineBorder(MainFrame.BorderColor));
 
-		seePasswordButton.addActionListener(e -> {
-			if (seePasswordButton.getText().equals("👁️")) {
-				passwordField.setEchoChar((char) 0);
-				seePasswordButton.setText("🙈");
-			} else {
-				passwordField.setEchoChar(defaultEcho);
-				seePasswordButton.setText("👁️");
-			}
-		});
+        passwordField = new JPasswordField();
+        passwordField.setBackground(MainFrame.BorderColor);
+        passwordField.setForeground(MainFrame.BackgroundColor);
+        passwordField.setBorder(new EmptyBorder(0, 10, 0, 0));
+        passwordField.setCaretColor(MainFrame.BackgroundColor);
 
-		passwordPanel.add(seePasswordButton, BorderLayout.EAST);
-		mainPanel.add(passwordPanel);
+        seePasswordButton = new JButton("👁️");
+        seePasswordButton.setPreferredSize(new Dimension(40, 35));
+        seePasswordButton.setFocusPainted(false);
+        seePasswordButton.setBorderPainted(false);
+        seePasswordButton.setContentAreaFilled(false);
+        seePasswordButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-		JPanel buttonsPanel = new JPanel(new GridLayout(1, 2, 10, 0));
-		buttonsPanel.setBackground(MainFrame.BackgroundColor);
+        char defaultEcho = passwordField.getEchoChar();
+        seePasswordButton.addActionListener(e -> {
+            if (passwordField.getEchoChar() != (char) 0) {
+                passwordField.setEchoChar((char) 0);
+                seePasswordButton.setText("🙈");
+            } else {
+                passwordField.setEchoChar(defaultEcho);
+                seePasswordButton.setText("👁️");
+            }
+        });
 
-		registerButton = new JButton("Sign up");
-		loginButton = new JButton("Login");
+        passWrapper.add(passwordField, BorderLayout.CENTER);
+        passWrapper.add(seePasswordButton, BorderLayout.EAST);
+        mainPanel.add(passWrapper);
 
-		registerButton.setBackground(MainFrame.BorderColor);
-		registerButton.setFocusPainted(false);
-		loginButton.setBackground(MainFrame.BorderColor);
-		loginButton.setFocusPainted(false);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 35)));
 
-		loginButton.addActionListener(e -> handleLogin());
+        // --- SECCIÓN BOTONES ---
+        loginButton = new JButton("Iniciar Sesión");
+        styleMainButton(loginButton, true);
+        loginButton.addActionListener(e -> handleLogin());
+        mainPanel.add(loginButton);
 
-		registerButton.addActionListener(e -> handleRegister());
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 12)));
 
-		buttonsPanel.add(registerButton);
-		buttonsPanel.add(loginButton);
-		mainPanel.add(buttonsPanel);
+        registerButton = new JButton("Crear nueva cuenta");
+        styleMainButton(registerButton, false);
+        registerButton.addActionListener(e -> {
+            // Abrimos la nueva ventana de registro
+            RegisterFrame regFrame = new RegisterFrame();
+            regFrame.setVisible(true);
+        });
+        mainPanel.add(registerButton);
 
-		add(mainPanel);
-	}
+        add(mainPanel);
+    }
 
-	private void handleLogin() {
-		found = false;
-		String email = emailField.getText();
-		String password = new String(passwordField.getPassword());
+    private void styleTextField(JTextField field) {
+        field.setMaximumSize(new Dimension(Integer.MAX_VALUE, 35));
+        field.setBackground(MainFrame.BorderColor);
+        field.setForeground(MainFrame.BackgroundColor);
+        field.setCaretColor(MainFrame.BackgroundColor);
+        field.setHorizontalAlignment(JTextField.CENTER);
+        field.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(MainFrame.BorderColor, 1),
+            BorderFactory.createEmptyBorder(0, 10, 0, 10)
+        ));
+    }
 
-		if (managedb.isEmailInDB(email)) {
-			if(managedb.getPasswordFromEmail(email).equals(password)) {
-				found = true;
-				main = MainFrame.getInstance();
-				main.setCurrentUser(managedb.getUserFromEmail(email));
-				main.getCardPanel().add(UserPanel.PanelUsuario(), "AccountPanel");
-				main.setVisible(true);
-				dispose();
-			}
-		}
+    private void styleMainButton(JButton btn, boolean isPrimary) {
+        btn.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+        btn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btn.setFocusPainted(false);
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btn.setFont(new Font("SansSerif", Font.BOLD, 13));
+        
+        if (isPrimary) {
+            btn.setBackground(MainFrame.TextColor);
+            btn.setForeground(MainFrame.BackgroundColor);
+        } else {
+            btn.setBackground(MainFrame.BackgroundColor);
+            btn.setForeground(MainFrame.TextColor);
+            btn.setBorder(BorderFactory.createLineBorder(MainFrame.TextColor, 1));
+        }
+    }
 
-		if (!found) {
-			JOptionPane.showMessageDialog(this, "Email and password don't match", "Login failed", JOptionPane.ERROR_MESSAGE);
-		}
-	}
+    private void handleLogin() {
+        String email = emailField.getText();
+        String password = new String(passwordField.getPassword());
+        boolean loginSuccess = false;
 
-	private void handleRegister() {
-		String email = emailField.getText();
-		String password = new String(passwordField.getPassword());
-		
-		if (managedb.isEmailInDB(email)) {
-			JOptionPane.showMessageDialog(null, "That email already has an account", "ERROR", JOptionPane.WARNING_MESSAGE);
-		} else {
-			boolean newUsername = false;
-			String username = "";
-			while(!newUsername ) {
-				username = JOptionPane.showInputDialog(this, "Username for your new account: ");
-				if (!managedb.isUsernameInDB(username)) {
-					newUsername = true;
-				} else {
-					JOptionPane.showMessageDialog(null, "Username already exists", "ERROR", JOptionPane.WARNING_MESSAGE);
-				}
-			}
-			managedb.insertUser(new User(email, password, username));
-		}
-		
-	}
+        if (managedb.isEmailInDB(email)) {
+            if(managedb.getPasswordFromEmail(email).equals(password)) {
+                loginSuccess = true;
+                main = MainFrame.getInstance();
+                main.setCurrentUser(managedb.getUserFromEmail(email));
+                main.getCardPanel().add(UserPanel.PanelUsuario(), "AccountPanel");
+                main.setVisible(true);
+                dispose();
+            }
+        }
+
+        if (!loginSuccess) {
+            JOptionPane.showMessageDialog(this, 
+                "Los datos introducidos no son correctos.", 
+                "Error de Autenticación", 
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }
