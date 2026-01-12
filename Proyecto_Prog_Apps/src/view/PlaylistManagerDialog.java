@@ -32,7 +32,6 @@ public class PlaylistManagerDialog extends JFrame {
 		MainFrame main = MainFrame.getInstance();
 		JPanel mainPanel = new JPanel(new BorderLayout());
 
-		// --- CONFIGURACIÓN DE ATAJOS (Ctrl+R) ---
 		KeyStroke ctrlR = KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK);
 		mainPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(ctrlR, "CNTRL_R_ACTION");;
 		
@@ -46,7 +45,6 @@ public class PlaylistManagerDialog extends JFrame {
 		mainPanel.setBackground(MainFrame.BackgroundColor);
 		currentUser = main.getCurrentUser();
 		
-		// --- PANEL SUPERIOR ---
 		JPanel topPanel = new JPanel(new BorderLayout());
 		topPanel.setBackground(MainFrame.BackgroundColor);
 		topPanel.setBorder(new MatteBorder(0, 0, 2, 0, MainFrame.BorderColor));
@@ -82,13 +80,11 @@ public class PlaylistManagerDialog extends JFrame {
 		topPanel.add(btnNewPlaylist, BorderLayout.EAST);
 		mainPanel.add(topPanel, BorderLayout.NORTH);
 		 
-		// --- LISTA DE PLAYLISTS ---
 		listPanelContainer = new JPanel();
 		listPanelContainer.setBackground(MainFrame.BackgroundColor);
 		listPanelContainer.setLayout(new BoxLayout(listPanelContainer, BoxLayout.Y_AXIS));
 		reloadPlaylists(""); 
 
-		// Listeners del buscador principal
 		buscador.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
@@ -125,7 +121,6 @@ public class PlaylistManagerDialog extends JFrame {
 		return mainPanel;
 	}
 
-	// Método auxiliar para el diálogo recursivo (extraído para limpieza)
 	private void showRecursivePlaylistDialog(MainFrame main) {
 		JDialog datosPlaylist = new JDialog(main, "Required Information for Playlist", true);
         datosPlaylist.setSize(500, 500);
@@ -200,7 +195,6 @@ public class PlaylistManagerDialog extends JFrame {
         accept.addActionListener(evt -> {
             ArrayList<Genre> obtainedGenres = new ArrayList<>(selectedGenre.getSelectedValuesList());
             datosPlaylist.dispose();
-            // Lógica recursiva aquí (si existe la clase Recursivity)
              reloadPlaylists(getCurrentFilter());
         });
 
@@ -329,28 +323,56 @@ public class PlaylistManagerDialog extends JFrame {
 		btnAddSong.setForeground(Color.WHITE);
 		btnAddSong.setFocusPainted(false);
 		
-		// --- NUEVA LÓGICA DE AÑADIR CANCIÓN CON BUSCADOR ---
 		btnAddSong.addActionListener(e -> {
 		    JDialog addSongDialog = new JDialog(main, "Add Song to Playlist", true);
-		    addSongDialog.setSize(400, 500);
+		    addSongDialog.setSize(450, 500);
 		    addSongDialog.setLocationRelativeTo(main);
 		    addSongDialog.setLayout(new BorderLayout());
 
-		    // Panel superior con buscador
 		    JTextField songSearch = new JTextField();
-		    songSearch.setBorder(BorderFactory.createTitledBorder("Search Song"));
+		    songSearch.setBorder(BorderFactory.createTitledBorder("Search Song (Title or Band)"));
 		    addSongDialog.add(songSearch, BorderLayout.NORTH);
 
-		    // Modelo y lista de canciones
 		    DefaultListModel<Song> listModel = new DefaultListModel<>();
 		    List<Song> allSongs = ManageDB.getInstance().getAllSongs();
 		    allSongs.forEach(listModel::addElement);
 
 		    JList<Song> songList = new JList<>(listModel);
+		    
+		    songList.setCellRenderer(new DefaultListCellRenderer() {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+		        public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+		            super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+		            if (value instanceof Song) {
+		                Song s = (Song) value;
+		                String displayText = s.getTitle() + " [" + s.getBand() + "]";
+		                String searchText = songSearch.getText().trim().toLowerCase();
+
+		                if (!searchText.isEmpty()) {
+		                    String lowerDisplayText = displayText.toLowerCase();
+		                    int indice = lowerDisplayText.indexOf(searchText);
+		                    if (indice != -1) {
+		                        String match = displayText.substring(indice, indice + searchText.length());
+		                        String highlightedText = "<html>" + displayText.substring(0, indice)
+		                                + "<span style='background: yellow; color: black;'>" + match + "</span>"
+		                                + displayText.substring(indice + searchText.length()) + "</html>";
+		                        setText(highlightedText);
+		                    } else {
+		                        setText(displayText);
+		                    }
+		                } else {
+		                    setText(displayText);
+		                }
+		            }
+		            return this;
+		        }
+		    });
+		    
 		    songList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		    addSongDialog.add(new JScrollPane(songList), BorderLayout.CENTER);
 
-		    // Listener para filtrar en tiempo real
 		    songSearch.addKeyListener(new KeyAdapter() {
 		        @Override
 		        public void keyReleased(KeyEvent e) {
@@ -363,8 +385,9 @@ public class PlaylistManagerDialog extends JFrame {
 		        }
 		    });
 
-		    // Botón de confirmar
 		    JButton btnConfirm = new JButton("Add Selected Song");
+		    btnConfirm.setBackground(MainFrame.BorderColor);
+		    btnConfirm.setForeground(Color.WHITE);
 		    btnConfirm.addActionListener(ev -> {
 		        Song selected = songList.getSelectedValue();
 		        if (selected != null) {
