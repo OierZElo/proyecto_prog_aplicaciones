@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
@@ -21,7 +22,6 @@ public class PlaylistManagerDialog extends JFrame {
 	private JTextField buscador;
 	private int minCanciones = 0; 
 	private int MaxCanciones = 10; 
-	ArrayList<Genre> obtainedgenre;
 	
 	public static JPanel PlaylistManagerDialogPanel() {
 		PlaylistManagerDialog instance = new PlaylistManagerDialog();
@@ -32,102 +32,21 @@ public class PlaylistManagerDialog extends JFrame {
 		MainFrame main = MainFrame.getInstance();
 		JPanel mainPanel = new JPanel(new BorderLayout());
 
-		// Key Bindings para atajos (Ctrl+R)
+		// --- CONFIGURACIÓN DE ATAJOS (Ctrl+R) ---
 		KeyStroke ctrlR = KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK);
 		mainPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(ctrlR, "CNTRL_R_ACTION");;
 		
 		mainPanel.getActionMap().put( "CNTRL_R_ACTION", new AbstractAction() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
-		        JDialog datosPlaylist = new JDialog(main, "Required Information for Playlist", true);
-		        datosPlaylist.setSize(500, 500);
-		        datosPlaylist.setLocationRelativeTo(main);
-
-		        JPanel control = new JPanel(new GridLayout(5, 1, 10, 10));
-		        control.setBackground(MainFrame.BackgroundColor);
-
-		        JList<Genre> selectedGenre = new JList<>(Genre.values());
-		        selectedGenre.setBorder(new LineBorder(main.getForeground(), 2));
-		        selectedGenre.setFont(main.getFont());
-		        selectedGenre.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		        selectedGenre.setBackground(MainFrame.BackgroundColor.brighter());
-		        selectedGenre.setForeground(MainFrame.TextColor);
-		        selectedGenre.setLayoutOrientation(JList.VERTICAL_WRAP);
-		        selectedGenre.setFixedCellWidth(100);
-		        selectedGenre.setVisibleRowCount((Genre.values().length + 1) / 4);
-		        
-		        SpinnerNumberModel SongModel = new SpinnerNumberModel(minCanciones,minCanciones, MaxCanciones, 1);
-		        JSpinner maxCanciones = new JSpinner();
-		        maxCanciones.setPreferredSize(new Dimension(50, 20));
-		        JLabel ncanciones = new JLabel("Nº songs: " + maxCanciones.getValue(), JLabel.CENTER);
-		        ncanciones.setForeground(MainFrame.TextColor);
-		        maxCanciones.setBackground(MainFrame.BackgroundColor);
-		        maxCanciones.addChangeListener(evt -> ncanciones.setText("Nº songs: " + maxCanciones.getValue()));
-
-		        JSlider maxDuracion = new JSlider(0, 100);
-		        JLabel nduracion = new JLabel("Playlist Duration: " + maxDuracion.getValue(), JLabel.CENTER);
-		        nduracion.setForeground(MainFrame.TextColor);
-		        maxDuracion.setBackground(MainFrame.BackgroundColor);
-		        maxDuracion.addChangeListener(evt -> nduracion.setText("Playlist Duration: " + maxDuracion.getValue()));
-
-		        SpinnerNumberModel modelo = new SpinnerNumberModel(1, 1, 30, 1);
-		        JSpinner playListn = new JSpinner(modelo);
-		        playListn.setPreferredSize(new Dimension(50, 20));
-		        JLabel nplayList = new JLabel("Nº of playlist: " + playListn.getValue(), JLabel.CENTER);
-		        nplayList.setForeground(MainFrame.TextColor);
-		        playListn.addChangeListener(evt -> nplayList.setText("Nº of playlist: " + playListn.getValue()));
-
-		        JPanel songs = new JPanel(new FlowLayout(FlowLayout.CENTER,10, 10));
-		        songs.setBackground(MainFrame.BackgroundColor);
-		        songs.add(maxCanciones);
-		        songs.add(ncanciones);
-
-		        JPanel tiempo = new JPanel(new FlowLayout(FlowLayout.CENTER,10, 10));
-		        tiempo.setBackground(MainFrame.BackgroundColor);
-		        tiempo.add(maxDuracion, BorderLayout.CENTER);
-		        tiempo.add(nduracion, BorderLayout.SOUTH);
-
-		        JPanel playlist = new JPanel(new FlowLayout(FlowLayout.CENTER,10, 10));
-		        playlist.setBackground(MainFrame.BackgroundColor);
-		        playlist.add(playListn);
-		        playlist.add(nplayList);
-
-		        JButton accept = new JButton("Accept");
-		        JButton cancel = new JButton("Cancel");
-		        accept.setBackground(MainFrame.BorderColor);
-		        accept.setForeground(MainFrame.TextColor);
-		        cancel.setBackground(MainFrame.BorderColor);
-		        cancel.setForeground(MainFrame.TextColor);
-
-		        JPanel buttonControl = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-		        buttonControl.setBackground(MainFrame.BackgroundColor);
-		        buttonControl.add(accept);
-		        buttonControl.add(cancel);
-
-		        control.add(selectedGenre);
-		        control.add(songs);
-		        control.add(tiempo);
-		        control.add(playlist);
-		        control.add(buttonControl);
-
-		        datosPlaylist.add(control);
-
-		        accept.addActionListener(evt -> {
-		            ArrayList<Genre> obtainedGenres = new ArrayList<>(selectedGenre.getSelectedValuesList());
-		            datosPlaylist.dispose();
-		            // Aquí iría la llamada a Recursivity.generatePlayLists
-		            // Simulado para mantener estructura
-		             reloadPlaylists(getCurrentFilter());
-		        });
-
-		        cancel.addActionListener(evt -> datosPlaylist.dispose());
-		        datosPlaylist.setVisible(true);
+		        showRecursivePlaylistDialog(main);
 		    }
 		});
 
 		mainPanel.setBackground(MainFrame.BackgroundColor);
 		currentUser = main.getCurrentUser();
 		
+		// --- PANEL SUPERIOR ---
 		JPanel topPanel = new JPanel(new BorderLayout());
 		topPanel.setBackground(MainFrame.BackgroundColor);
 		topPanel.setBorder(new MatteBorder(0, 0, 2, 0, MainFrame.BorderColor));
@@ -144,6 +63,7 @@ public class PlaylistManagerDialog extends JFrame {
 		btnNewPlaylist.setForeground(Color.WHITE);
 		btnNewPlaylist.setFocusPainted(false);
 		btnNewPlaylist.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 18));
+		
 		btnNewPlaylist.addActionListener(e -> {
 			String name = JOptionPane.showInputDialog(mainPanel, "Enter name for new playlist:");
 			if (name != null && !name.trim().isEmpty()) {
@@ -162,11 +82,13 @@ public class PlaylistManagerDialog extends JFrame {
 		topPanel.add(btnNewPlaylist, BorderLayout.EAST);
 		mainPanel.add(topPanel, BorderLayout.NORTH);
 		 
+		// --- LISTA DE PLAYLISTS ---
 		listPanelContainer = new JPanel();
 		listPanelContainer.setBackground(MainFrame.BackgroundColor);
 		listPanelContainer.setLayout(new BoxLayout(listPanelContainer, BoxLayout.Y_AXIS));
 		reloadPlaylists(""); 
 
+		// Listeners del buscador principal
 		buscador.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
@@ -201,6 +123,89 @@ public class PlaylistManagerDialog extends JFrame {
 		scrollPane.setBorder(null);
 		mainPanel.add(scrollPane, BorderLayout.CENTER);
 		return mainPanel;
+	}
+
+	// Método auxiliar para el diálogo recursivo (extraído para limpieza)
+	private void showRecursivePlaylistDialog(MainFrame main) {
+		JDialog datosPlaylist = new JDialog(main, "Required Information for Playlist", true);
+        datosPlaylist.setSize(500, 500);
+        datosPlaylist.setLocationRelativeTo(main);
+
+        JPanel control = new JPanel(new GridLayout(5, 1, 10, 10));
+        control.setBackground(MainFrame.BackgroundColor);
+
+        JList<Genre> selectedGenre = new JList<>(Genre.values());
+        selectedGenre.setBorder(new LineBorder(main.getForeground(), 2));
+        selectedGenre.setFont(main.getFont());
+        selectedGenre.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        selectedGenre.setBackground(MainFrame.BackgroundColor.brighter());
+        selectedGenre.setForeground(MainFrame.TextColor);
+        selectedGenre.setLayoutOrientation(JList.VERTICAL_WRAP);
+        selectedGenre.setFixedCellWidth(100);
+        selectedGenre.setVisibleRowCount((Genre.values().length + 1) / 4);
+        
+        JSpinner maxCanciones = new JSpinner(new SpinnerNumberModel(minCanciones,minCanciones, MaxCanciones, 1));
+        maxCanciones.setPreferredSize(new Dimension(50, 20));
+        JLabel ncanciones = new JLabel("Nº songs: " + maxCanciones.getValue(), JLabel.CENTER);
+        ncanciones.setForeground(MainFrame.TextColor);
+        maxCanciones.addChangeListener(evt -> ncanciones.setText("Nº songs: " + maxCanciones.getValue()));
+
+        JSlider maxDuracion = new JSlider(0, 100);
+        JLabel nduracion = new JLabel("Playlist Duration: " + maxDuracion.getValue(), JLabel.CENTER);
+        nduracion.setForeground(MainFrame.TextColor);
+        maxDuracion.setBackground(MainFrame.BackgroundColor);
+        maxDuracion.addChangeListener(evt -> nduracion.setText("Playlist Duration: " + maxDuracion.getValue()));
+
+        JSpinner playListn = new JSpinner(new SpinnerNumberModel(1, 1, 30, 1));
+        playListn.setPreferredSize(new Dimension(50, 20));
+        JLabel nplayList = new JLabel("Nº of playlist: " + playListn.getValue(), JLabel.CENTER);
+        nplayList.setForeground(MainFrame.TextColor);
+        playListn.addChangeListener(evt -> nplayList.setText("Nº of playlist: " + playListn.getValue()));
+
+        JPanel songs = new JPanel(new FlowLayout(FlowLayout.CENTER,10, 10));
+        songs.setBackground(MainFrame.BackgroundColor);
+        songs.add(maxCanciones);
+        songs.add(ncanciones);
+
+        JPanel tiempo = new JPanel(new FlowLayout(FlowLayout.CENTER,10, 10));
+        tiempo.setBackground(MainFrame.BackgroundColor);
+        tiempo.add(maxDuracion, BorderLayout.CENTER);
+        tiempo.add(nduracion, BorderLayout.SOUTH);
+
+        JPanel playlist = new JPanel(new FlowLayout(FlowLayout.CENTER,10, 10));
+        playlist.setBackground(MainFrame.BackgroundColor);
+        playlist.add(playListn);
+        playlist.add(nplayList);
+
+        JButton accept = new JButton("Accept");
+        JButton cancel = new JButton("Cancel");
+        accept.setBackground(MainFrame.BorderColor);
+        accept.setForeground(MainFrame.TextColor);
+        cancel.setBackground(MainFrame.BorderColor);
+        cancel.setForeground(MainFrame.TextColor);
+
+        JPanel buttonControl = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        buttonControl.setBackground(MainFrame.BackgroundColor);
+        buttonControl.add(accept);
+        buttonControl.add(cancel);
+
+        control.add(selectedGenre);
+        control.add(songs);
+        control.add(tiempo);
+        control.add(playlist);
+        control.add(buttonControl);
+
+        datosPlaylist.add(control);
+
+        accept.addActionListener(evt -> {
+            ArrayList<Genre> obtainedGenres = new ArrayList<>(selectedGenre.getSelectedValuesList());
+            datosPlaylist.dispose();
+            // Lógica recursiva aquí (si existe la clase Recursivity)
+             reloadPlaylists(getCurrentFilter());
+        });
+
+        cancel.addActionListener(evt -> datosPlaylist.dispose());
+        datosPlaylist.setVisible(true);
 	}
 
 	private String getCurrentFilter() {
@@ -324,13 +329,59 @@ public class PlaylistManagerDialog extends JFrame {
 		btnAddSong.setForeground(Color.WHITE);
 		btnAddSong.setFocusPainted(false);
 		
-		// --- FUNCIONALIDAD ELIMINADA TEMPORALMENTE ---
-		// El botón existe pero no hace nada por ahora
-		/*
+		// --- NUEVA LÓGICA DE AÑADIR CANCIÓN CON BUSCADOR ---
 		btnAddSong.addActionListener(e -> {
-			// Código antiguo eliminado
+		    JDialog addSongDialog = new JDialog(main, "Add Song to Playlist", true);
+		    addSongDialog.setSize(400, 500);
+		    addSongDialog.setLocationRelativeTo(main);
+		    addSongDialog.setLayout(new BorderLayout());
+
+		    // Panel superior con buscador
+		    JTextField songSearch = new JTextField();
+		    songSearch.setBorder(BorderFactory.createTitledBorder("Search Song"));
+		    addSongDialog.add(songSearch, BorderLayout.NORTH);
+
+		    // Modelo y lista de canciones
+		    DefaultListModel<Song> listModel = new DefaultListModel<>();
+		    List<Song> allSongs = ManageDB.getInstance().getAllSongs();
+		    allSongs.forEach(listModel::addElement);
+
+		    JList<Song> songList = new JList<>(listModel);
+		    songList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		    addSongDialog.add(new JScrollPane(songList), BorderLayout.CENTER);
+
+		    // Listener para filtrar en tiempo real
+		    songSearch.addKeyListener(new KeyAdapter() {
+		        @Override
+		        public void keyReleased(KeyEvent e) {
+		            String filter = songSearch.getText().toLowerCase();
+		            listModel.clear();
+		            List<Song> filtered = allSongs.stream()
+		                .filter(s -> s.getTitle().toLowerCase().contains(filter) || s.getBand().toLowerCase().contains(filter))
+		                .collect(Collectors.toList());
+		            filtered.forEach(listModel::addElement);
+		        }
+		    });
+
+		    // Botón de confirmar
+		    JButton btnConfirm = new JButton("Add Selected Song");
+		    btnConfirm.addActionListener(ev -> {
+		        Song selected = songList.getSelectedValue();
+		        if (selected != null) {
+		            if (ManageDB.getInstance().isSongInPlaylist(p.getCod(), selected.getCod())) {
+		                JOptionPane.showMessageDialog(addSongDialog, "Song already in playlist!", "Duplicate", JOptionPane.WARNING_MESSAGE);
+		            } else {
+		                ManageDB.getInstance().addSongToPlaylist(p.getCod(), selected.getCod());
+		                updatePlaylistModel(p);
+		                openPlaylistView(p);
+		                addSongDialog.dispose();
+		            }
+		        }
+		    });
+		    addSongDialog.add(btnConfirm, BorderLayout.SOUTH);
+
+		    addSongDialog.setVisible(true);
 		});
-		*/
 		
 		JButton btnRemoveSong = new JButton("🗑️ Delete Song");
 		btnRemoveSong.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 18));
@@ -379,6 +430,7 @@ public class PlaylistManagerDialog extends JFrame {
 		main.getCardPanel().add(container, "PlaylistSongsTable");
 		main.getCardLayout().show(main.getCardPanel(), "PlaylistSongsTable");
 		main.setCurrenPanel("PlaylistSongsTable");
+		
 	}
 	
 	private void updatePlaylistModel(Playlist p) {
