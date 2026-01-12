@@ -134,6 +134,18 @@ public class ConfigManager extends JFrame {
         return savePanel;
     }
 
+    private static JPanel createPresetsSection() {
+        JPanel presetsPanel = new JPanel(new GridLayout(0, 2, 10, 10));
+        presetsPanel.setBackground(MainFrame.BackgroundColor);
+
+        for (Theme theme : Theme.values()) {
+            JButton themeBtn = new JButton(theme.name);
+            themeBtn.addActionListener(e -> applyTheme(theme));
+            presetsPanel.add(themeBtn);
+        }
+        return presetsPanel;
+    }
+
     private static JLabel createStyledLabel(String text) {
         JLabel label = new JLabel(text);
         label.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 20));
