@@ -157,6 +157,16 @@ public class ConfigManager extends JFrame {
     private static Color chooseColor(String title, Color current) {
         return JColorChooser.showDialog(null, title, current);
     }
+    
+    private static void applyTheme(Theme t) {
+        MainFrame.BackgroundColor = t.bg;
+        MainFrame.TextColor = t.text;
+        MainFrame.BorderColor = t.border;
+        saveColors(); 
+        MainFrame.getInstance().repaint();
+        MainFrame.getInstance().getContentPane().repaint();
+        JOptionPane.showMessageDialog(null, "Theme '" + t.name + "' applied!");
+    }
 
     public static void loadColors() {
         try (FileInputStream f = new FileInputStream(CONFIG_PATH)) {
