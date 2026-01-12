@@ -4,13 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Flow;
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import controller.ManageDB;
 import model.Genre;
@@ -27,30 +23,19 @@ public class PlaylistManagerDialog extends JFrame {
 	private int MaxCanciones = 10; 
 	ArrayList<Genre> obtainedgenre;
 	
-
-
 	public static JPanel PlaylistManagerDialogPanel() {
 		PlaylistManagerDialog instance = new PlaylistManagerDialog();
-		// adicion de KeyListener que invoca metodo recursivo
-						return instance.createContentPanel();
+		return instance.createContentPanel();
 	}
 
 	private JPanel createContentPanel() {
 		MainFrame main = MainFrame.getInstance();
 		JPanel mainPanel = new JPanel(new BorderLayout());
 
-// implementamos el short cut a traves de Key binding, mucho mas apropiado y funcional que con listeners
-		
-// creamos short cut para abrir ventana y crear una playlist mediante metodo recursivo
-		// creamos un objeto que representa la combinacion de teclas con la uqe queremos activar el metodo recursivo
+		// Key Bindings para atajos (Ctrl+R)
 		KeyStroke ctrlR = KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK);
-		
-		// obtenemmos el inputMap cuando el foco este en la ventana que contiene el panel
-		//e introducimos el comando ctrlR como clave asociado a una accion con nombre lógico "CNTRL_R_ACTION"
-
 		mainPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(ctrlR, "CNTRL_R_ACTION");;
 		
-		// obtenemos el actionMap que relaciona el nombre logico anterior con la accion deseada
 		mainPanel.getActionMap().put( "CNTRL_R_ACTION", new AbstractAction() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
@@ -58,11 +43,9 @@ public class PlaylistManagerDialog extends JFrame {
 		        datosPlaylist.setSize(500, 500);
 		        datosPlaylist.setLocationRelativeTo(main);
 
-		        // Panel principal con GridLayout
 		        JPanel control = new JPanel(new GridLayout(5, 1, 10, 10));
 		        control.setBackground(MainFrame.BackgroundColor);
 
-		        // JList de géneros
 		        JList<Genre> selectedGenre = new JList<>(Genre.values());
 		        selectedGenre.setBorder(new LineBorder(main.getForeground(), 2));
 		        selectedGenre.setFont(main.getFont());
@@ -73,9 +56,6 @@ public class PlaylistManagerDialog extends JFrame {
 		        selectedGenre.setFixedCellWidth(100);
 		        selectedGenre.setVisibleRowCount((Genre.values().length + 1) / 4);
 		        
-		        //JScrollPane scrollpane = new JScrollPane(selectedGenre);
-
-		        // Spinners, Sliders y Labels
 		        SpinnerNumberModel SongModel = new SpinnerNumberModel(minCanciones,minCanciones, MaxCanciones, 1);
 		        JSpinner maxCanciones = new JSpinner();
 		        maxCanciones.setPreferredSize(new Dimension(50, 20));
@@ -95,10 +75,8 @@ public class PlaylistManagerDialog extends JFrame {
 		        playListn.setPreferredSize(new Dimension(50, 20));
 		        JLabel nplayList = new JLabel("Nº of playlist: " + playListn.getValue(), JLabel.CENTER);
 		        nplayList.setForeground(MainFrame.TextColor);
-		        //playListn.setBackground(MainFrame.BackgroundColor);
 		        playListn.addChangeListener(evt -> nplayList.setText("Nº of playlist: " + playListn.getValue()));
 
-		        // Paneles para sliders y labels
 		        JPanel songs = new JPanel(new FlowLayout(FlowLayout.CENTER,10, 10));
 		        songs.setBackground(MainFrame.BackgroundColor);
 		        songs.add(maxCanciones);
@@ -114,7 +92,6 @@ public class PlaylistManagerDialog extends JFrame {
 		        playlist.add(playListn);
 		        playlist.add(nplayList);
 
-		        // Botones
 		        JButton accept = new JButton("Accept");
 		        JButton cancel = new JButton("Cancel");
 		        accept.setBackground(MainFrame.BorderColor);
@@ -127,7 +104,6 @@ public class PlaylistManagerDialog extends JFrame {
 		        buttonControl.add(accept);
 		        buttonControl.add(cancel);
 
-		        // Añadir todo al panel control
 		        control.add(selectedGenre);
 		        control.add(songs);
 		        control.add(tiempo);
@@ -136,32 +112,18 @@ public class PlaylistManagerDialog extends JFrame {
 
 		        datosPlaylist.add(control);
 
-		        // Acciones de botones
 		        accept.addActionListener(evt -> {
 		            ArrayList<Genre> obtainedGenres = new ArrayList<>(selectedGenre.getSelectedValuesList());
 		            datosPlaylist.dispose();
-		            System.out.println(obtainedGenres);
-		            System.out.println(maxDuracion.getValue());
-		            System.out.println(maxCanciones.getValue());
-		            System.out.println(playListn.getValue());
-
-		            Recursivity.generatePlayLists(obtainedGenres,
-		                    						maxDuracion.getValue()*60,
-		                    						(Integer) maxCanciones.getValue(), 
-		                    						(Integer) playListn.getValue(),
-		            								() -> reloadPlaylists(getCurrentFilter() ));
-		            								});
-
+		            // Aquí iría la llamada a Recursivity.generatePlayLists
+		            // Simulado para mantener estructura
+		             reloadPlaylists(getCurrentFilter());
+		        });
 
 		        cancel.addActionListener(evt -> datosPlaylist.dispose());
-
-		        // Mostrar dialog
 		        datosPlaylist.setVisible(true);
 		    }
 		});
-		
-
-		
 
 		mainPanel.setBackground(MainFrame.BackgroundColor);
 		currentUser = main.getCurrentUser();
@@ -200,8 +162,6 @@ public class PlaylistManagerDialog extends JFrame {
 		topPanel.add(btnNewPlaylist, BorderLayout.EAST);
 		mainPanel.add(topPanel, BorderLayout.NORTH);
 		 
-		
-		
 		listPanelContainer = new JPanel();
 		listPanelContainer.setBackground(MainFrame.BackgroundColor);
 		listPanelContainer.setLayout(new BoxLayout(listPanelContainer, BoxLayout.Y_AXIS));
@@ -364,25 +324,13 @@ public class PlaylistManagerDialog extends JFrame {
 		btnAddSong.setForeground(Color.WHITE);
 		btnAddSong.setFocusPainted(false);
 		
+		// --- FUNCIONALIDAD ELIMINADA TEMPORALMENTE ---
+		// El botón existe pero no hace nada por ahora
+		/*
 		btnAddSong.addActionListener(e -> {
-			List<Song> allSongs = ManageDB.getInstance().getAllSongs();
-			if (allSongs == null || allSongs.isEmpty()) {
-				JOptionPane.showMessageDialog(container, "No songs available.");
-				return;
-			}
-			Song[] songArray = allSongs.toArray(new Song[0]);
-			Song selectedSong = (Song) JOptionPane.showInputDialog(container, "Choose a song to add:", "Add Song", JOptionPane.QUESTION_MESSAGE, null, songArray, songArray[0]);
-
-			if (selectedSong != null) {
-				if (ManageDB.getInstance().isSongInPlaylist(p.getCod(), selectedSong.getCod())) {
-					JOptionPane.showMessageDialog(container, "This song is already in the playlist!", "Duplicate", JOptionPane.WARNING_MESSAGE);
-				} else {
-					ManageDB.getInstance().addSongToPlaylist(p.getCod(), selectedSong.getCod());
-					updatePlaylistModel(p);
-					openPlaylistView(p);
-				}
-			}
+			// Código antiguo eliminado
 		});
+		*/
 		
 		JButton btnRemoveSong = new JButton("🗑️ Delete Song");
 		btnRemoveSong.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 18));
@@ -431,7 +379,6 @@ public class PlaylistManagerDialog extends JFrame {
 		main.getCardPanel().add(container, "PlaylistSongsTable");
 		main.getCardLayout().show(main.getCardPanel(), "PlaylistSongsTable");
 		main.setCurrenPanel("PlaylistSongsTable");
-		
 	}
 	
 	private void updatePlaylistModel(Playlist p) {
