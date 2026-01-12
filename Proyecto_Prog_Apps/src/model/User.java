@@ -1,5 +1,7 @@
 package model;
 
+import java.io.File;
+
 import javax.swing.ImageIcon;
 
 public class User {
@@ -9,6 +11,7 @@ public class User {
 	private String mail;
 	private String password;
 	private ImageIcon photo; 
+	private String photoString; 
 	private String username; 
 
 
@@ -68,6 +71,34 @@ public class User {
     public void setId(int id) {
         this.id = id;
     }
+
+	public String getPhotoString(User user) {
+		File carpeta = new File("user_images");
+
+		File[] resultados = carpeta.listFiles((dir, nombre) -> nombre.startsWith( user.getId() + "_" + user.getMail()));
+
+		if (resultados != null && resultados.length > 0) {
+		    System.out.println("Archivo encontrado: " + resultados[0].getName());
+			return resultados[0].getName();
+		}
+		return "user_images\\No_Icon.jpg";
+
+
+	}
+
+	public void setPhotoString(String photoString) {
+		this.photoString = photoString;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+    
+    
 
 };
 

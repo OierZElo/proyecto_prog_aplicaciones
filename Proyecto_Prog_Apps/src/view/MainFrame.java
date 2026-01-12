@@ -304,6 +304,7 @@ public class MainFrame extends JFrame {
 
 	public void setCurrentUser(User user) {
 		this.currentUser = user;
+		user.setPhoto(new ImageIcon(user.getId() + "_" + user.getMail()));
 	}
 
 	public CardLayout getCardLayout() {

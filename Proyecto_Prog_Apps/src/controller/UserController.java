@@ -1,7 +1,10 @@
 package controller;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.Arrays;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import model.User;
@@ -32,15 +35,31 @@ public class UserController {
 	}
 	
 	// metodo para gestionar la lógica del cambio de foto de perfil
+//	public boolean changePhoto(User user, String url) {
+//		ImageIcon icono = new ImageIcon(url);
+//		// comprobamos que la foto se haya cargado bien
+//		if ( icono.getIconWidth() == -1 ) {
+//			return false; 
+//		}
+//		
+//		user.setPhoto(icono);
+//		return true;
+//	}
+	
 	public boolean changePhoto(User user, String url) {
-		ImageIcon icono = new ImageIcon(url);
-		// comprobamos que la foto se haya cargado bien
-		if ( icono.getIconWidth() == -1 ) {
-			return false; 
-		}
-		
-		user.setPhoto(icono);
-		return true;
+	    try {
+	        // Leer la imagen desde disco en memoria
+	        BufferedImage img = ImageIO.read(new File(url));
+	        if (img == null) return false; // imagen inválida
+	        
+	        // Crear ImageIcon desde BufferedImage (ya no bloquea el archivo)
+	        ImageIcon icono = new ImageIcon(img);
+	        user.setPhoto(icono);
+	        return true;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
 	
 	public void logout() {

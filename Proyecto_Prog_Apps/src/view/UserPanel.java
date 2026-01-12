@@ -1,44 +1,29 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.HeadlessException;
 import java.awt.Image;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.lang.ModuleLayer.Controller;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.concurrent.Flow;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
-import app.Main;
-import controller.ManageDB;
 import controller.UserController;
 import model.User;
 import utils.Utils;
@@ -49,6 +34,7 @@ public class UserPanel {
 	public static JPanel PanelUsuario() {
 		 UserController userControl = new UserController(ConfigManager.managedb); // creamos un controller para conectar la parte visual con la logica de la app
 		MainFrame main = MainFrame.getInstance();
+		
 
 		// JPanel container of all the UserPanel's window	
 		JPanel result = new JPanel(); 
@@ -57,26 +43,43 @@ public class UserPanel {
 		result.setBackground(MainFrame.BackgroundColor);
 		result.setLayout(new GridLayout(2,1,0, 10));
 		 
-		 
 		 JPanel LastSongs = new JPanel(); 
 		 LastSongs.setBackground(MainFrame.BackgroundColor);
 
 // Window's north's settings: 
+		 
 		 // users data display
 		JPanel userdata = new JPanel();; 
 		 userdata.setBackground(MainFrame.BackgroundColor);
 		 userdata.setLayout(new BorderLayout(10, 10));
-		 // user's picture: 
-		 
-		 Image scaledImage = main.getCurrentUser().getPhoto().getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-		 ImageIcon fotoScala = new ImageIcon(scaledImage);
-		 JLabel foto = new JLabel(fotoScala);
-		 foto.setPreferredSize(new Dimension(200, 200));
+		 userdata.setPreferredSize(new Dimension(400, 220)); // ancho suficiente para WEST + CENTER
 
-		 userdata.add(foto, BorderLayout.WEST);
-		 userdata.add(generarDatos(main.getCurrentUser()), BorderLayout.CENTER);
-		 //user's data controlers's display:
-		 userdata.add(botonesControl(result, main.getCurrentUser(), userControl),BorderLayout.SOUTH);
+		 
+		 // user's picture:
+		 
+		 String rutaFoto = main.currentUser.getPhotoString(main.currentUser);
+		// Verificar que exista
+	
+			System.out.println("hemos encontrado la imagen "+ rutaFoto);
+		    ImageIcon iconOriginal = new ImageIcon(rutaFoto);
+		    Image iconEscalado = iconOriginal.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+		    ImageIcon iconFinal = new ImageIcon(iconEscalado);
+		    JLabel foto = new JLabel(iconFinal);
+		   
+		    foto.setPreferredSize(new Dimension(200, 200));
+		    foto.setMinimumSize(new Dimension(200, 200));
+		    foto.setMaximumSize(new Dimension(200, 200));
+
+		    foto.setHorizontalAlignment(JLabel.CENTER);
+		    foto.setVerticalAlignment(JLabel.CENTER);
+		    foto.setOpaque(true);
+
+		    userdata.add(foto, BorderLayout.WEST);
+			 userdata.add(generarDatos(main.getCurrentUser()), BorderLayout.CENTER);
+			 //user's data controlers's display:
+			 userdata.add(botonesControl(result, main.getCurrentUser(), userControl, foto),BorderLayout.SOUTH);
+		
+		
 
 // Windoe's center's display: 
 		 JPanel lsl = new JPanel(); 
@@ -100,6 +103,8 @@ public class UserPanel {
 		result.add(userdata);
 		result.add(lsl);
 		
+		
+
 		
 		return result;
 	} 
@@ -131,7 +136,7 @@ public class UserPanel {
 		
 		return r; }
 		
-	private static  JPanel botonesControl(JPanel result, User usuario, UserController userControl) {
+	private static  JPanel botonesControl(JPanel result, User usuario, UserController userControl, JLabel foto) {
 		JPanel r = new JPanel(); 
 		r.setBackground(MainFrame.BackgroundColor);
 		r.setLayout(new FlowLayout(FlowLayout.CENTER, 70, 10));
@@ -145,7 +150,7 @@ public class UserPanel {
 		r.add(lg);
 		r.add(chp);
 		// JDialog change picture
-		JDialog newpic = CambioDeFoto(result, "Introduce the url of the new picture: ", usuario, userControl); 
+		JDialog newpic = CambioDeFoto(result, "Introduce the url of the new picture: ", usuario, userControl,  foto); 
 		JDialog newpassword = CambiarContrasena(result, "Introduce the new password", usuario, userControl);
 		JDialog logOut = cerrarSesion(result, userControl);
 		chp.addActionListener(e -> newpassword.setVisible(true));
@@ -153,130 +158,8 @@ public class UserPanel {
 		lg.addActionListener(e -> logOut.setVisible(true));
 	return r;
 	}
-	
-	
-//	private static  JDialog CambioDeFoto(JPanel result, String texto, User usuario,  UserController userControl) {
-//		JDialog r = new JDialog(); 
-//		r.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-//		r.setLayout(new BorderLayout());
-//		
-//		// datos de entrada del user
-//		JPanel datos = new JPanel(new FlowLayout(FlowLayout.CENTER,10,10) ); 
-//		JPanel control = new JPanel(new FlowLayout(FlowLayout.CENTER,10,10)); 
-//		
-//		JTextField usersdata = new JTextField(20); 
-//	    usersdata.setEditable(false);
-//
-//		JLabel t = new JLabel(texto);
-//		JButton aceptar = new JButton("ACCEPT"); 
-//	    JButton cancelar = new JButton("CANCEL"); 
-//	    JButton buscar = new JButton("SEARCH"); 
-//	    
-//	   
-//	    
-//		datos.setBackground(MainFrame.BackgroundColor);
-//		t.setBackground(MainFrame.BorderColor);
-//		t.setOpaque(true);
-//		
-//		datos.add(t); 
-//		datos.add(usersdata);
-//		datos.add(buscar);
-//		r.add(datos, BorderLayout.CENTER);
-//		
-//		// FIle chooser
-//		JFileChooser fileChooser = new JFileChooser();
-//	    fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-//	    fileChooser.setFileFilter(  new FileNameExtensionFilter("Imágenes", "jpg", "jpeg", "png", "gif")); // filtro para permitir tipo de archivo concreto
-//		
-//		// botones de interacción 
-//		control.setBackground(MainFrame.BackgroundColor);
-//	    aceptar.setBackground(MainFrame.BorderColor);
-//	    
-//	    buscar.addActionListener(e -> {
-//	        int opcion = fileChooser.showOpenDialog(r);
-//	       
-//	        if (opcion == JFileChooser.APPROVE_OPTION) {
-//	            File archivo = fileChooser.getSelectedFile();
-//	            usersdata.setText(archivo.getAbsolutePath());
-//	        }
-//	    });
-//	    
-//	    aceptar.addActionListener(e -> {
-//	        String rutaSeleccionada = usersdata.getText(); 
-//
-//	        if (rutaSeleccionada.isEmpty()) {
-//	            JOptionPane.showMessageDialog(r, "Debe seleccionar una imagen", "Error", JOptionPane.ERROR_MESSAGE);
-//	            return;
-//	        }
-//
-//	        File archivoSeleccionado = new File(rutaSeleccionada);
-//
-//	        // Carpeta destino existente
-//	        File carpetaDestino = new File("src\\resources\\icons"); // carpeta donde guardamos las fotos de los users
-//	        if (!carpetaDestino.exists()) {
-//	            JOptionPane.showMessageDialog(r, "La carpeta de destino no existe", "Error", JOptionPane.ERROR_MESSAGE);
-//	            return;
-//	        }
-//
-//	        // Obtener extensión del archivo original
-//	        String nombreOriginal = archivoSeleccionado.getName();
-//	        String extension = "";
-//	        int i = nombreOriginal.lastIndexOf('.');
-//	        if (i > 0) extension = nombreOriginal.substring(i);
-//
-//	        // Crear nombre seguro basado en ID + email
-//	        String emailSeguro = usuario.getMail().replaceAll("[^a-zA-Z0-9]", "_");
-//	        String nuevoNombre = usuario.getId() + "_" + emailSeguro + extension;
-//
-//	        File archivoDestino = new File(carpetaDestino, "user_photo.png");
-//
-//	        try {
-//	            // Copiar archivo a la carpeta destino
-//	            Files.copy(
-//	                archivoSeleccionado.toPath(),
-//	                archivoDestino.toPath(),
-//	                StandardCopyOption.REPLACE_EXISTING // reemplaza si ya existe
-//	            );
-//
-//	            System.out.println("Imagen copiada a: " + archivoDestino.getAbsolutePath());
-//
-//	            // Pasar la ruta de la imagen copiada al controlador
-//	            boolean ok = userControl.changePhoto(usuario, archivoDestino.getAbsolutePath());
-//
-//	            if (!ok) {
-//	                JOptionPane.showMessageDialog(r, "No se ha podido cambiar la foto", "Foto inválida", JOptionPane.ERROR_MESSAGE);
-//	            } else {
-//	                // Cargar la imagen después de copiarla (evita bloqueo en Windows)
-//	                ImageIcon icono = new ImageIcon(archivoDestino.getAbsolutePath());
-//	                // Aquí puedes asignarlo a un JLabel, por ejemplo:
-//	                // miLabel.setIcon(icono);
-//
-//	                r.dispose();
-//	            }
-//
-//	        } catch (IOException ex) {
-//	            ex.printStackTrace();
-//	            JOptionPane.showMessageDialog(r, "No se pudo copiar la imagen", "Error", JOptionPane.ERROR_MESSAGE);
-//	        }
-//	    });
-//
-//	    
-//	    cancelar.addActionListener( e -> r.dispose());
-//	    control.setBackground(MainFrame.BackgroundColor);
-//	    aceptar.setBackground(MainFrame.BorderColor);
-//	    control.add(aceptar); 
-//	    control.add(cancelar); 
-//	    
-//	    // configuracion final JDialog
-//	    r.add(control, BorderLayout.SOUTH);
-//        r.setLocationRelativeTo(result);
-//        r.setBackground(MainFrame.BackgroundColor);
-//        r.pack();
-//		return r;
-//		
-//	}
-	
-	private static JDialog CambioDeFoto(JPanel result, String texto, User usuario, UserController userControl) {
+
+	private static JDialog CambioDeFoto(JPanel result, String texto, User usuario, UserController userControl, JLabel foto) {
 	    JDialog r = new JDialog();
 	    r.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 	    r.setLayout(new BorderLayout());
@@ -334,14 +217,12 @@ public class UserPanel {
 	        }
 
 	        // Obtener extensión del archivo original
-	        String nombreOriginal = archivoSeleccionado.getName();
-	        String extension = "";
-	        int i = nombreOriginal.lastIndexOf('.');
-	        if (i > 0) extension = nombreOriginal.substring(i);
 
 	        // Crear nombre único basado en ID + email
-	        String emailSeguro = usuario.getMail().replaceAll("[^a-zA-Z0-9]", "_");
-	        String nuevoNombre = usuario.getId() + "_" + emailSeguro + extension;
+	        String nombreOriginal = archivoSeleccionado.getName();
+	        String extension = nombreOriginal.substring(nombreOriginal.lastIndexOf("."));
+	        String nuevoNombre =  usuario.getId() + "_" + usuario.getMail() +extension; 
+
 
 	        File archivoDestino = new File(carpetaDestino, nuevoNombre);
 
@@ -357,14 +238,13 @@ public class UserPanel {
 
 	            // Pasar la ruta al controlador (esta parte no esta bien implementada), no detecta el path para generar la imagen
 	            boolean ok = userControl.changePhoto(usuario, archivoDestino.getPath());
+	            foto.setIcon(usuario.getPhoto());  // actualzar el JLabel
+	            foto.revalidate();
+	            foto.repaint();
 
 	            if (!ok) {
 	                JOptionPane.showMessageDialog(r, "No se ha podido cambiar la foto", "Foto inválida", JOptionPane.ERROR_MESSAGE);
 	            } else {
-	                // Opcional: cargar imagen como vista previa
-	                ImageIcon icono = new ImageIcon(archivoDestino.getAbsolutePath());
-	                // Ejemplo: asignarlo a un JLabel
-	                // miLabel.setIcon(icono);
 
 	                r.dispose();
 	            }
