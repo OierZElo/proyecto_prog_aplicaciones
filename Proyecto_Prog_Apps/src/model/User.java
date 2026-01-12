@@ -79,7 +79,7 @@ public class User {
 
 		if (resultados != null && resultados.length > 0) {
 		    System.out.println("Archivo encontrado: " + resultados[0].getName());
-			return resultados[0].getName();
+			return "user_images/"+resultados[0].getName();
 		}
 		return "user_images\\No_Icon.jpg";
 
