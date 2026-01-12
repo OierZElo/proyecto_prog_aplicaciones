@@ -154,6 +154,9 @@ public class ConfigManager extends JFrame {
 
         for (Theme theme : Theme.values()) {
             JButton themeBtn = new JButton(theme.name);
+            themeBtn.setBackground(theme.bg);
+            themeBtn.setForeground(theme.text);
+            
             themeBtn.addActionListener(e -> applyTheme(theme));
             buttonsGrid.add(themeBtn);
         }
