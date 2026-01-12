@@ -153,9 +153,12 @@ public class ConfigManager extends JFrame {
         buttonsGrid.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
         for (Theme theme : Theme.values()) {
-            JButton themeBtn = new JButton(theme.name);
+            JButton themeBtn = new JButton(theme.name.toUpperCase());
+            themeBtn.setFont(new Font("Arial", Font.BOLD, 16));
+            themeBtn.setOpaque(true);
             themeBtn.setBackground(theme.bg);
             themeBtn.setForeground(theme.text);
+            themeBtn.setHorizontalTextPosition(SwingConstants.CENTER);
             
             themeBtn.addActionListener(e -> applyTheme(theme));
             buttonsGrid.add(themeBtn);
