@@ -55,9 +55,11 @@ public class ConfigManager extends JFrame {
         addBorderSection(mainPanel);
 
         JPanel savePanelButton = createSaveSection();
+        JPanel presetPanel = createPresetsSection(); // Nuevo componente
 
         underPanel.add(mainPanel);
         underPanel.add(savePanelButton);
+        underPanel.add(presetPanel); // Integración en la interfaz
         
         return underPanel;
     }
@@ -137,6 +139,7 @@ public class ConfigManager extends JFrame {
     private static JPanel createPresetsSection() {
         JPanel presetsPanel = new JPanel(new GridLayout(0, 2, 10, 10));
         presetsPanel.setBackground(MainFrame.BackgroundColor);
+        presetsPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         for (Theme theme : Theme.values()) {
             JButton themeBtn = new JButton(theme.name);
