@@ -22,6 +22,27 @@ public class ConfigManager extends JFrame {
     private static Properties props = new Properties();
     static ManageDB managedb = ManageDB.getInstance();
 
+    private enum Theme {
+        DARK_CLASSIC("Dark Classic", Color.BLACK, Color.WHITE, Color.GRAY),
+        LIGHT_MODE("Light Mode", new Color(240, 240, 240), Color.BLACK, new Color(200, 200, 200)),
+        OCEAN_BLUE("Ocean Blue", new Color(10, 25, 47), new Color(100, 255, 218), new Color(23, 42, 69)),
+        FOREST("Deep Forest", new Color(20, 30, 20), new Color(200, 250, 200), new Color(50, 100, 50)),
+        RETRO_WAVE("Retro Wave", new Color(45, 12, 45), new Color(0, 255, 255), new Color(255, 0, 128)),
+        HIGH_CONTRAST("High Contrast", Color.WHITE, Color.BLUE, Color.BLACK);
+
+        final String name;
+        final Color bg;
+        final Color text;
+        final Color border;
+
+        Theme(String name, Color bg, Color text, Color border) {
+            this.name = name;
+            this.bg = bg;
+            this.text = text;
+            this.border = border;
+        }
+    }
+
     public static JPanel ColorPanel() {
         JPanel underPanel = new JPanel(new GridLayout(4, 1));
         underPanel.setBackground(MainFrame.BackgroundColor);
