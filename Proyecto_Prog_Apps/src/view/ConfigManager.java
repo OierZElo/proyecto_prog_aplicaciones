@@ -7,8 +7,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
-import java.util.concurrent.ForkJoinPool.ManagedBlocker;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
@@ -24,96 +22,119 @@ public class ConfigManager extends JFrame {
     private static Properties props = new Properties();
     static ManageDB managedb = ManageDB.getInstance();
 
-    
     public static JPanel ColorPanel() {
-    	JPanel mainPanel = new JPanel(new GridLayout(3, 2));
-    	JPanel underPanel = new JPanel(new GridLayout(4, 1));
-    	JPanel savePanelButton = new JPanel(new GridLayout(3, 1));
+        JPanel underPanel = new JPanel(new GridLayout(4, 1));
+        underPanel.setBackground(MainFrame.BackgroundColor);
+        JPanel mainPanel = new JPanel(new GridLayout(3, 2));
         mainPanel.setBackground(MainFrame.BackgroundColor);
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        savePanelButton.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        underPanel.setBackground(MainFrame.BackgroundColor);
-        savePanelButton.setBackground(MainFrame.BackgroundColor);
+
+        addBackgroundSection(mainPanel);
+        addTextSection(mainPanel);
+        addBorderSection(mainPanel);
+
+        JPanel savePanelButton = createSaveSection();
+
+        underPanel.add(mainPanel);
+        underPanel.add(savePanelButton);
         
-        JLabel backgroundLabel = new JLabel("Background color:");
-        JLabel textLabel = new JLabel("Text color:");
-        JLabel borderLabel = new JLabel("Border color:");
-		backgroundLabel.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 20));
-		textLabel.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 20));
-		borderLabel.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 20));
+        return underPanel;
+    }
 
-        backgroundLabel.setForeground(MainFrame.TextColor);
-        textLabel.setForeground(MainFrame.TextColor);
-        borderLabel.setForeground(MainFrame.TextColor);
+    private static void addBackgroundSection(JPanel parent) {
+        JLabel label = createStyledLabel("Background color:");
+        JPanel preview = createPreviewPanel(MainFrame.BackgroundColor);
+        JButton btn = createStyledButton("Select...");
 
-        JButton backgroundBtn = new JButton("Select...");
-        backgroundBtn.setBackground(MainFrame.BorderColor);
-        backgroundBtn.setFocusPainted(false);
-        
-        JButton textBtn = new JButton("Select...");
-        textBtn.setBackground(MainFrame.BorderColor);
-        textBtn.setFocusPainted(false);
-
-        JButton borderBtn = new JButton("Select...");
-        borderBtn.setBackground(MainFrame.BorderColor);
-        borderBtn.setFocusPainted(false);
-
-        JPanel backgroundPreview = new JPanel();
-        backgroundPreview.setBackground(MainFrame.BackgroundColor);
-        JPanel textPreview = new JPanel();
-        textPreview.setBackground(MainFrame.TextColor);
-        JPanel borderPreview = new JPanel();
-        borderPreview.setBackground(MainFrame.BorderColor);
-
-        backgroundBtn.addActionListener(e -> {
-            Color c = JColorChooser.showDialog(null, "Select background color", MainFrame.BackgroundColor);
+        btn.addActionListener(e -> {
+            Color c = chooseColor("Select background color", MainFrame.BackgroundColor);
             if (c != null) {
                 MainFrame.BackgroundColor = c;
-                backgroundPreview.setBackground(c);
+                preview.setBackground(c);
                 MainFrame.getInstance().repaint();
             }
         });
 
-        textBtn.addActionListener(e -> {
-            Color c = JColorChooser.showDialog(null, "Select text color", MainFrame.TextColor);
+        parent.add(label);
+        parent.add(btn);
+        parent.add(preview);
+    }
+
+    private static void addTextSection(JPanel parent) {
+        JLabel label = createStyledLabel("Text color:");
+        JPanel preview = createPreviewPanel(MainFrame.TextColor);
+        JButton btn = createStyledButton("Select...");
+
+        btn.addActionListener(e -> {
+            Color c = chooseColor("Select text color", MainFrame.TextColor);
             if (c != null) {
                 MainFrame.TextColor = c;
-                textPreview.setBackground(c);
+                preview.setBackground(c);
                 MainFrame.getInstance().repaint();
             }
         });
 
-        borderBtn.addActionListener(e -> {
-            Color c = JColorChooser.showDialog(null, "Select border color", MainFrame.BorderColor);
+        parent.add(label);
+        parent.add(btn);
+        parent.add(preview);
+    }
+
+    private static void addBorderSection(JPanel parent) {
+        JLabel label = createStyledLabel("Border color:");
+        JPanel preview = createPreviewPanel(MainFrame.BorderColor);
+        JButton btn = createStyledButton("Select...");
+
+        btn.addActionListener(e -> {
+            Color c = chooseColor("Select border color", MainFrame.BorderColor);
             if (c != null) {
                 MainFrame.BorderColor = c;
-                borderPreview.setBackground(c);
+                preview.setBackground(c);
                 MainFrame.getInstance().repaint();
             }
         });
-        
-        JButton saveBtn = new JButton("Save settings");
-        saveBtn.setBackground(MainFrame.BorderColor);
-        saveBtn.setFocusPainted(false);
+
+        parent.add(label);
+        parent.add(btn);
+        parent.add(preview);
+    }
+
+    private static JPanel createSaveSection() {
+        JPanel savePanel = new JPanel(new GridLayout(3, 1));
+        savePanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        savePanel.setBackground(MainFrame.BackgroundColor);
+
+        JButton saveBtn = createStyledButton("Save settings");
         saveBtn.addActionListener(e -> {
             ConfigManager.saveColors();
             JOptionPane.showMessageDialog(null, "Saved, restart the app");
         });
 
-        mainPanel.add(backgroundLabel);
-        mainPanel.add(backgroundBtn);
-        mainPanel.add(backgroundPreview);
-        mainPanel.add(textLabel);
-        mainPanel.add(textBtn);
-        mainPanel.add(textPreview);
-        mainPanel.add(borderLabel);
-        mainPanel.add(borderBtn);
-        mainPanel.add(borderPreview);
-        underPanel.add(mainPanel);
-        savePanelButton.add(saveBtn);
-        underPanel.add(savePanelButton);
-    	
-    	return underPanel;
+        savePanel.add(saveBtn);
+        return savePanel;
+    }
+
+    private static JLabel createStyledLabel(String text) {
+        JLabel label = new JLabel(text);
+        label.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 20));
+        label.setForeground(MainFrame.TextColor);
+        return label;
+    }
+
+    private static JButton createStyledButton(String text) {
+        JButton btn = new JButton(text);
+        btn.setBackground(MainFrame.BorderColor);
+        btn.setFocusPainted(false);
+        return btn;
+    }
+
+    private static JPanel createPreviewPanel(Color c) {
+        JPanel panel = new JPanel();
+        panel.setBackground(c);
+        return panel;
+    }
+
+    private static Color chooseColor(String title, Color current) {
+        return JColorChooser.showDialog(null, title, current);
     }
 
     public static void loadColors() {
@@ -151,18 +172,18 @@ public class ConfigManager extends JFrame {
             loadColors();
             
             if (ConfigManager.shouldLoadSongs()) {
-		        managedb.loadSongsFromCSV("src/resources/db/songs.csv");
-		    }
-		    if (ConfigManager.shouldLoadUsers()) {
-		        managedb.loadUsersFromCSV("src/resources/db/users.csv");
-		    }
-		    if (ConfigManager.shouldLoadPlaylists()) {
-		        managedb.loadPlaylistsFromCSV("src/resources/db/playlists.csv");
-		    }
-		    if (ConfigManager.shouldLoadPlaylistSongs()) {
-		        managedb.loadPlaylistSongsFromCSV("src/resources/db/playlist_songs.csv");
-		    }
-		    
+                managedb.loadSongsFromCSV("src/resources/db/songs.csv");
+            }
+            if (ConfigManager.shouldLoadUsers()) {
+                managedb.loadUsersFromCSV("src/resources/db/users.csv");
+            }
+            if (ConfigManager.shouldLoadPlaylists()) {
+                managedb.loadPlaylistsFromCSV("src/resources/db/playlists.csv");
+            }
+            if (ConfigManager.shouldLoadPlaylistSongs()) {
+                managedb.loadPlaylistSongsFromCSV("src/resources/db/playlist_songs.csv");
+            }
+            
         } catch (IOException e) {
             System.out.println("Error loading config.properties, using defaults");
         }
