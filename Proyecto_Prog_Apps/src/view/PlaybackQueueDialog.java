@@ -16,7 +16,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTable;
 import javax.swing.plaf.basic.BasicScrollBarUI;
-import javax.swing.table.DefaultTableModel;
 import controller.ManageDB;
 import model.Queue;
 import model.Song;
