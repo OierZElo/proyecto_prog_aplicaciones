@@ -1,12 +1,8 @@
 package view;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
-import javax.swing.ImageIcon;
 import javax.swing.table.AbstractTableModel;
-
 import model.Song;
 
 public class DataModel extends AbstractTableModel{
