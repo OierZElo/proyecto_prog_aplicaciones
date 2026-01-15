@@ -142,17 +142,27 @@ public class UserPanel {
 		toggleView.setBackground(MainFrame.BorderColor);
 		toggleView.setForeground(MainFrame.TextColor);
 		toggleView.setFocusPainted(false);
-		toggleView.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 20));
+		toggleView.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 5));
 		toggleView.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 40));
 		
-		toggleView.addActionListener(e -> {
-			if (toggleView.getText().equals("👁️")) {
-				password.setText(clearPass);
-				toggleView.setText("❌");
-			} else {
-				password.setText(maskedPass);
-				toggleView.setText("👁️");
-			}
+		toggleView.addMouseListener(new java.awt.event.MouseAdapter() {
+		    @Override
+		    public void mousePressed(java.awt.event.MouseEvent e) {
+		        password.setText(clearPass);
+		        toggleView.setText("❌");
+		    }
+
+		    @Override
+		    public void mouseReleased(java.awt.event.MouseEvent e) {
+		        password.setText(maskedPass);
+		        toggleView.setText("👁️");
+		    }
+
+		    @Override
+		    public void mouseExited(java.awt.event.MouseEvent e) {
+		        password.setText(maskedPass);
+		        toggleView.setText("👁️");
+		    }
 		});
 		
 		passContainer.add(toggleView, BorderLayout.EAST);
@@ -160,7 +170,7 @@ public class UserPanel {
 		// texto vacio para igualar el texto
 		JLabel vacio = new JLabel("👁️");
 		vacio.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 40));
-		vacio.setBorder(BorderFactory.createEmptyBorder(0, 20, 5, 0));
+		vacio.setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 0));
 		vacio.setForeground(MainFrame.BorderColor); 
 		passContainer.add(vacio, BorderLayout.WEST);
 
