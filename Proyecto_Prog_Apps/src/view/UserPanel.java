@@ -135,6 +135,13 @@ public class UserPanel {
 		JPanel passContainer = new JPanel(new BorderLayout());
 		passContainer.setBackground(MainFrame.BorderColor);
 		passContainer.add(password, BorderLayout.CENTER);
+		
+		JButton toggleView = new JButton("👁️");
+		toggleView.setBackground(MainFrame.BorderColor);
+		toggleView.setForeground(MainFrame.TextColor);
+		toggleView.setFocusPainted(false);
+		toggleView.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+		passContainer.add(toggleView, BorderLayout.EAST);
 
 		r.add(mail);
 		r.add(name);
@@ -426,5 +433,5 @@ public class UserPanel {
 		no.addActionListener(e -> result.dispose());
 		return result;
 	}
-
+	
 }
