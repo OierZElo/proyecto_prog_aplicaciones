@@ -115,7 +115,7 @@ public class UserPanel {
 		JLabel mail = new JLabel("Mail : " + usuario.getMail()); 
 		JLabel name = new  JLabel("Username: " + usuario.getName()); 
 		
-		String maskedPass = "Password: " + "*".repeat(usuario.getPassword().length());
+		String maskedPass = "Password: " + "******";
 		String clearPass = "Password: " + usuario.getPassword();
 		
 		JLabel password = new JLabel(maskedPass);
