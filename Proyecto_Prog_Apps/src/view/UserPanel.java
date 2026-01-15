@@ -156,6 +156,13 @@ public class UserPanel {
 		});
 		
 		passContainer.add(toggleView, BorderLayout.EAST);
+		
+		// texto vacio para igualar el texto
+		JLabel vacio = new JLabel("👁️");
+		vacio.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 40));
+		vacio.setBorder(BorderFactory.createEmptyBorder(0, 20, 5, 0));
+		vacio.setForeground(MainFrame.BorderColor); 
+		passContainer.add(vacio, BorderLayout.WEST);
 
 		r.add(mail);
 		r.add(name);
