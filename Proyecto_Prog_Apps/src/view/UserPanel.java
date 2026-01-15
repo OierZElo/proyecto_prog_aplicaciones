@@ -116,6 +116,8 @@ public class UserPanel {
 		JLabel name = new  JLabel("Username: " + usuario.getName()); 
 		
 		String maskedPass = "Password: " + "*".repeat(usuario.getPassword().length());
+		String clearPass = "Password: " + usuario.getPassword();
+		
 		JLabel password = new JLabel(maskedPass);
 		
 		// labels color: 
@@ -141,6 +143,17 @@ public class UserPanel {
 		toggleView.setForeground(MainFrame.TextColor);
 		toggleView.setFocusPainted(false);
 		toggleView.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+		
+		toggleView.addActionListener(e -> {
+			if (toggleView.getText().equals("👁️")) {
+				password.setText(clearPass);
+				toggleView.setText("🙈");
+			} else {
+				password.setText(maskedPass);
+				toggleView.setText("👁️");
+			}
+		});
+		
 		passContainer.add(toggleView, BorderLayout.EAST);
 
 		r.add(mail);
