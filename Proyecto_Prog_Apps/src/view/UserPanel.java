@@ -148,7 +148,7 @@ public class UserPanel {
 		toggleView.addActionListener(e -> {
 			if (toggleView.getText().equals("👁️")) {
 				password.setText(clearPass);
-				toggleView.setText("🙈");
+				toggleView.setText("❌");
 			} else {
 				password.setText(maskedPass);
 				toggleView.setText("👁️");
