@@ -300,6 +300,7 @@ public class PlaylistManagerDialog extends JFrame {
 		buttonPanel.setBackground(MainFrame.BackgroundColor);
 		
 		JButton btnEditName = new JButton("✏️ Edit Title");
+		btnEditName.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 14));
 		btnEditName.setBackground(MainFrame.BorderColor);
 		btnEditName.setForeground(Color.WHITE);
 		btnEditName.setFocusPainted(false);
@@ -319,6 +320,7 @@ public class PlaylistManagerDialog extends JFrame {
 		});
 		
 		JButton btnAddSong = new JButton("➕ Add Song");
+		btnAddSong.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 14));
 		btnAddSong.setBackground(MainFrame.BorderColor);
 		btnAddSong.setForeground(Color.WHITE);
 		btnAddSong.setFocusPainted(false);
@@ -441,6 +443,7 @@ public class PlaylistManagerDialog extends JFrame {
 		container.add(playListSongsTable, BorderLayout.CENTER);
 		
 		JButton backBtn = new JButton("🔙 Back to Playlists");
+		backBtn.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 14));
 		backBtn.setBackground(MainFrame.BorderColor);
 		backBtn.setForeground(Color.WHITE);
 		backBtn.setFocusPainted(false);

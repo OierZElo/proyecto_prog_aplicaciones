@@ -142,7 +142,8 @@ public class UserPanel {
 		toggleView.setBackground(MainFrame.BorderColor);
 		toggleView.setForeground(MainFrame.TextColor);
 		toggleView.setFocusPainted(false);
-		toggleView.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+		toggleView.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 20));
+		toggleView.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 40));
 		
 		toggleView.addActionListener(e -> {
 			if (toggleView.getText().equals("👁️")) {
