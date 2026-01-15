@@ -114,7 +114,9 @@ public class UserPanel {
 		r.setBackground(MainFrame.BackgroundColor);
 		JLabel mail = new JLabel("Mail : " + usuario.getMail()); 
 		JLabel name = new  JLabel("Username: " + usuario.getName()); 
-		JLabel password = new JLabel("Password: " + usuario.getPassword());
+		
+		String maskedPass = "Password: " + "*".repeat(usuario.getPassword().length());
+		JLabel password = new JLabel(maskedPass);
 		
 		// labels color: 
 		mail.setBackground(MainFrame.BorderColor);
@@ -130,9 +132,13 @@ public class UserPanel {
 		name.setOpaque(true);
 		password.setOpaque(true);
 		
+		JPanel passContainer = new JPanel(new BorderLayout());
+		passContainer.setBackground(MainFrame.BorderColor);
+		passContainer.add(password, BorderLayout.CENTER);
+
 		r.add(mail);
 		r.add(name);
-		r.add(password);
+		r.add(passContainer);
 		
 		return r; }
 		
@@ -420,5 +426,5 @@ public class UserPanel {
 		no.addActionListener(e -> result.dispose());
 		return result;
 	}
-	
+
 }
