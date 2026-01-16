@@ -75,7 +75,6 @@ public class Home {
 				    main.getCardPanel().add(panel, name);
 				    main.getCardLayout().show(main.getCardPanel(), name);
 				}
-
 			});
 		}
 		
@@ -90,13 +89,11 @@ public class Home {
 			x.setForeground(MainFrame.TextColor);
 			quickPicks.add(x, BorderLayout.NORTH);
 
-		} catch(Exception e) {
-			JLabel x = new JLabel("Imposible to load quickpicks from database, try later");
-			quickPicks.add(x, BorderLayout.CENTER);
-
-		}
+			} catch(Exception e) {
+				JLabel x = new JLabel("Imposible to load quickpicks from database, try later");
+				quickPicks.add(x, BorderLayout.CENTER);
+			}
 			
 		return result;
-
 	}
 }

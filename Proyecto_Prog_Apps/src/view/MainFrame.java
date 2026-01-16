@@ -26,10 +26,7 @@ import model.Song;
 import model.User;
 
 public class MainFrame extends JFrame {
-//prueba
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private static MainFrame instance;
 	JPanel mainPanel;
@@ -39,7 +36,6 @@ public class MainFrame extends JFrame {
 	private CardLayout cardLayout = new CardLayout();
 	private FlowLayout flowLayout = new FlowLayout(FlowLayout.CENTER, 0, 0);
 
-
 	public static Color BackgroundColor = Color.black;
 	public static Color BorderColor = Color.GRAY;
 	public static Color TextColor = Color.white;
@@ -47,7 +43,6 @@ public class MainFrame extends JFrame {
 
 	private Song playingSong;
 	
-
 	private String currentPanel = "Home";
 	public User currentUser;
 
@@ -67,7 +62,6 @@ public class MainFrame extends JFrame {
 	private ArrayList<User> users;
 	
 	private PlayingSong playingSongPanel;
-
 
 	private MainFrame() {
 		instance = this;
@@ -336,6 +330,4 @@ public class MainFrame extends JFrame {
 	public PlayingSong getPlayingSongPanel() {
 	    return playingSongPanel;
 	}
-
-
 }

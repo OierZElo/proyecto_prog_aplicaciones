@@ -15,7 +15,6 @@ public class Recursivity {
 	private static MainFrame main = MainFrame.getInstance();
 	static User test = new User("test@gmail.com", "qwerty", "test");
 
-
 	public static void generatePlayLists(ArrayList<Genre> genres, int duration, int maxSongNumber, int playListNumber, Runnable onFinish) {
 		System.out.println("Generando combinaciones...");
 		ArrayList<Song> filteredSongs = managedb.getSongsPerGenreList(genres);
@@ -53,18 +52,4 @@ public class Recursivity {
 			}
 		}
 	}
-
-//	public static void main(String[] args) {
-//		ArrayList<Genre> genres = new ArrayList<Genre>();
-//		genres.add(Genre.METAL);
-//		genres.add(Genre.ELECTRONICA);
-//		
-//
-//		generatePlayLists(genres, 2000, 2, 3);
-//        ArrayList<Song> testSongs = managedb.getSongsPerGenreList(genres);
-//        for(Song s:testSongs) {
-//        	System.out.println(s.getTitle());
-//        }
-//
-//	}
 }

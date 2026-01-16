@@ -68,7 +68,7 @@ public class songBar {
 			b.setOpaque(true);
 		}
 		// activamos el foco para que se puedan implmentar acciones de teclado 
-		// 
+		
 		buttonsPanel.getInputMap(JPanel.WHEN_IN_FOCUSED_WINDOW).put(javax.swing.KeyStroke.getKeyStroke("SPACE"), "togglePlayPause");;
 		buttonsPanel.getActionMap().put("togglePlayPause", new AbstractAction() {
 
@@ -76,18 +76,6 @@ public class songBar {
 			public void actionPerformed(ActionEvent e) {
 				changePlayPause();
 			}});
-// primer intento, este funciona regular.
-//		buttonsPanel.setFocusable(true);
-//		buttonsPanel.requestFocusInWindow();
-//	
-//		buttonsPanel.addKeyListener(new KeyAdapter() {
-//			@Override
-//		    public void keyPressed(KeyEvent e) {
-//		        if(e.getKeyCode() == KeyEvent.VK_SPACE) {
-//		        	changePlayPause();
-//		        }
-//		    }
-//		} );
 
 		progressBar.addMouseListener(new java.awt.event.MouseAdapter() {
 			@Override

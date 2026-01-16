@@ -21,13 +21,11 @@ public class DataModel extends AbstractTableModel{
 
 	@Override
 	public int getRowCount() {
-		// TODO Auto-generated method stub
 		return this.songs.size();
 	}
 
 	@Override
 	public int getColumnCount() {
-		// TODO Auto-generated method stub
 		return col.size();
 	}
 
@@ -47,11 +45,8 @@ public class DataModel extends AbstractTableModel{
 	
 	@Override
 	public String getColumnName(int column) {
-		// TODO Auto-generated method stub
 		return col.get(column);
 	}
-	
-	
 	
 	public void addRow(Song rowData) {
 	    songs.add(rowData);
@@ -92,11 +87,4 @@ public class DataModel extends AbstractTableModel{
 
 	    fireTableDataChanged();
 	}
-	
-	
-
-
-
-
-
 }
