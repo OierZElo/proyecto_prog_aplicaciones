@@ -39,13 +39,14 @@ public class MainFrame extends JFrame {
 	private CardLayout cardLayout = new CardLayout();
 	private FlowLayout flowLayout = new FlowLayout(FlowLayout.CENTER, 0, 0);
 
+
 	public static Color BackgroundColor = Color.black;
 	public static Color BorderColor = Color.GRAY;
 	public static Color TextColor = Color.white;
 	public static boolean desplegado = true;
 
 	private Song playingSong;
-	private boolean songPanelSetUpDone = false;
+	
 
 	private String currentPanel = "Home";
 	public User currentUser;
@@ -64,6 +65,8 @@ public class MainFrame extends JFrame {
 	private ManageDB managedb = ManageDB.getInstance();
 	private ArrayList<Song> songs;
 	private ArrayList<User> users;
+	
+	private PlayingSong playingSongPanel;
 
 
 	private MainFrame() {
@@ -99,7 +102,8 @@ public class MainFrame extends JFrame {
 		cardPanel.add(Home.HomePanel(), "HomePanel");
 
 		// PLAYING SONG
-		cardPanel.add(PlayingSong.PlayingSongPanel(playingSong), "PlayingSong");
+		playingSongPanel = new PlayingSong();
+		cardPanel.add(playingSongPanel, "PlayingSong");
 
 		// PLAYLIST MANAGER DIALOG
 		cardPanel.add(PlaylistManagerDialog.PlaylistManagerDialogPanel(), "PlaylistManagerDialog");
@@ -190,17 +194,17 @@ public class MainFrame extends JFrame {
 		}
 
 		iconLabel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (!songPanelSetUpDone && playingSong != null) {
-					PlayingSong.setUpPanel(playingSong);
-					songPanelSetUpDone = true;
-				}
-				cardLayout.show(cardPanel, "PlayingSong");
-				currentPanel = "PlayingSong";
-				setSongIcon(null);
-			}
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+		        if (playingSong != null) {
+		            playingSongPanel.updateSong(playingSong);
+		        }
+		        cardLayout.show(cardPanel, "PlayingSong");
+		        currentPanel = "PlayingSong";
+		        setSongIcon(null);
+		    }
 		});
+
 		indexPanel.add(iconLabel);
 	}
 	private void actualizarTitulo() {
@@ -328,5 +332,10 @@ public class MainFrame extends JFrame {
 	public ArrayList<Song> getSongs() {
 		return songs;
 	}
+	
+	public PlayingSong getPlayingSongPanel() {
+	    return playingSongPanel;
+	}
+
 
 }

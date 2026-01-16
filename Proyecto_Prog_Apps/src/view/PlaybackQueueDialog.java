@@ -236,8 +236,12 @@ public class PlaybackQueueDialog extends JFrame {
 		}
 		
 		main.setPlayingSong(nextSong);
+		main.getPlayingSongPanel().updateSong(main.getPlayingSong());
+
+
 		songBar.updateSongLabel(main.getPlayingSong());
 		songBar.startProgressThread(main.getPlayingSong(), main);
+		
 		main.updateSongIcon(main.getPlayingSong());
 	}
 	
@@ -258,6 +262,8 @@ public class PlaybackQueueDialog extends JFrame {
 		}
 
 		main.setPlayingSong(prevSong);
+		main.getPlayingSongPanel().updateSong(main.getPlayingSong());
+
 		songBar.updateSongLabel(main.getPlayingSong());
 		songBar.startProgressThread(main.getPlayingSong(), main);
 		main.updateSongIcon(main.getPlayingSong());
