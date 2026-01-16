@@ -27,6 +27,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import controller.UserController;
 import model.User;
 import utils.Utils;
+import model.Playlist;
 
 public class UserPanel {
 
@@ -81,28 +82,27 @@ public class UserPanel {
 		
 		
 
-//Windoe's center's display: 
-		 JPanel topsongs = new JPanel(); 
-		 topsongs.setLayout(new BorderLayout(10, 10));
-		 topsongs.setBackground(MainFrame.BackgroundColor);
-		 JLabel title = new JLabel("YOUR TOP 10 SONGS"); 
-		 title.setHorizontalAlignment(JLabel.CENTER);
-		 title.setBackground(MainFrame.BackgroundColor);
-		 title.setForeground(MainFrame.TextColor);
-		 Font font = new Font("Arial", Font.BOLD, 24);
-		 title.setFont(font);
-		 topsongs.add(title,BorderLayout.NORTH );
-		 Utils.generateRandomPlaylist(Utils.playlist1);
-		 System.out.println("Songs in playlist: " + Utils.playlist1.getL_songs().size());
+			// Windoe's center's display: 
+			 JPanel topsongs = new JPanel(); 
+			 topsongs.setLayout(new BorderLayout(10, 10));
+			 topsongs.setBackground(MainFrame.BackgroundColor);
+			 JLabel title = new JLabel("YOUR TOP 10 SONGS"); 
+			 title.setHorizontalAlignment(JLabel.CENTER);
+			 title.setBackground(MainFrame.BackgroundColor);
+			 title.setForeground(MainFrame.TextColor);
+			 Font font = new Font("Arial", Font.BOLD, 24);
+			 title.setFont(font);
+			 topsongs.add(title,BorderLayout.NORTH );
+			 
+			 Playlist topSongsPlaylist = ConfigManager.managedb.getTop10Playlist(main.getCurrentUser().getId());
+			 JPanel rankingPanel = songTable.createSongTablePlaylist(topSongsPlaylist);
+			 topsongs.add(rankingPanel, BorderLayout.CENTER);
 
-		 JPanel recommended = songTable.createSongTablePlaylist(Utils.playlist1) ;
-		 topsongs.add(recommended, BorderLayout.CENTER);
-
-//here we add the created JPanels into the result JPanel
-		result.add(userdata);
-		result.add(topsongs);
-		
-		return result;
+			// here we add the created JPanels into the result JPanel
+			result.add(userdata);
+			result.add(topsongs);
+			
+			return result;
 	}
 	
 	private static  JPanel generarDatos(User usuario) {
