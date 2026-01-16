@@ -195,9 +195,17 @@ public class PlaylistManagerDialog extends JFrame {
         accept.addActionListener(evt -> {
             ArrayList<Genre> obtainedGenres = new ArrayList<>(selectedGenre.getSelectedValuesList());
             datosPlaylist.dispose();
-             reloadPlaylists(getCurrentFilter());
-        });
+            System.out.println(obtainedGenres);
+            System.out.println(maxDuracion.getValue());
+            System.out.println(maxCanciones.getValue());
+            System.out.println(playListn.getValue());
 
+            Recursivity.generatePlayLists(obtainedGenres,
+                    						maxDuracion.getValue()*60,
+                    						(int) maxCanciones.getValue(), 
+                    						(int) playListn.getValue(),
+            								() -> reloadPlaylists(getCurrentFilter() ));
+            								});
         cancel.addActionListener(evt -> datosPlaylist.dispose());
         datosPlaylist.setVisible(true);
 	}
