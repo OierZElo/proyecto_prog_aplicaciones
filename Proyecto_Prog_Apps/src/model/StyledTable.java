@@ -22,8 +22,9 @@ import view.DataModel;
 import view.MainFrame;
 
 public class StyledTable extends JTable {
-	static int hoverRow = -1; 
-	static int hoverColumn = -1; 
+	 private static final long serialVersionUID = 1L;
+	 int hoverRow = -1; 
+	 int hoverColumn = -1; 
 	
 	public StyledTable(DataModel model) {
 		setModel(model);
@@ -64,12 +65,7 @@ public class StyledTable extends JTable {
 					Song song = (Song) value; 
 					result.setText(song.getTitle());
 		            if (row == hoverRow && column == hoverColumn ) {
-		            	String path = "src/resources/icons/" + song.getTitle() + ".png"; 
-		        		File file = new File(path);
 	        		    ImageIcon icon = new ImageIcon(String.format("src/resources/icons/%d.png", song.getCod()));
-		        		if(file.exists()){
-		        		    icon = new ImageIcon(path);
-		        		} 
 		                int height = table.getRowHeight(row);
 		                Image scaled = icon.getImage().getScaledInstance(height - 10, height - 10, Image.SCALE_SMOOTH);
 		            	result.setIcon(new ImageIcon(scaled));    // icono de la canción

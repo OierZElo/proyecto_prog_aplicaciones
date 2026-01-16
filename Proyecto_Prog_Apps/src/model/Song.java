@@ -16,8 +16,8 @@ public class Song implements Comparable<Song> {
 	private Genre genre;
 
 	// constructor
-	public Song(String title, int duration, String band, Genre genre) {
-		this.cod = counter;
+	public Song(int cod, String title, int duration, String band, Genre genre) {
+		this.cod = cod;
 		counter += 1;
 		this.title = title;
 		this.duration = duration;
@@ -27,8 +27,8 @@ public class Song implements Comparable<Song> {
 		
 	}
 	
-	public Song(String title, int duration, String band) {
-		this.cod = counter;
+	public Song(int cod, String title, int duration, String band) {
+		this.cod = cod;
 		counter += 1;
 		this.title = title;
 		this.duration = duration;

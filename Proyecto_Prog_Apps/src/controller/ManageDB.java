@@ -343,7 +343,7 @@ public class ManageDB {
 
 
 	public Song getSongById(int id) {
-		String sql = "SELECT name, band, duration, genre FROM songs WHERE id = ?;";
+		String sql = "SELECT id, name, band, duration, genre FROM songs WHERE id = ?;";
 		Song song = null;
 
 		try (Connection con = DriverManager.getConnection(connectionString);
@@ -353,8 +353,13 @@ public class ManageDB {
 
 			try (ResultSet rs = ps.executeQuery()) {
 				if (rs.next()) {
-					song = new Song(rs.getString("name"), rs.getInt("duration"), rs.getString("band"),
-							Genre.valueOf(rs.getString("genre")));
+					//song = new Song(rs.getString("name"), rs.getInt("duration"), rs.getString("band"),
+					//		Genre.valueOf(rs.getString("genre")));7
+					song = new Song( rs.getInt("id"),
+							rs.getString("name"), 
+							rs.getInt("duration"), 
+							rs.getString("band"), 
+							Genre.valueOf(rs.getString("genre")) );
 				}
 			}
 
@@ -601,8 +606,13 @@ public class ManageDB {
 				ArrayList<Song> songs = new ArrayList<Song>();
 				ResultSet rs = ps.executeQuery();
 				while (rs.next()) {
-					Song s = new Song(rs.getString("name"), rs.getInt("duration"), rs.getString("band"), Genre.valueOf(rs.getString("genre")));
-					s.setId(rs.getInt("id"));
+//					Song s = new Song(rs.getString("name"), rs.getInt("duration"), rs.getString("band"), Genre.valueOf(rs.getString("genre")));
+//					s.setId(rs.getInt("id"));
+					Song s = new Song( rs.getInt("id"), 
+							rs.getString("name"),
+							rs.getInt("duration"),
+							rs.getString("band"), 
+							Genre.valueOf(rs.getString("genre")) );
 					songs.add(s);
 				}
 				return songs;
@@ -631,12 +641,11 @@ public class ManageDB {
 
 	        try (ResultSet rs = ps.executeQuery()) {
 	            while (rs.next()) {
-	                Song s = new Song(
-	                    rs.getString("name"),
-	                    rs.getInt("duration"),
-	                    rs.getString("band"),
-	                    Genre.valueOf(rs.getString("genre"))
-	                );
+	            	Song s = new Song( rs.getInt("id"), 
+	            			rs.getString("name"), 
+	            			rs.getInt("duration"),
+	            			rs.getString("band"), 
+	            			Genre.valueOf(rs.getString("genre")) );
 	                s.setId(rs.getInt("id"));
 	                songs.add(s);
 	            }
@@ -657,8 +666,13 @@ public class ManageDB {
 					ArrayList<Song> songs = new ArrayList<Song>();
 					ResultSet rs = ps.executeQuery();
 					while (rs.next()) {
-						Song s = new Song(rs.getString("name"), rs.getInt("duration"), rs.getString("band"), Genre.valueOf(rs.getString("genre")));
-						s.setId(rs.getInt("id"));
+//						Song s = new Song(rs.getString("name"), rs.getInt("duration"), rs.getString("band"), Genre.valueOf(rs.getString("genre")));
+//						s.setId(rs.getInt("id"));
+						Song s = new Song( rs.getInt("id"), 
+								rs.getString("name"),
+								rs.getInt("duration"), 
+								rs.getString("band"), 
+								Genre.valueOf(rs.getString("genre")) );
 						songs.add(s);
 					}
 					return songs;
@@ -731,12 +745,11 @@ public class ManageDB {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Song s = new Song(
-                    rs.getString("name"), 
-                    rs.getInt("duration"), 
-                    rs.getString("band"), 
-                    Genre.valueOf(rs.getString("genre"))
-                );
+            	Song s = new Song( rs.getInt("id"), 
+            			rs.getString("name"), 
+            			rs.getInt("duration"), 
+            			rs.getString("band"), 
+            			Genre.valueOf(rs.getString("genre")) );
                 s.setId(rs.getInt("id"));
                 songs.add(s);
             }
@@ -789,8 +802,8 @@ public class ManageDB {
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                Song s = new Song(rs.getString("name"), rs.getInt("duration"), rs.getString("band"), Genre.valueOf(rs.getString("genre")));
-                s.setId(rs.getInt("id"));
+            	Song s = new Song( rs.getInt("id"), rs.getString("name"), rs.getInt("duration"), rs.getString("band"), Genre.valueOf(rs.getString("genre")) );
+//            	s.setId(rs.getInt("id"));
                 list.add(s);
             }
         } catch (Exception e) {
