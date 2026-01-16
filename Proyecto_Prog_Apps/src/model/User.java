@@ -11,7 +11,6 @@ public class User {
 	private String mail;
 	private String password;
 	private ImageIcon photo; 
-	private String photoString; 
 	private String username; 
 
 
@@ -84,10 +83,6 @@ public class User {
 		return "user_images\\No_Icon.jpg";
 
 
-	}
-
-	public void setPhotoString(String photoString) {
-		this.photoString = photoString;
 	}
 
 	public String getUsername() {

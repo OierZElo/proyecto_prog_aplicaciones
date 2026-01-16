@@ -586,6 +586,7 @@ public class ManageDB {
 	public ArrayList<Song> getSongsPerGenreList(ArrayList<Genre> genres) {
 	    if (genres == null || genres.isEmpty()) return new ArrayList<>();
 
+	   //generado con IA
 	    String placeholders = String.join(",", Collections.nCopies(genres.size(), "?"));
 	    String sql = "SELECT * FROM songs WHERE genre IN (" + placeholders + ") ORDER BY name LIMIT 10;";
 
@@ -642,13 +643,13 @@ public class ManageDB {
 			}
 	}
 	
-	// luego mirar como hacer para que funcione con el PK id
+
 	public void updatePassword(User user, String password) {
 		String sql = "UPDATE user SET password = ? where id = ?";
 		try (Connection con = DriverManager.getConnection(connectionString);
 				PreparedStatement ps = con.prepareStatement(sql) ) {
-				ps.setString(1, password);  // we replace the first ? with the new password of the user
-				ps.setInt(2, user.getId()); // we replace the second ? with the id of the user
+				ps.setString(1, password); 
+				ps.setInt(2, user.getId());
 				int affectedRows  = ps.executeUpdate(); 
 				if (affectedRows > 0) {
 		            System.out.println("se ha actualizado correctamente el usuario de email: " + user.getMail());

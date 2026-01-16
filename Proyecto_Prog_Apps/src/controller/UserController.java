@@ -34,25 +34,15 @@ public class UserController {
 		return true;
 	}
 	
-	// metodo para gestionar la lógica del cambio de foto de perfil
-//	public boolean changePhoto(User user, String url) {
-//		ImageIcon icono = new ImageIcon(url);
-//		// comprobamos que la foto se haya cargado bien
-//		if ( icono.getIconWidth() == -1 ) {
-//			return false; 
-//		}
-//		
-//		user.setPhoto(icono);
-//		return true;
-//	}
+
 	
 	public boolean changePhoto(User user, String url) {
 	    try {
-	        // Leer la imagen desde disco en memoria
+	    	// Generado con IA
 	        BufferedImage img = ImageIO.read(new File(url));
 	        if (img == null) return false; // imagen inválida
 	        
-	        // Crear ImageIcon desde BufferedImage (ya no bloquea el archivo)
+
 	        ImageIcon icono = new ImageIcon(img);
 	        user.setPhoto(icono);
 	        return true;

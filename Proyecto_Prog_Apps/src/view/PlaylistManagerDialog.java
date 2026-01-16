@@ -78,6 +78,9 @@ public class PlaylistManagerDialog extends JFrame {
 
 		topPanel.add(buscador, BorderLayout.CENTER);
 		topPanel.add(btnNewPlaylist, BorderLayout.EAST);
+		JLabel info = new JLabel("CTRL + R for recursive playlist");
+		info.setForeground(MainFrame.TextColor);
+		topPanel.add(info, BorderLayout.SOUTH);
 		mainPanel.add(topPanel, BorderLayout.NORTH);
 		 
 		listPanelContainer = new JPanel();

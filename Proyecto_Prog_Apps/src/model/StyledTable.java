@@ -7,15 +7,11 @@ import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
 import view.DataModel;
@@ -43,7 +39,6 @@ public class StyledTable extends JTable {
 		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		setFont(new Font("Segoe UI Symbol", Font.PLAIN, 16));
 
-		//DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 		setDefaultRenderer(Object.class, new TableCellRenderer() {
 			
 			@Override
@@ -80,17 +75,11 @@ public class StyledTable extends JTable {
 			}
 		});
 		this.addMouseListener(new MouseListener() {
-			
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
 			}
-			
 			@Override
 			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
@@ -98,19 +87,13 @@ public class StyledTable extends JTable {
 				hoverColumn = -1; 
 				hoverRow = -1;
 				StyledTable.this.repaint();
-
 			}
 			
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
 			}
-			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
 			}
 		});
 		this.addMouseMotionListener(new MouseMotionListener() {
@@ -130,12 +113,8 @@ public class StyledTable extends JTable {
 			
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
 			}
 		});
-		//centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-		//setDefaultRenderer(Object.class, centerRenderer);
 
 	}
 
