@@ -280,47 +280,6 @@ public class ManageDB {
 			System.out.println("Error deleting song: " + e.getMessage());
 		}
 	}
-
-//	public ArrayList<Song> getSongs() {
-//		ArrayList<Song> list = new ArrayList<>();
-//		String sql = "SELECT id, name, band, duration, genre FROM songs;";
-//		
-//		try (Connection con = DriverManager.getConnection(connectionString);
-//				PreparedStatement ps = con.prepareStatement(sql);
-//				ResultSet rs = ps.executeQuery()) {
-//
-//			while (rs.next()) {
-//				Song s = new Song(rs.getString("name"), rs.getInt("duration"), rs.getString("band"),
-//						Genre.valueOf(rs.getString("genre").toString().toUpperCase()));
-//				list.add(s);
-//			}
-//
-//		} catch (Exception e) {
-//			System.out.println("Error getting songs: " + e.getMessage());
-//		}
-//
-//		return list;
-//	}
-
-	// MAAAL
-//	public ArrayList<User> getUsers() {
-//		ArrayList<User> list = new ArrayList<>();
-//		String sql = "SELECT id, mail, passwd, username FROM user;";
-//
-//		try (Connection con = DriverManager.getConnection(connectionString);
-//				PreparedStatement ps = con.prepareStatement(sql);
-//				ResultSet rs = ps.executeQuery()) {
-//
-//			while (rs.next()) {
-//				User u = new User(rs.getString("mail"), rs.getString("passwd"), rs.getString("username"));
-//				list.add(u);
-//			}
-//
-//		} catch (Exception e) {
-//			System.out.println("Error getting users: " + e.getMessage());
-//		}
-//		return list;
-//	}
 	
 	public int getSongCount() {
 	    String sql = "SELECT COUNT(*) AS total FROM songs;";
@@ -884,7 +843,6 @@ public class ManageDB {
 		}
 	}
  	
- 	// 10 canciones aleatorias que simulan ser el top 10 reproducidas
  	public Playlist getTop10Playlist(int userId) {
 		String sql = "SELECT * FROM songs ORDER BY RANDOM() LIMIT 10;";
 		Playlist topPlaylist = new Playlist("Top 10 Songs", userId);
