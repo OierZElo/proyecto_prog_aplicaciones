@@ -26,15 +26,14 @@ import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import controller.UserController;
 import model.User;
-import utils.Utils;
+import model.Playlist;
 
 public class UserPanel {
 
 
 	public static JPanel PanelUsuario() {
-		 UserController userControl = new UserController(ConfigManager.managedb); // creamos un controller para conectar la parte visual con la logica de la app
+		UserController userControl = new UserController(ConfigManager.managedb); 
 		MainFrame main = MainFrame.getInstance();
-		
 
 		// JPanel container of all the UserPanel's window	
 		JPanel result = new JPanel(); 
@@ -43,71 +42,60 @@ public class UserPanel {
 		result.setBackground(MainFrame.BackgroundColor);
 		result.setLayout(new GridLayout(2,1,0, 10));
 		 
-		 JPanel LastSongs = new JPanel(); 
-		 LastSongs.setBackground(MainFrame.BackgroundColor);
-
-// Window's north's settings: 
+		JPanel LastSongs = new JPanel(); 
+		LastSongs.setBackground(MainFrame.BackgroundColor);
 		 
 		 // users data display
 		JPanel userdata = new JPanel();; 
-		 userdata.setBackground(MainFrame.BackgroundColor);
-		 userdata.setLayout(new BorderLayout(10, 10));
-		 userdata.setPreferredSize(new Dimension(400, 220)); // ancho suficiente para WEST + CENTER
-
-		 
-		 // user's picture:
-		 
-		 String rutaFoto = main.currentUser.getPhotoString(main.currentUser);
+		userdata.setBackground(MainFrame.BackgroundColor);
+		userdata.setLayout(new BorderLayout(10, 10));
+		userdata.setPreferredSize(new Dimension(400, 220)); // ancho suficiente para WEST + CENTER
+ 
+		// user's picture:
+		String rutaFoto = main.currentUser.getPhotoString(main.currentUser);
+		
 		// Verificar que exista
-	
-			System.out.println("hemos encontrado la imagen "+ rutaFoto);
-		    ImageIcon iconOriginal = new ImageIcon(rutaFoto);
-		    Image iconEscalado = iconOriginal.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-		    ImageIcon iconFinal = new ImageIcon(iconEscalado);
-		    JLabel foto = new JLabel(iconFinal);
+		System.out.println("hemos encontrado la imagen "+ rutaFoto);
+		ImageIcon iconOriginal = new ImageIcon(rutaFoto);
+		Image iconEscalado = iconOriginal.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+		ImageIcon iconFinal = new ImageIcon(iconEscalado);
+		JLabel foto = new JLabel(iconFinal);
 		   
-		    foto.setPreferredSize(new Dimension(200, 200));
-		    foto.setMinimumSize(new Dimension(200, 200));
-		    foto.setMaximumSize(new Dimension(200, 200));
+		foto.setPreferredSize(new Dimension(200, 200));
+		foto.setMinimumSize(new Dimension(200, 200));
+		foto.setMaximumSize(new Dimension(200, 200));
 
-		    foto.setHorizontalAlignment(JLabel.CENTER);
-		    foto.setVerticalAlignment(JLabel.CENTER);
-		    foto.setOpaque(true);
+	    foto.setHorizontalAlignment(JLabel.CENTER);
+	    foto.setVerticalAlignment(JLabel.CENTER);
+		foto.setOpaque(true);
 
-		    userdata.add(foto, BorderLayout.WEST);
-			 userdata.add(generarDatos(main.getCurrentUser()), BorderLayout.CENTER);
-			 //user's data controlers's display:
-			 userdata.add(botonesControl(result, main.getCurrentUser(), userControl, foto),BorderLayout.SOUTH);
+	    userdata.add(foto, BorderLayout.WEST);
+	    userdata.add(generarDatos(main.getCurrentUser()), BorderLayout.CENTER);
+	    //user's data controlers's display:
+	    userdata.add(botonesControl(result, main.getCurrentUser(), userControl, foto),BorderLayout.SOUTH);
 		
-		
-
-// Windoe's center's display: 
-		 JPanel lsl = new JPanel(); 
-		 lsl.setLayout(new BorderLayout(10, 10));
-		 lsl.setBackground(MainFrame.BackgroundColor);
-// esto 100% hay que cambiarlo por otra cosa
-		 JLabel title = new JLabel("RECOMMENDED SONGS"); 
+		// Windoe's center's display: 
+		 JPanel topsongs = new JPanel(); 
+		 topsongs.setLayout(new BorderLayout(10, 10));
+		 topsongs.setBackground(MainFrame.BackgroundColor);
+		 JLabel title = new JLabel("YOUR TOP 10 SONGS"); 
 		 title.setHorizontalAlignment(JLabel.CENTER);
 		 title.setBackground(MainFrame.BackgroundColor);
 		 title.setForeground(MainFrame.TextColor);
 		 Font font = new Font("Arial", Font.BOLD, 24);
 		 title.setFont(font);
-		 lsl.add(title,BorderLayout.NORTH );
-		 Utils.generateRandomPlaylist(Utils.playlist1);
-		 System.out.println("Songs in playlist: " + Utils.playlist1.getL_songs().size());
+		 topsongs.add(title,BorderLayout.NORTH );
+			 
+		 Playlist topSongsPlaylist = ConfigManager.managedb.getTop10Playlist(main.getCurrentUser().getId());
+		 JPanel rankingPanel = songTable.createSongTablePlaylist(topSongsPlaylist);
+		 topsongs.add(rankingPanel, BorderLayout.CENTER);
 
-		 JPanel recommended = songTable.createSongTablePlaylist(Utils.playlist1) ;
-		 lsl.add(recommended, BorderLayout.CENTER);
-
-// here we add the created JPanels into the result JPanel
+		 // here we add the created JPanels into the result JPanel
 		result.add(userdata);
-		result.add(lsl);
-		
-		
-
-		
+		result.add(topsongs);
+			
 		return result;
-	} 
+	}
 	
 	private static  JPanel generarDatos(User usuario) {
 		JPanel r = new JPanel(new GridLayout(3, 0, 0, 10)); 
@@ -261,7 +249,6 @@ public class UserPanel {
 	        }
 
 	        // Obtener extensión del archivo original
-
 	        // Crear nombre único basado en ID + email
 	        String nombreOriginal = archivoSeleccionado.getName();
 	        String extension = nombreOriginal.substring(nombreOriginal.lastIndexOf("."));
@@ -464,5 +451,4 @@ public class UserPanel {
 		no.addActionListener(e -> result.dispose());
 		return result;
 	}
-	
 }

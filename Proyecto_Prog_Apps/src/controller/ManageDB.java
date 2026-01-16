@@ -883,4 +883,29 @@ public class ManageDB {
 			System.out.println("Error renaming playlist: " + e.getMessage());
 		}
 	}
+ 	
+ 	// 10 canciones aleatorias que simulan ser el top 10 reproducidas
+ 	public Playlist getTop10Playlist(int userId) {
+		String sql = "SELECT * FROM songs ORDER BY RANDOM() LIMIT 10;";
+		Playlist topPlaylist = new Playlist("Top 10 Songs", userId);
+		
+		try (Connection con = DriverManager.getConnection(connectionString);
+			 PreparedStatement ps = con.prepareStatement(sql);
+			 ResultSet rs = ps.executeQuery()) {
+			
+			while (rs.next()) {
+				Song s = new Song(
+					rs.getString("name"), 
+					rs.getInt("duration"), 
+					rs.getString("band"), 
+					Genre.valueOf(rs.getString("genre"))
+				);
+				s.setId(rs.getInt("id"));
+				topPlaylist.addSong(s);
+			}
+		} catch (Exception e) {
+			System.out.println("Error getting top 10 songs: " + e.getMessage());
+		}
+		return topPlaylist;
+	}
 }
