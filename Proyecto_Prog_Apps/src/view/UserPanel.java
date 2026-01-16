@@ -32,7 +32,7 @@ public class UserPanel {
 
 
 	public static JPanel PanelUsuario() {
-		 UserController userControl = new UserController(ConfigManager.managedb); // creamos un controller para conectar la parte visual con la logica de la app
+		 UserController userControl = new UserController(ConfigManager.managedb); 
 		MainFrame main = MainFrame.getInstance();
 		
 
@@ -46,7 +46,7 @@ public class UserPanel {
 		 JPanel LastSongs = new JPanel(); 
 		 LastSongs.setBackground(MainFrame.BackgroundColor);
 
-// Window's north's settings: 
+//Window's north's settings: 
 		 
 		 // users data display
 		JPanel userdata = new JPanel();; 
@@ -81,33 +81,29 @@ public class UserPanel {
 		
 		
 
-// Windoe's center's display: 
-		 JPanel lsl = new JPanel(); 
-		 lsl.setLayout(new BorderLayout(10, 10));
-		 lsl.setBackground(MainFrame.BackgroundColor);
-// esto 100% hay que cambiarlo por otra cosa
-		 JLabel title = new JLabel("RECOMMENDED SONGS"); 
+//Windoe's center's display: 
+		 JPanel topsongs = new JPanel(); 
+		 topsongs.setLayout(new BorderLayout(10, 10));
+		 topsongs.setBackground(MainFrame.BackgroundColor);
+		 JLabel title = new JLabel("YOUR TOP 10 SONGS"); 
 		 title.setHorizontalAlignment(JLabel.CENTER);
 		 title.setBackground(MainFrame.BackgroundColor);
 		 title.setForeground(MainFrame.TextColor);
 		 Font font = new Font("Arial", Font.BOLD, 24);
 		 title.setFont(font);
-		 lsl.add(title,BorderLayout.NORTH );
+		 topsongs.add(title,BorderLayout.NORTH );
 		 Utils.generateRandomPlaylist(Utils.playlist1);
 		 System.out.println("Songs in playlist: " + Utils.playlist1.getL_songs().size());
 
 		 JPanel recommended = songTable.createSongTablePlaylist(Utils.playlist1) ;
-		 lsl.add(recommended, BorderLayout.CENTER);
+		 topsongs.add(recommended, BorderLayout.CENTER);
 
-// here we add the created JPanels into the result JPanel
+//here we add the created JPanels into the result JPanel
 		result.add(userdata);
-		result.add(lsl);
-		
-		
-
+		result.add(topsongs);
 		
 		return result;
-	} 
+	}
 	
 	private static  JPanel generarDatos(User usuario) {
 		JPanel r = new JPanel(new GridLayout(3, 0, 0, 10)); 
