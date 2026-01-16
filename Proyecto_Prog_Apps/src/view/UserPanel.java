@@ -298,9 +298,9 @@ public class UserPanel {
 	    r.add(control, BorderLayout.SOUTH);
 
 	    // Configuración final del JDialog
-	    r.setLocationRelativeTo(result);
 	    r.setBackground(MainFrame.BackgroundColor);
 	    r.pack();
+	    r.setLocationRelativeTo(result);
 
 	    return r;
 	}
@@ -319,12 +319,6 @@ public class UserPanel {
 		JPanel mainPanel = new JPanel(new GridLayout(0,1,0,10)); 
 		mainPanel.setBorder(BorderFactory.createEmptyBorder(15,20,15,20));
 		mainPanel.setBackground(MainFrame.BackgroundColor);
-		
-//		// title
-//		JLabel t = new JLabel(texto, SwingConstants.CENTER);
-//		t.setForeground(MainFrame.TextColor);
-//		//t.setBackground(MainFrame.BackgroundColor);
-//		mainPanel.add(t); 
 		
 		// field new password
 		JLabel newPassLabel = new JLabel("New Password",SwingConstants.CENTER  ); 
