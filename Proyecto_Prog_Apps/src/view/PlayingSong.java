@@ -15,7 +15,7 @@ public class PlayingSong extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
-    // COMPONENTES (NO static)
+
     private JPanel southPanel;
     private JPanel centerPanel;
 
@@ -23,7 +23,7 @@ public class PlayingSong extends JPanel {
     private JLabel bandLabel;
     private JLabel iconLabel;
 
-    // CONSTRUCTOR → se crea UNA vez
+
     public PlayingSong() {
         setLayout(new BorderLayout());
         setBackground(MainFrame.BackgroundColor);
@@ -58,7 +58,7 @@ public class PlayingSong extends JPanel {
         add(southPanel, BorderLayout.SOUTH);
     }
 
-    // MÉTODO PARA ACTUALIZAR LA CANCIÓN (SE LLAMA AL CAMBIAR)
+
     public void updateSong(Song song) {
         if (song == null) return;
 

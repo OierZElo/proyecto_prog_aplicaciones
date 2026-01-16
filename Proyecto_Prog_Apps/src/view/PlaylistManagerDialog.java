@@ -221,6 +221,7 @@ public class PlaylistManagerDialog extends JFrame {
 		return text.toLowerCase();
 	}
 
+	//metodo generado con ayuda de IA
 	private void reloadPlaylists(String filtro) {
 		if (listPanelContainer == null || currentUser == null) return;
 		
@@ -259,7 +260,7 @@ public class PlaylistManagerDialog extends JFrame {
 			}
 		}
 		String duracionTotal = Playlist.getDurationFormat(totalSeconds);
-
+		//html generado por IA
 		String text = "<html><div style='padding: 5px;'><b>" + nombre + "</b><br>" +
 					  "<span style='font-size:10px'>" + p.getN_songs() + " songs - " + duracionTotal + "</span></div></html>";
 

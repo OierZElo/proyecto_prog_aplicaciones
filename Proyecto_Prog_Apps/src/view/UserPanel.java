@@ -49,7 +49,7 @@ public class UserPanel {
 		JPanel userdata = new JPanel();; 
 		userdata.setBackground(MainFrame.BackgroundColor);
 		userdata.setLayout(new BorderLayout(10, 10));
-		userdata.setPreferredSize(new Dimension(400, 220)); // ancho suficiente para WEST + CENTER
+		userdata.setPreferredSize(new Dimension(400, 220)); 
  
 		// user's picture:
 		String rutaFoto = main.currentUser.getPhotoString(main.currentUser);
@@ -74,7 +74,7 @@ public class UserPanel {
 	    //user's data controlers's display:
 	    userdata.add(botonesControl(result, main.getCurrentUser(), userControl, foto),BorderLayout.SOUTH);
 		
-		// Windoe's center's display: 
+		// Window's center's display: 
 		 JPanel topsongs = new JPanel(); 
 		 topsongs.setLayout(new BorderLayout(10, 10));
 		 topsongs.setBackground(MainFrame.BackgroundColor);
@@ -257,6 +257,7 @@ public class UserPanel {
 
 	        File archivoDestino = new File(carpetaDestino, nuevoNombre);
 
+	        //generado por IA
 	        try {
 	            // Copiar archivo a carpeta destino
 	            Files.copy(

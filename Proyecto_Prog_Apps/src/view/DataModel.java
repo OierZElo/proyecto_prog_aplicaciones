@@ -62,7 +62,6 @@ public class DataModel extends AbstractTableModel{
 	public void moveRow(int start, int end, int to) {
 	    if (start < 0 || end >= songs.size() || start > end) return;
 
-	    // Si el destino está dentro del rango, no hacemos nada (igual que DefaultTableModel)
 	    if (to >= start && to <= end) return;
 
 	    List<Song> rowsToMove = new ArrayList<>();

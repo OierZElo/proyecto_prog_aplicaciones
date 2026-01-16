@@ -27,6 +27,7 @@ public class Home {
 		JPanel quickPicks = new JPanel(new BorderLayout());
 		quickPicks.setBackground(MainFrame.BackgroundColor);
 		
+		//colores generados por IA
 		LinkedList<Color> colores = new LinkedList<>();
 		colores.add(Color.RED);
 		colores.add(Color.BLUE);
@@ -38,7 +39,7 @@ public class Home {
 		colores.add(new Color(139, 69, 19)); // Marrón
 		colores.add(Color.GRAY);
 		colores.add(new Color(64, 224, 208)); // Turquesa
-		// Canciones por genero: 
+	
 		
 		// organización del display de generos 
 		for (int i = 0; i < Genre.values().length; i++) {
@@ -66,7 +67,7 @@ public class Home {
 				        ArrayList<Song> song = ConfigManager.managedb.getSongsPerGenre(genre);
 				        panel = songTable.createSongTableArrayList(song);
 				    } catch (Exception e2) {
-				       
+				    	e2.printStackTrace();
 				    }
 
 				    name = genre.getDisplayName();

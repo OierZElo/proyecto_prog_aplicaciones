@@ -30,8 +30,6 @@ public class Utils {
 	public static Playlist playlist8 = new Playlist("Playlist 8", 7);
 	public static Playlist playlist9 = new Playlist("Playlist 9", 8);
 
-
-
 	public User getUserFromUsername(String username) {
 		for (User user : users) {
 			if (user.getMail().equals(username)) {
@@ -42,8 +40,6 @@ public class Utils {
 	}
 
 	public static void generatePlaylists(ArrayList<Song> songs) {
-
-
 		playlists.add(playlist1);
 		playlists.add(playlist2);
 		playlists.add(playlist3);
@@ -53,7 +49,6 @@ public class Utils {
 		playlists.add(playlist7);
 		playlists.add(playlist8);
 		playlists.add(playlist9);
-
 	}
 
     public static void generateRandomPlaylist(Playlist playlist) {

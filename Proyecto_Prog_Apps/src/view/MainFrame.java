@@ -245,6 +245,7 @@ public class MainFrame extends JFrame {
 	public void updateSongIcon(Song s) {
 		if (desplegado) {
 			
+			//generado por IA
 			try {
 			String path = "src/resources/icons/" + s.getCod() + ".png"; 
 			File file = new File(path);

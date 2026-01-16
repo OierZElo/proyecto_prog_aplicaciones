@@ -23,6 +23,7 @@ public class ConfigManager extends JFrame {
     private static Properties props = new Properties();
     static ManageDB managedb = ManageDB.getInstance();
 
+    //temas generados por IA
     private enum Theme {
         DARK_CLASSIC("Dark Classic", Color.BLACK, Color.WHITE, Color.GRAY),
         LIGHT_MODE("Light Mode", new Color(240, 240, 240), Color.BLACK, new Color(200, 200, 200)),

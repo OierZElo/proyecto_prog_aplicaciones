@@ -34,7 +34,7 @@ public class LoginRegisterDialog extends JFrame {
         mainPanel.setBackground(MainFrame.BackgroundColor);
         mainPanel.setBorder(new EmptyBorder(30, 45, 30, 45));
 
-        // --- SECCIÓN ENCABEZADO ---
+     
         JLabel titleLabel = new JLabel("LOGIN");
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
         titleLabel.setForeground(MainFrame.TextColor);
@@ -43,7 +43,7 @@ public class LoginRegisterDialog extends JFrame {
         
         mainPanel.add(Box.createRigidArea(new Dimension(0, 30)));
 
-        // --- SECCIÓN EMAIL ---
+  
         JLabel emailLabel = new JLabel("Correo Electrónico");
         emailLabel.setForeground(MainFrame.TextColor);
         emailLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -52,7 +52,7 @@ public class LoginRegisterDialog extends JFrame {
 
         emailField = new JTextField("Enter your email...");
         styleTextField(emailField);
-        // Efecto Placeholder
+       
         emailField.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -71,14 +71,14 @@ public class LoginRegisterDialog extends JFrame {
 
         mainPanel.add(Box.createRigidArea(new Dimension(0, 15)));
 
-        // --- SECCIÓN PASSWORD ---
+      
         JLabel passwordLabel = new JLabel("Contraseña");
         passwordLabel.setForeground(MainFrame.TextColor);
         passwordLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(passwordLabel);
         mainPanel.add(Box.createRigidArea(new Dimension(0, 5)));
 
-        // Panel contenedor para el campo de password + botón de ojo
+      
         JPanel passWrapper = new JPanel(new BorderLayout());
         passWrapper.setMaximumSize(new Dimension(Integer.MAX_VALUE, 35));
         passWrapper.setBackground(MainFrame.BorderColor);
@@ -127,7 +127,7 @@ public class LoginRegisterDialog extends JFrame {
         registerButton = new JButton("Crear nueva cuenta");
         styleMainButton(registerButton, false);
         registerButton.addActionListener(e -> {
-            // Abrimos la nueva ventana de registro
+           
             RegisterFrame regFrame = new RegisterFrame();
             regFrame.setVisible(true);
         });
