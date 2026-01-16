@@ -13,9 +13,5 @@ public class Main {
 			LoginRegisterDialog loginFrame = new LoginRegisterDialog();
 			loginFrame.setVisible(true);			
 		});
-		
-
-
 	}
-
 }

@@ -223,101 +223,88 @@ public class PlaybackQueueDialog extends JFrame {
 
 	public static void playNextSong(Song actual, MainFrame main, boolean loop, boolean random, boolean end) {
 		ArrayList<Song> listSongs = queue.getQueue();
-		Song nextSong = null;
 		
-		int index = listSongs.indexOf(actual);
-		
-
-		if (listSongs.isEmpty()) {
+		if (listSongs == null || listSongs.isEmpty()) {
 			return;
 		}
 
-		if (index == -1 && !random) {
-			index = -1; 
-		}
+		int currentIndex = listSongs.indexOf(actual);
+		int nextIndex = -1;
 
-		if(loop==false) {
-			if(random==false) {
-				if (index >= listSongs.size()-1) {
-					return;
-				}
-				
-				nextSong = listSongs.get(index +1);
-				index = index + 1;
-			} else { 
-				if (listSongs.size() > 1) {
-					int rIndex = index;
-					while (rIndex == index) {
-						rIndex = (int)(Math.random() * listSongs.size());
-					}
-					nextSong = listSongs.get(rIndex);
-					index = rIndex;
-				} else {
-					nextSong = listSongs.get(0);
-					index = 0;
-				}
-			}
+		if (loop && end) {
+			nextIndex = currentIndex;
+		} else if (random) {
+			nextIndex = getRandomIndex(listSongs.size(), currentIndex);
 		} else {
-			if (end==true) {
-				nextSong = actual;
-			} else {
-				if(random==false) {
-					if (index >= listSongs.size()-1) {
-						index = -1; // reincio
-					}
-					nextSong = listSongs.get(index +1);
-					index = index + 1;
-				} else { 
-					if (listSongs.size() > 1) {
-						int rIndex = index;
-						while (rIndex == index) {
-							rIndex = (int)(Math.random() * listSongs.size());
-						}
-						nextSong = listSongs.get(rIndex);
-						index = rIndex;
-					} else {
-						nextSong = listSongs.get(0);
-						index = 0;
-					}
-				}
-			}
+			nextIndex = getSequentialIndex(currentIndex, listSongs.size(), loop);
 		}
-		
-		if (activeTable != null && index >= 0 && index < listSongs.size()) {
-			try {
-				activeTable.setRowSelectionInterval(index, index);
-				activeTable.scrollRectToVisible(activeTable.getCellRect(index, 0, true));
-			} catch (Exception e) { System.out.println("Error UI tabla"); }
+
+		if (nextIndex != -1) {
+			Song nextSong = listSongs.get(nextIndex);
+			updateTableSelection(nextIndex);
+			updateMainFrameSong(nextSong, main);
 		}
-		
-		main.setPlayingSong(nextSong);
-		main.getPlayingSongPanel().updateSong(main.getPlayingSong());
-
-
-		songBar.updateSongLabel(main.getPlayingSong());
-		songBar.startProgressThread(main.getPlayingSong(), main);
-		
-		main.updateSongIcon(main.getPlayingSong());
 	}
-	
+
+	private static int getRandomIndex(int size, int currentIndex) {
+		if (size <= 1) return 0;
+		
+		int rIndex = currentIndex;
+		while (rIndex == currentIndex) {
+			rIndex = (int)(Math.random() * size);
+		}
+		return rIndex;
+	}
+
+	private static int getSequentialIndex(int currentIndex, int size, boolean loop) {
+		if (currentIndex == -1) {
+			return 0;
+		}
+		
+		if (currentIndex >= size - 1) {
+			return loop ? 0 : -1;
+		}
+		
+		return currentIndex + 1;
+	}
+
 	public static void playPrevSong(Song actual, MainFrame main) {
 		ArrayList<Song> listSongs = queue.getQueue();
 		
+		if (listSongs == null || listSongs.isEmpty()) {
+			return;
+		}
+
 		int index = listSongs.indexOf(actual);
-		if (index == -1 || index == 0) return;
 		
-		Song prevSong = listSongs.get(index -1);
-		index = index - 1;
-				
+		if (index <= 0) {
+			return;
+		}
+		
+		int prevIndex = index - 1;
+		Song prevSong = listSongs.get(prevIndex);
+		
+		updateTableSelection(prevIndex);
+		updateMainFrameSong(prevSong, main);
+	}
+
+	private static void updateTableSelection(int index) {
 		if (activeTable != null && index >= 0) {
 			try {
 				activeTable.setRowSelectionInterval(index, index);
 				activeTable.scrollRectToVisible(activeTable.getCellRect(index, 0, true));
-			} catch (Exception e) { System.out.println("Error UI tabla"); }
+			} catch (Exception e) {
+				System.out.println("Error UI tabla");
+			}
 		}
+	}
 
-		main.setPlayingSong(prevSong);
-		main.getPlayingSongPanel().updateSong(main.getPlayingSong());
+	private static void updateMainFrameSong(Song song, MainFrame main) {
+		main.setPlayingSong(song);
+		
+		if (main.getPlayingSongPanel() != null) {
+			main.getPlayingSongPanel().updateSong(main.getPlayingSong());
+		}
 
 		songBar.updateSongLabel(main.getPlayingSong());
 		songBar.startProgressThread(main.getPlayingSong(), main);
