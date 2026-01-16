@@ -36,7 +36,7 @@ public class ManageDB {
 //		String dropUser = "DROP TABLE user;";
 //		String dropPlaylist = "DROP TABLE playlist;";
 //		String dropPlaylistSong = "DROP TABLE playlist_songs;";
-		String resetDB = "DELETE FROM sqlite_sequence";
+//		String resetDB = "DELETE FROM sqlite_sequence";
 		
 		String sqlSong = "CREATE TABLE IF NOT EXISTS songs (" + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
 				+ "name TEXT NOT NULL UNIQUE," + "band TEXT NOT NULL," + "duration INTEGER NOT NULL," + "genre TEXT NOT NULL"
@@ -60,7 +60,7 @@ public class ManageDB {
 //				PreparedStatement psDropUser = con.prepareStatement(dropUser);
 //				PreparedStatement psDropPlaylist = con.prepareStatement(dropPlaylist);
 //				PreparedStatement psDropPlaylistSong = con.prepareStatement(dropPlaylistSong);
-				PreparedStatement psResetDB = con.prepareStatement(resetDB);
+//				PreparedStatement psResetDB = con.prepareStatement(resetDB);
 				
 				PreparedStatement psSong = con.prepareStatement(sqlSong);
 				PreparedStatement psUsuario = con.prepareStatement(sqlUsuario);
@@ -71,7 +71,7 @@ public class ManageDB {
 //			psDropUser.execute();
 //			psDropPlaylist.execute();
 //			psDropPlaylistSong.execute();
-			psResetDB.execute();
+//			psResetDB.execute();
 			
 			psSong.execute();
 			psUsuario.execute();
@@ -894,12 +894,12 @@ public class ManageDB {
 			 ResultSet rs = ps.executeQuery()) {
 			
 			while (rs.next()) {
-				Song s = new Song(
-					rs.getString("name"), 
-					rs.getInt("duration"), 
-					rs.getString("band"), 
-					Genre.valueOf(rs.getString("genre"))
-				);
+            	Song s = new Song( rs.getInt("id"), 
+            			rs.getString("name"), 
+            			rs.getInt("duration"),
+            			rs.getString("band"), 
+            			Genre.valueOf(rs.getString("genre")) );
+
 				s.setId(rs.getInt("id"));
 				topPlaylist.addSong(s);
 			}
