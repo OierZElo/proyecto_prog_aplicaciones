@@ -66,7 +66,7 @@ public class StyledTable extends JTable {
 		            if (row == hoverRow && column == hoverColumn ) {
 		            	String path = "src/resources/icons/" + song.getTitle() + ".png"; 
 		        		File file = new File(path);
-	        		    ImageIcon icon = new ImageIcon("src/resources/icons/SongIcon.png");
+	        		    ImageIcon icon = new ImageIcon(String.format("src/resources/icons/%d.png", song.getCod()));
 		        		if(file.exists()){
 		        		    icon = new ImageIcon(path);
 		        		} 
