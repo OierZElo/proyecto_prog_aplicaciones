@@ -2,7 +2,6 @@ package model;
 
 import java.util.ArrayList;
 
-import view.PlaybackQueueDialog;
 
 public class Queue {
 	private static ArrayList<Song> queue;

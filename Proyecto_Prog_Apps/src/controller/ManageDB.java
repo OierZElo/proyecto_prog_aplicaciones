@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import org.sqlite.core.CoreResultSet;
 
 import model.Genre;
 import model.Playlist;

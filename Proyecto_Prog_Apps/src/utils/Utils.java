@@ -1,15 +1,11 @@
 package utils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 import controller.ManageDB;
-import model.Genre;
 import model.Playlist;
 import model.Song;
 import model.User;

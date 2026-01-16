@@ -1,11 +1,7 @@
 package model;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Objects;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
 public class Song implements Comparable<Song> {
 	private static int counter = 0;
